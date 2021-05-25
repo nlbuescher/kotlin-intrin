@@ -1,7 +1,12 @@
 import platform.intrin.*
 
 fun main() {
-	println("SSE: $SSE")
+	println(
+		"""
+		SSE:  $SSE
+		SSE2: $SSE2
+		""".trimIndent()
+	)
 
 	println("---\nplus:")
 	println(Float4(1f) + Float4(2f))

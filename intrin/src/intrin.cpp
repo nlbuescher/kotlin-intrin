@@ -14,13 +14,14 @@ static inline void cpuid(int info[4], int x) {
 
 // INTRINSICS
 
-bool SSE;
+bool SSE, SSE2;
 
 bool loadIntrinsics() {
 	int info[4];
 	cpuid(info, 1);
 
 	SSE = (info[3] & bit_SSE) != 0;
+	SSE2 = (info[3] & bit_SSE2) != 0;
 
 	return true;
 }
