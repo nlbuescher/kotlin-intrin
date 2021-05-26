@@ -18,7 +18,8 @@ val cppTargets = listOf(
 	CppTarget("sse", listOf("-std=c++20", "-msse")),
 	CppTarget("sse2", listOf("-std=c++20", "-msse2")),
 	CppTarget("sse3", listOf("-std=c++20", "-msse3")),
-	CppTarget("intrin", listOf("-std=c++20"), listOf("sse", "sse2", "sse3")),
+	CppTarget("ssse3", listOf("-std=c++20", "-mssse3")),
+	CppTarget("intrin", listOf("-std=c++20"), listOf("sse", "sse2", "sse3", "ssse3")),
 )
 
 cppTargets.forEach { (name, compilerOpts, dependencies) ->
