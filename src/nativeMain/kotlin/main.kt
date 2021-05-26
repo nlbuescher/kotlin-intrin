@@ -5,6 +5,7 @@ fun main() {
 		"""
 		SSE:  $SSE
 		SSE2: $SSE2
+		SSE3: $SSE3
 		""".trimIndent()
 	)
 
