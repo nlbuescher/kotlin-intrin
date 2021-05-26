@@ -72,6 +72,7 @@ operator fun Vector128.rem(other: Vector128): Vector128 = when {
 }
 
 fun round(x: Vector128): Vector128 = when {
+	SSE4_1 -> sse4_1_round_ps(x, MM_FROUND_NEARBYINT)
 	else -> {
 		println("round fallback")
 		vectorOf(
@@ -84,6 +85,7 @@ fun round(x: Vector128): Vector128 = when {
 }
 
 fun floor(x: Vector128): Vector128 = when {
+	SSE4_1 -> sse4_1_floor_ps(x)
 	else -> {
 		println("floor fallback")
 		vectorOf(
