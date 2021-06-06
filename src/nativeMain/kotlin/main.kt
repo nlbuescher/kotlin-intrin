@@ -9,6 +9,7 @@ fun main() {
 		SSSE3:  $SSSE3
 		SSE4.1: $SSE4_1
 		SSE4.2: $SSE4_2
+		AVX:    $AVX
 		""".trimIndent()
 	)
 

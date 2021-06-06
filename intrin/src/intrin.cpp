@@ -14,7 +14,7 @@ static inline void cpuid(int info[4], int x) {
 
 // INTRINSICS
 
-bool SSE, SSE2, SSE3, SSSE3, SSE4_1, SSE4_2;
+bool SSE, SSE2, SSE3, SSSE3, SSE4_1, SSE4_2, AVX;
 
 bool loadIntrinsics() {
 	int info[4];
@@ -26,6 +26,7 @@ bool loadIntrinsics() {
 	SSSE3 = (info[2] & bit_SSSE3) != 0;
 	SSE4_1 = (info[2] & bit_SSE4_1) != 0;
 	SSE4_2 = (info[2] & bit_SSE4_2) != 0;
+	AVX = (info[2] & bit_AVX) != 0;
 
 	return true;
 }

@@ -7,5 +7,6 @@
 #include <ssse3.h>
 #include <sse4.1.h>
 #include <sse4.2.h>
+#include <avx.h>
 
 #endif //INTRIN_H

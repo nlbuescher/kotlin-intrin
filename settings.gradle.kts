@@ -7,5 +7,6 @@ include(
 	"ssse3",
 	"sse4_1",
 	"sse4_2",
+	"avx",
 	"intrin",
 )
