@@ -1,56 +1,17 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
+import java.io.*
+import java.util.*
 
 plugins {
-	id("cpp-library")
-	kotlin("multiplatform") version "1.5.0"
+	kotlin("multiplatform") version "1.6.10"
+	id("org.jetbrains.dokka") version "1.6.10"
+	id("maven-publish")
+	id("signing")
 }
-
-// CPP
-
-data class CppTarget(
-	val name: String,
-	val compilerOpts: List<String>,
-	val dependencies: List<String> = emptyList(),
-)
-
-val cppTargets = listOf(
-	CppTarget("sse", listOf("-std=c++20", "-msse")),
-	CppTarget("sse2", listOf("-std=c++20", "-msse2")),
-	CppTarget("sse3", listOf("-std=c++20", "-msse3")),
-	CppTarget("ssse3", listOf("-std=c++20", "-mssse3")),
-	CppTarget("sse4_1", listOf("-std=c++20", "-msse4.1")),
-	CppTarget("sse4_2", listOf("-std=c++20", "-msse4.2")),
-	CppTarget("intrin", listOf("-std=c++20"), listOf("sse", "sse2", "sse3", "ssse3", "sse4_1", "sse4_2")),
-)
-
-cppTargets.forEach { (name, compilerOpts, dependencies) ->
-	project(name) {
-		apply(plugin = "cpp-library")
-
-		library {
-			linkage.set(listOf(Linkage.STATIC))
-
-			source.from("src")
-			publicHeaders.from("src")
-
-			tasks.withType<CppCompile> {
-				compilerArgs.addAll(compilerOpts)
-			}
-
-			dependencies {
-				dependencies.forEach { dependency ->
-					implementation(project(":$dependency"))
-				}
-			}
-		}
-	}
-}
-
-// KOTLIN
 
 group = "io.github.nlbuescher"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
 	mavenCentral()
@@ -63,32 +24,124 @@ val prefix = if (host.isWindows) "" else "lib"
 val extension = if (host.isWindows) "lib" else "a"
 
 kotlin {
-	if (!useSingleTarget || host.isLinux) linuxX64("native")
-	if (!useSingleTarget || host.isMacOsX) macosX64("native")
-	if (!useSingleTarget || host.isWindows) mingwX64("native")
+	if (!useSingleTarget || host.isLinux) linuxX64()
+	if (!useSingleTarget || host.isMacOsX) macosX64()
+	if (!useSingleTarget || host.isWindows) mingwX64()
 
 	targets.withType<KotlinNativeTarget> {
-		binaries {
-			executable {
-				entryPoint = "main"
-			}
-		}
-
 		compilations.named("main") {
 			cinterops.create("intrin") {
 				tasks[interopProcessingTaskName].run {
-					cppTargets.forEach {
+					subprojects.forEach {
 						dependsOn(":${it.name}:assembleRelease")
 
 						// reprocess cinterop if output of c++ compile changes
 						inputs.file("${it.name}/build/lib/main/release/$prefix${it.name}.$extension")
 					}
 				}
-				includeDirs(cppTargets.map { "${it.name}/src" })
+				includeDirs(subprojects.map { "${it.name}/src" })
 			}
 
-			kotlinOptions.freeCompilerArgs = cppTargets.flatMap {
-				listOf("-include-binary", file("${it.name}/build/lib/main/release/$prefix${it.name}.$extension").absolutePath)
+			kotlinOptions.freeCompilerArgs = subprojects.flatMap {
+				listOf(
+					"-include-binary",
+					file("${it.name}/build/lib/main/release/$prefix${it.name}.$extension").absolutePath
+				)
+			}
+		}
+	}
+
+	sourceSets {
+		targets.withType<KotlinNativeTarget> {
+			get("${name}Main").apply {
+				kotlin.srcDir("src/nativeMain/kotlin")
+			}
+			get("${name}Test").apply {
+				kotlin.srcDir("src/nativeTest/kotlin")
+				dependencies {
+					implementation(kotlin("test"))
+				}
+			}
+		}
+	}
+}
+
+// PUBLISHING
+
+val properties = Properties().apply {
+	load(FileInputStream(projectDir.resolve("local.properties")))
+}
+
+val signingKey: String =
+	properties.getProperty("signing.key")
+		?: System.getenv("SIGNING_KEY")
+
+val signingPassword: String =
+	properties.getProperty("signing.password")
+		?: System.getenv("SIGNING_PASSWORD")
+
+val ossrhUsername: String by extra(
+	properties.getProperty("ossrhUsername")
+		?: System.getenv("OSS_USERNAME")
+)
+
+val ossrhPassword: String by extra(
+	properties.getProperty("ossrhPassword")
+		?: System.getenv("OSSRH_PASSWORD")
+)
+
+val dokkaJar by tasks.registering(Jar::class) {
+	dependsOn(tasks.dokkaHtml)
+	archiveClassifier.set("javadoc")
+	from(tasks.dokkaHtml.get().outputDirectory)
+}
+
+signing {
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign(publishing.publications)
+}
+
+publishing {
+	repositories {
+		maven {
+			name = "OSS"
+			url = if ("$version".endsWith("SNAPSHOT"))
+				uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
+			else
+				uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
+			credentials {
+				username = ossrhUsername
+				password = ossrhPassword
+			}
+		}
+	}
+	publications {
+		withType<MavenPublication> {
+			artifact(dokkaJar)
+			pom {
+				name.set(rootProject.name)
+				description.set("CPU Intrinsics for Kotlin/Native")
+				url.set("https://github.com/nlbuescher/kotlin-intrin")
+				licenses {
+					license {
+						name.set("MIT")
+						url.set("https://opensource.org/licenses/MIT")
+					}
+				}
+				issueManagement {
+					system.set("Github")
+					url.set("https://github.com/nlbuescher/kotlin-intrin/issues")
+				}
+				scm {
+					connection.set("https://github.com/nlbuescher/kotlin-intrin.git")
+					url.set("https://github.com/nlbuescher/kotlin-intrin")
+				}
+				developers {
+					developer {
+						name.set("Nicola Büscher")
+						email.set("nicolalucasbuescher@gmail.com")
+					}
+				}
 			}
 		}
 	}

@@ -1,3 +1,5 @@
+package kotlin.intrin
+
 import platform.intrin.*
 import kotlin.math.*
 
