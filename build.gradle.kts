@@ -69,7 +69,10 @@ kotlin {
 // PUBLISHING
 
 val properties = Properties().apply {
-	load(FileInputStream(projectDir.resolve("local.properties")))
+	val file = projectDir.resolve("local.properties")
+	if (file.exists()) {
+		load(file.inputStream())
+	}
 }
 
 val signingKey: String =
