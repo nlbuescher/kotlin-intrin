@@ -11,7 +11,7 @@ extern const bool SSE;
 
 #ifndef __m128
 #ifdef _MSC_VER
-typedef struct __declspec(intrin_type) __declspec(align(16)) __m128 {
+typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
 	float m128_f32[4];
 } __m128;
 #else
@@ -21,7 +21,7 @@ typedef float __m128 __attribute__((__vector_size__(16)));
 
 #ifndef __m128i
 #ifdef _MSC_VER
-typedef struct __declspec(intrin_type) __declspec(align(16)) __m128i {
+typedef union __declspec(intrin_type) __declspec(align(16)) __m128i {
 	int m128_i32[4];
 } __m128i;
 #else
