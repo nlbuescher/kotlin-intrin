@@ -10,12 +10,24 @@ extern const bool SSE;
 #include <stddef.h>
 
 #ifndef __m128
+#ifdef _MSC_VER
+typedef struct __declspec(intrin_type) __declspec(align(16)) __m128 {
+	float m128_f32[4];
+} __m128;
+#else
 typedef float __m128 __attribute__((__vector_size__(16)));
-#endif
+#endif //_MSC_VER
+#endif //__m128
 
 #ifndef __m128i
+#ifdef _MSC_VER
+typedef struct __declspec(intrin_type) __declspec(align(16)) __m128i {
+	int m128_i32[4];
+} __m128i;
+#else
 typedef long long __m128i __attribute__((__vector_size__(16)));
-#endif
+#endif //_MSC_VER
+#endif //__m128i
 
 #ifdef __cplusplus
 extern "C" {
