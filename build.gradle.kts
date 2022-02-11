@@ -19,7 +19,7 @@ repositories {
 val host: OperatingSystem = OperatingSystem.current()
 val useSingleTarget: Boolean = System.getProperty("idea.active") == "true"
 
-val intrinNames = listOf("sse", "sse2")
+val intrinNames = listOf("sse", "sse2", "sse3")
 
 //region: C++
 
