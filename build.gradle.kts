@@ -19,7 +19,7 @@ repositories {
 val host: OperatingSystem = OperatingSystem.current()
 val useSingleTarget: Boolean = System.getProperty("idea.active") == "true"
 
-val intrinNames = listOf("sse")//, "sse2")
+val intrinNames = listOf("sse", "sse2")
 
 //region: C++
 
@@ -99,6 +99,7 @@ kotlin {
 			cinterops.create("intrin") {
 				tasks[interopProcessingTaskName].run {
 					dependsOn(assembleIntrin)
+					inputs.files(srcDir.listFiles { _, name -> name.endsWith(".h") })
 					inputs.files(assembleIntrin.get().outputs.files)
 				}
 				includeDirs(srcDir)
