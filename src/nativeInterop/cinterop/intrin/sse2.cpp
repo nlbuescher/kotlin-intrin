@@ -16,7 +16,6 @@ __m128i sse2_add_epi64(__m128i a, __m128i b) { return _mm_add_epi64(a, b); }
 __m128i sse2_add_epi8(__m128i a, __m128i b) { return _mm_add_epi8(a, b); }
 __m128d sse2_add_pd(__m128d a, __m128d b) { return _mm_add_pd(a, b); }
 __m128d sse2_add_sd(__m128d a, __m128d b) { return _mm_add_sd(a, b); }
-__m64 sse2_add_si64(__m64 a, __m64 b) { return _mm_add_si64(a, b); }
 __m128i sse2_adds_epi16(__m128i a, __m128i b) { return _mm_adds_epi16(a, b); }
 __m128i sse2_adds_epi8(__m128i a, __m128i b) { return _mm_adds_epi8(a, b); }
 __m128i sse2_adds_epu16(__m128i a, __m128i b) { return _mm_adds_epu16(a, b); }
@@ -77,7 +76,7 @@ __m128d sse2_castps_pd(__m128 a) { return _mm_castps_pd(a); }
 __m128i sse2_castps_si128(__m128 a) { return _mm_castps_si128(a); }
 __m128d sse2_castsi128_pd(__m128i a) { return _mm_castsi128_pd(a); }
 __m128 sse2_castsi128_ps(__m128i a) { return _mm_castsi128_ps(a); }
-void sse2_clflush(const void* p) { return _mm_clflush(p); }
+void sse2_clflush(const void* p) { _mm_clflush(p); }
 __m128i sse2_cmpeq_epi16(__m128i a, __m128i b) { return _mm_cmpeq_epi16(a, b); }
 __m128i sse2_cmpeq_epi32(__m128i a, __m128i b) { return _mm_cmpeq_epi32(a, b); }
 __m128i sse2_cmpeq_epi8(__m128i a, __m128i b) { return _mm_cmpeq_epi8(a, b); }
@@ -120,9 +119,7 @@ bool sse2_comineq_sd(__m128d a, __m128d b) { return _mm_comineq_sd(a, b); }
 __m128d sse2_cvtepi32_pd(__m128i a) { return _mm_cvtepi32_pd(a); }
 __m128 sse2_cvtepi32_ps(__m128i a) { return _mm_cvtepi32_ps(a); }
 __m128i sse2_cvtpd_epi32(__m128d a) { return _mm_cvtpd_epi32(a); }
-__m64 sse2_cvtpd_pi32(__m128d a) { return _mm_cvtpd_pi32(a); }
 __m128 sse2_cvtpd_ps(__m128d a) { return _mm_cvtpd_ps(a); }
-__m128d sse2_cvtpi32_pd(__m64 a) { return _mm_cvtpi32_pd(a); }
 __m128i sse2_cvtps_epi32(__m128 a) { return _mm_cvtps_epi32(a); }
 __m128d sse2_cvtps_pd(__m128 a) { return _mm_cvtps_pd(a); }
 double sse2_cvtsd_f64(__m128d a) { return _mm_cvtsd_f64(a); }
@@ -141,7 +138,6 @@ __m128d sse2_cvtsi64x_sd(__m128d a, int64_t b) { return _mm_cvtsi64x_sd(a, b); }
 __m128i sse2_cvtsi64x_si128(int64_t a) { return _mm_cvtsi64x_si128(a); }
 __m128d sse2_cvtss_sd(__m128d a, __m128 b) { return _mm_cvtss_sd(a, b); }
 __m128i sse2_cvttpd_epi32(__m128d a) { return _mm_cvttpd_epi32(a); }
-__m64 sse2_cvttpd_pi32(__m128d a) { return _mm_cvttpd_pi32(a); }
 __m128i sse2_cvttps_epi32(__m128 a) { return _mm_cvttps_epi32(a); }
 int32_t sse2_cvttsd_si32(__m128d a) { return _mm_cvttsd_si32(a); }
 int64_t sse2_cvttsd_si64(__m128d a) { return _mm_cvttsd_si64(a); }
@@ -174,7 +170,7 @@ namespace insert_epi16 {
 	};
 } // namespace insert_epi16
 __m128i sse2_insert_epi16(__m128i a, int16_t i, int8_t imm8) { return insert_epi16::map.at(imm8 & 0x7)(a, i); }
-void sse2_lfence(void) { return _mm_lfence(); }
+void sse2_lfence(void) { _mm_lfence(); }
 __m128d sse2_load_pd(const double* mem_addr) { return _mm_load_pd(mem_addr); }
 __m128d sse2_load_pd1(const double* mem_addr) { return _mm_load_pd1(mem_addr); }
 __m128d sse2_load_sd(const double* mem_addr) { return _mm_load_sd(mem_addr); }
@@ -187,12 +183,12 @@ __m128d sse2_loadr_pd(const double* mem_addr) { return _mm_loadr_pd(mem_addr); }
 __m128d sse2_loadu_pd(const double* mem_addr) { return _mm_loadu_pd(mem_addr); }
 __m128i sse2_loadu_si128(const __m128i* mem_addr) { return _mm_loadu_si128(mem_addr); }
 __m128i sse2_madd_epi16(__m128i a, __m128i b) { return _mm_madd_epi16(a, b); }
-void sse2_maskmoveu_si128(__m128i a, __m128i mask, int8_t* mem_addr) { return _mm_maskmoveu_si128(a, mask, (char*)mem_addr); }
+void sse2_maskmoveu_si128(__m128i a, __m128i mask, int8_t* mem_addr) { _mm_maskmoveu_si128(a, mask, (char*)mem_addr); }
 __m128i sse2_max_epi16(__m128i a, __m128i b) { return _mm_max_epi16(a, b); }
 __m128i sse2_max_epu8(__m128i a, __m128i b) { return _mm_max_epu8(a, b); }
 __m128d sse2_max_pd(__m128d a, __m128d b) { return _mm_max_pd(a, b); }
 __m128d sse2_max_sd(__m128d a, __m128d b) { return _mm_max_sd(a, b); }
-void sse2_mfence(void) { return _mm_mfence(); }
+void sse2_mfence(void) { _mm_mfence(); }
 __m128i sse2_min_epi16(__m128i a, __m128i b) { return _mm_min_epi16(a, b); }
 __m128i sse2_min_epu8(__m128i a, __m128i b) { return _mm_min_epu8(a, b); }
 __m128d sse2_min_pd(__m128d a, __m128d b) { return _mm_min_pd(a, b); }
@@ -201,12 +197,9 @@ __m128i sse2_move_epi64(__m128i a) { return _mm_move_epi64(a); }
 __m128d sse2_move_sd(__m128d a, __m128d b) { return _mm_move_sd(a, b); }
 int32_t sse2_movemask_epi8(__m128i a) { return _mm_movemask_epi8(a); }
 int32_t sse2_movemask_pd(__m128d a) { return _mm_movemask_pd(a); }
-__m64 sse2_movepi64_pi64(__m128i a) { return _mm_movepi64_pi64(a); }
-__m128i sse2_movpi64_epi64(__m64 a) { return _mm_movpi64_epi64(a); }
 __m128i sse2_mul_epu32(__m128i a, __m128i b) { return _mm_mul_epu32(a, b); }
 __m128d sse2_mul_pd(__m128d a, __m128d b) { return _mm_mul_pd(a, b); }
 __m128d sse2_mul_sd(__m128d a, __m128d b) { return _mm_mul_sd(a, b); }
-__m64 sse2_mul_su32(__m64 a, __m64 b) { return _mm_mul_su32(a, b); }
 __m128i sse2_mulhi_epi16(__m128i a, __m128i b) { return _mm_mulhi_epi16(a, b); }
 __m128i sse2_mulhi_epu16(__m128i a, __m128i b) { return _mm_mulhi_epu16(a, b); }
 __m128i sse2_mullo_epi16(__m128i a, __m128i b) { return _mm_mullo_epi16(a, b); }
@@ -215,11 +208,10 @@ __m128i sse2_or_si128(__m128i a, __m128i b) { return _mm_or_si128(a, b); }
 __m128i sse2_packs_epi16(__m128i a, __m128i b) { return _mm_packs_epi16(a, b); }
 __m128i sse2_packs_epi32(__m128i a, __m128i b) { return _mm_packs_epi32(a, b); }
 __m128i sse2_packus_epi16(__m128i a, __m128i b) { return _mm_packus_epi16(a, b); }
-void sse2_pause(void) { return _mm_pause(); }
+void sse2_pause(void) { _mm_pause(); }
 __m128i sse2_sad_epu8(__m128i a, __m128i b) { return _mm_sad_epu8(a, b); }
 __m128i sse2_set_epi16(int16_t e7, int16_t e6, int16_t e5, int16_t e4, int16_t e3, int16_t e2, int16_t e1, int16_t e0) { return _mm_set_epi16(e7, e6, e5, e4, e3, e2, e1, e0); }
 __m128i sse2_set_epi32(int32_t e3, int32_t e2, int32_t e1, int32_t e0) { return _mm_set_epi32(e3, e2, e1, e0); }
-__m128i sse2_set_epi64(__m64 e1, __m64 e0) { return _mm_set_epi64(e1, e0); }
 __m128i sse2_set_epi64x(int64_t e1, int64_t e0) { return _mm_set_epi64x(e1, e0); }
 __m128i sse2_set_epi8(int8_t e15, int8_t e14, int8_t e13, int8_t e12, int8_t e11, int8_t e10, int8_t e9, int8_t e8, int8_t e7, int8_t e6, int8_t e5, int8_t e4, int8_t e3, int8_t e2, int8_t e1, int8_t e0) { return _mm_set_epi8(e15, e14, e13, e12, e11, e10, e9, e8, e7, e6, e5, e4, e3, e2, e1, e0); }
 __m128d sse2_set_pd(double e1, double e0) { return _mm_set_pd(e1, e0); }
@@ -227,13 +219,11 @@ __m128d sse2_set_pd1(double a) { return _mm_set_pd1(a); }
 __m128d sse2_set_sd(double a) { return _mm_set_sd(a); }
 __m128i sse2_set1_epi16(int16_t a) { return _mm_set1_epi16(a); }
 __m128i sse2_set1_epi32(int32_t a) { return _mm_set1_epi32(a); }
-__m128i sse2_set1_epi64(__m64 a) { return _mm_set1_epi64(a); }
 __m128i sse2_set1_epi64x(int64_t a) { return _mm_set1_epi64x(a); }
 __m128i sse2_set1_epi8(int8_t a) { return _mm_set1_epi8(a); }
 __m128d sse2_set1_pd(double a) { return _mm_set1_pd(a); }
 __m128i sse2_setr_epi16(int16_t e7, int16_t e6, int16_t e5, int16_t e4, int16_t e3, int16_t e2, int16_t e1, int16_t e0) { return _mm_setr_epi16(e7, e6, e5, e4, e3, e2, e1, e0); }
 __m128i sse2_setr_epi32(int32_t e3, int32_t e2, int32_t e1, int32_t e0) { return _mm_setr_epi32(e3, e2, e1, e0); }
-__m128i sse2_setr_epi64(__m64 e1, __m64 e0) { return _mm_setr_epi64(e1, e0); }
 __m128i sse2_setr_epi8(int8_t e15, int8_t e14, int8_t e13, int8_t e12, int8_t e11, int8_t e10, int8_t e9, int8_t e8, int8_t e7, int8_t e6, int8_t e5, int8_t e4, int8_t e3, int8_t e2, int8_t e1, int8_t e0) { return _mm_setr_epi8(e15, e14, e13, e12, e11, e10, e9, e8, e7, e6, e5, e4, e3, e2, e1, e0); }
 __m128d sse2_setr_pd(double e1, double e0) { return _mm_setr_pd(e1, e0); }
 __m128d sse2_setzero_pd(void) { return _mm_setzero_pd(); }
@@ -840,28 +830,27 @@ namespace srli_si128 {
 	};
 } // namespace srli_si128
 __m128i sse2_srli_si128(__m128i a, int8_t imm8) { if (imm8 > 16) imm8 = 16; return srli_si128::map.at(imm8)(a); }
-void sse2_store_pd(double* mem_addr, __m128d a) { return _mm_store_pd(mem_addr, a); }
-void sse2_store_pd1(double* mem_addr, __m128d a) { return _mm_store_pd1(mem_addr, a); }
-void sse2_store_sd(double* mem_addr, __m128d a) { return _mm_store_sd(mem_addr, a); }
-void sse2_store_si128(__m128i* mem_addr, __m128i a) { return _mm_store_si128(mem_addr, a); }
-void sse2_store1_pd(double* mem_addr, __m128d a) { return _mm_store1_pd(mem_addr, a); }
-void sse2_storeh_pd(double* mem_addr, __m128d a) { return _mm_storeh_pd(mem_addr, a); }
-void sse2_storel_epi64(__m128i* mem_addr, __m128i a) { return _mm_storel_epi64(mem_addr, a); }
-void sse2_storel_pd(double* mem_addr, __m128d a) { return _mm_storel_pd(mem_addr, a); }
-void sse2_storer_pd(double* mem_addr, __m128d a) { return _mm_storer_pd(mem_addr, a); }
-void sse2_storeu_pd(double* mem_addr, __m128d a) { return _mm_storeu_pd(mem_addr, a); }
-void sse2_storeu_si128(__m128i* mem_addr, __m128i a) { return _mm_storeu_si128(mem_addr, a); }
-void sse2_stream_pd(double* mem_addr, __m128d a) { return _mm_stream_pd(mem_addr, a); }
-void sse2_stream_si128(__m128i* mem_addr, __m128i a) { return _mm_stream_si128(mem_addr, a); }
-void sse2_stream_si32(int32_t* mem_addr, int32_t a) { return _mm_stream_si32(mem_addr, a); }
-void sse2_stream_si64(int64_t* mem_addr, int64_t a) { return _mm_stream_si64((long long*)mem_addr, a); }
+void sse2_store_pd(double* mem_addr, __m128d a) { _mm_store_pd(mem_addr, a); }
+void sse2_store_pd1(double* mem_addr, __m128d a) { _mm_store_pd1(mem_addr, a); }
+void sse2_store_sd(double* mem_addr, __m128d a) { _mm_store_sd(mem_addr, a); }
+void sse2_store_si128(__m128i* mem_addr, __m128i a) { _mm_store_si128(mem_addr, a); }
+void sse2_store1_pd(double* mem_addr, __m128d a) { _mm_store1_pd(mem_addr, a); }
+void sse2_storeh_pd(double* mem_addr, __m128d a) { _mm_storeh_pd(mem_addr, a); }
+void sse2_storel_epi64(__m128i* mem_addr, __m128i a) { _mm_storel_epi64(mem_addr, a); }
+void sse2_storel_pd(double* mem_addr, __m128d a) { _mm_storel_pd(mem_addr, a); }
+void sse2_storer_pd(double* mem_addr, __m128d a) { _mm_storer_pd(mem_addr, a); }
+void sse2_storeu_pd(double* mem_addr, __m128d a) { _mm_storeu_pd(mem_addr, a); }
+void sse2_storeu_si128(__m128i* mem_addr, __m128i a) { _mm_storeu_si128(mem_addr, a); }
+void sse2_stream_pd(double* mem_addr, __m128d a) { _mm_stream_pd(mem_addr, a); }
+void sse2_stream_si128(__m128i* mem_addr, __m128i a) { _mm_stream_si128(mem_addr, a); }
+void sse2_stream_si32(int32_t* mem_addr, int32_t a) { _mm_stream_si32(mem_addr, a); }
+void sse2_stream_si64(int64_t* mem_addr, int64_t a) { _mm_stream_si64((long long*)mem_addr, a); }
 __m128i sse2_sub_epi16(__m128i a, __m128i b) { return _mm_sub_epi16(a, b); }
 __m128i sse2_sub_epi32(__m128i a, __m128i b) { return _mm_sub_epi32(a, b); }
 __m128i sse2_sub_epi64(__m128i a, __m128i b) { return _mm_sub_epi64(a, b); }
 __m128i sse2_sub_epi8(__m128i a, __m128i b) { return _mm_sub_epi8(a, b); }
 __m128d sse2_sub_pd(__m128d a, __m128d b) { return _mm_sub_pd(a, b); }
 __m128d sse2_sub_sd(__m128d a, __m128d b) { return _mm_sub_sd(a, b); }
-__m64 sse2_sub_si64(__m64 a, __m64 b) { return _mm_sub_si64(a, b); }
 __m128i sse2_subs_epi16(__m128i a, __m128i b) { return _mm_subs_epi16(a, b); }
 __m128i sse2_subs_epi8(__m128i a, __m128i b) { return _mm_subs_epi8(a, b); }
 __m128i sse2_subs_epu16(__m128i a, __m128i b) { return _mm_subs_epu16(a, b); }

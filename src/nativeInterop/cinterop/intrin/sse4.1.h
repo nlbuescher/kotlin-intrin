@@ -101,7 +101,7 @@ bool sse4_1_testnzc_si128(__m128i a, __m128i b);
 bool sse4_1_testz_si128(__m128i a, __m128i b);
 
 #ifdef __cplusplus
-} //extern "C"
+} // extern "C"
 #endif
 
-#endif //SSE4_1_H
+#endif // SSE4_1_H

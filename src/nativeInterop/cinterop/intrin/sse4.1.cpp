@@ -1,9 +1,9 @@
 #include <smmintrin.h>
 
-#include "sse4.1.h"
-
 #include <functional>
 #include <unordered_map>
+
+#include "sse4.1.h"
 
 using namespace std;
 

@@ -25,38 +25,22 @@ extern "C" {
 __m128i ssse3_abs_epi16(__m128i a);
 __m128i ssse3_abs_epi32(__m128i a);
 __m128i ssse3_abs_epi8(__m128i a);
-__m64 ssse3_abs_pi16(__m64 a);
-__m64 ssse3_abs_pi32(__m64 a);
-__m64 ssse3_abs_pi8(__m64 a);
 __m128i ssse3_alignr_epi8(__m128i a, __m128i b, int8_t imm8);
-__m64 ssse3_alignr_pi8(__m64 a, __m64 b, int8_t imm8);
 __m128i ssse3_hadd_epi16(__m128i a, __m128i b);
 __m128i ssse3_hadd_epi32(__m128i a, __m128i b);
-__m64 ssse3_hadd_pi16(__m64 a, __m64 b);
-__m64 ssse3_hadd_pi32(__m64 a, __m64 b);
 __m128i ssse3_hadds_epi16(__m128i a, __m128i b);
-__m64 ssse3_hadds_pi16(__m64 a, __m64 b);
 __m128i ssse3_hsub_epi16(__m128i a, __m128i b);
 __m128i ssse3_hsub_epi32(__m128i a, __m128i b);
-__m64 ssse3_hsub_pi16(__m64 a, __m64 b);
-__m64 ssse3_hsub_pi32(__m64 a, __m64 b);
 __m128i ssse3_hsubs_epi16(__m128i a, __m128i b);
-__m64 ssse3_hsubs_pi16(__m64 a, __m64 b);
 __m128i ssse3_maddubs_epi16(__m128i a, __m128i b);
-__m64 ssse3_maddubs_pi16(__m64 a, __m64 b);
 __m128i ssse3_mulhrs_epi16(__m128i a, __m128i b);
-__m64 ssse3_mulhrs_pi16(__m64 a, __m64 b);
 __m128i ssse3_shuffle_epi8(__m128i a, __m128i b);
-__m64 ssse3_shuffle_pi8(__m64 a, __m64 b);
 __m128i ssse3_sign_epi16(__m128i a, __m128i b);
 __m128i ssse3_sign_epi32(__m128i a, __m128i b);
 __m128i ssse3_sign_epi8(__m128i a, __m128i b);
-__m64 ssse3_sign_pi16(__m64 a, __m64 b);
-__m64 ssse3_sign_pi32(__m64 a, __m64 b);
-__m64 ssse3_sign_pi8(__m64 a, __m64 b);
 
 #ifdef __cplusplus
-} //extern "C"
+} // extern "C"
 #endif
 
-#endif //SSSE3_H
+#endif // SSSE3_H

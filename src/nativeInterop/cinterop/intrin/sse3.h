@@ -35,7 +35,7 @@ __m128 sse3_movehdup_ps(__m128 a);
 __m128 sse3_moveldup_ps(__m128 a);
 
 #ifdef __cplusplus
-} //extern "C"
+} // extern "C"
 #endif
 
-#endif //SSE3_H
+#endif // SSE3_H
