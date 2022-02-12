@@ -270,7 +270,7 @@ namespace blend_epi16 {
 		{0xFF, [](__m128i a, __m128i b) { return _mm_blend_epi16(a, b, 0xFF); }},
 	};
 } // namespace blend_epi16
-__m128i sse4_1_blend_epi16(__m128i a, __m128i b, const int8_t imm8) { return blend_epi16::map.at(imm8)(a, b); }
+__m128i sse4_1_blend_epi16(__m128i a, __m128i b, const int32_t imm8) { return blend_epi16::map.at(imm8)(a, b); }
 namespace blend_pd {
 	const unordered_map<int8_t, function<__m128d(__m128d, __m128d)>> map{
 		{0, [](__m128d a, __m128d b) { return _mm_blend_pd(a, b, 0); }},
@@ -279,7 +279,7 @@ namespace blend_pd {
 		{3, [](__m128d a, __m128d b) { return _mm_blend_pd(a, b, 3); }},
 	};
 } // namespace blend_pd
-__m128d sse4_1_blend_pd(__m128d a, __m128d b, const int8_t imm8) { return blend_pd::map.at(imm8 & 0x3)(a, b); }
+__m128d sse4_1_blend_pd(__m128d a, __m128d b, const int32_t imm8) { return blend_pd::map.at(imm8 & 0x3)(a, b); }
 namespace blend_ps {
 	const unordered_map<int8_t, function<__m128(__m128, __m128)>> map{
 		{0, [](__m128 a, __m128 b) { return _mm_blend_ps(a, b, 0); }},
@@ -292,7 +292,7 @@ namespace blend_ps {
 		{7, [](__m128 a, __m128 b) { return _mm_blend_ps(a, b, 7); }},
 	};
 } // namespace blend_ps
-__m128 sse4_1_blend_ps(__m128 a, __m128 b, const int8_t imm8) { return blend_ps::map.at(imm8 & 0x7)(a, b); }
+__m128 sse4_1_blend_ps(__m128 a, __m128 b, const int32_t imm8) { return blend_ps::map.at(imm8 & 0x7)(a, b); }
 __m128i sse4_1_blendv_epi8(__m128i a, __m128i b, __m128i mask) { return _mm_blendv_epi8(a, b, mask); }
 __m128d sse4_1_blendv_pd(__m128d a, __m128d b, __m128d mask) { return _mm_blendv_pd(a, b, mask); }
 __m128 sse4_1_blendv_ps(__m128 a, __m128 b, __m128 mask) { return _mm_blendv_ps(a, b, mask); }
@@ -573,7 +573,7 @@ namespace dp_pd {
 		{0xFF, [](__m128d a, __m128d b) { return _mm_dp_pd(a, b, 0xFF); }},
 	};
 } // namespace dp_pd
-__m128d sse4_1_dp_pd(__m128d a, __m128d b, const int8_t imm8) { return dp_pd::map.at(imm8)(a, b); }
+__m128d sse4_1_dp_pd(__m128d a, __m128d b, const int32_t imm8) { return dp_pd::map.at(imm8)(a, b); }
 namespace dp_ps {
 	const unordered_map<int8_t, function<__m128(__m128, __m128)>> map{
 		{0x00, [](__m128 a, __m128 b) { return _mm_dp_ps(a, b, 0x00); }},
@@ -834,7 +834,7 @@ namespace dp_ps {
 		{0xFF, [](__m128 a, __m128 b) { return _mm_dp_ps(a, b, 0xFF); }},
 	};
 } // namespace dp_ps
-__m128 sse4_1_dp_ps(__m128 a, __m128 b, const int8_t imm8) { return dp_ps::map.at(imm8)(a, b); }
+__m128 sse4_1_dp_ps(__m128 a, __m128 b, const int32_t imm8) { return dp_ps::map.at(imm8)(a, b); }
 namespace extract_epi32 {
 	const unordered_map<int8_t, function<int32_t(__m128i)>> map{
 		{0, [](__m128i a) { return _mm_extract_epi32(a, 0); }},
@@ -843,14 +843,14 @@ namespace extract_epi32 {
 		{3, [](__m128i a) { return _mm_extract_epi32(a, 3); }},
 	};
 } // namespace extract_epi32
-int32_t sse4_1_extract_epi32(__m128i a, const int8_t imm8) { return extract_epi32::map.at(imm8 & 0x3)(a); }
+int32_t sse4_1_extract_epi32(__m128i a, const int32_t imm8) { return extract_epi32::map.at(imm8 & 0x3)(a); }
 namespace extract_epi64 {
 	const unordered_map<int8_t, function<int64_t(__m128i)>> map{
 		{0, [](__m128i a) { return _mm_extract_epi64(a, 0); }},
 		{1, [](__m128i a) { return _mm_extract_epi64(a, 1); }},
 	};
 } // namespace extract_epi64
-int64_t sse4_1_extract_epi64(__m128i a, const int8_t imm8) { return extract_epi64::map.at(imm8 & 0x1)(a); }
+int64_t sse4_1_extract_epi64(__m128i a, const int32_t imm8) { return extract_epi64::map.at(imm8 & 0x1)(a); }
 namespace extract_epi8 {
 	const unordered_map<int8_t, function<int8_t(__m128i)>> map{
 		{ 0, [](__m128i a) { return _mm_extract_epi8(a,  0); }},
@@ -871,7 +871,7 @@ namespace extract_epi8 {
 		{15, [](__m128i a) { return _mm_extract_epi8(a, 15); }},
 	};
 } // namespace extract_epi8
-int8_t sse4_1_extract_epi8(__m128i a, const int8_t imm8) { return extract_epi8::map.at(imm8 & 0xF)(a); }
+int8_t sse4_1_extract_epi8(__m128i a, const int32_t imm8) { return extract_epi8::map.at(imm8 & 0xF)(a); }
 namespace extract_ps {
 	const unordered_map<int8_t, function<float(__m128)>> map{
 		{0, [](__m128 a) { return _mm_extract_ps(a, 0); }},
@@ -880,7 +880,7 @@ namespace extract_ps {
 		{3, [](__m128 a) { return _mm_extract_ps(a, 3); }},
 	};
 } // namespace extract_ps
-float sse4_1_extract_ps(__m128 a, const int8_t imm8) { return extract_ps::map.at(imm8 & 0x3)(a); }
+float sse4_1_extract_ps(__m128 a, const int32_t imm8) { return extract_ps::map.at(imm8 & 0x3)(a); }
 __m128d sse4_1_floor_pd(__m128d a) { return _mm_floor_pd(a); }
 __m128 sse4_1_floor_ps(__m128 a) { return _mm_floor_ps(a); }
 __m128d sse4_1_floor_sd(__m128d a, __m128d b) { return _mm_floor_sd(a, b); }
@@ -893,14 +893,14 @@ namespace insert_epi32 {
 		{3, [](__m128i a, int32_t i) { return _mm_insert_epi32(a, i, 3); }},
 	};
 } // namespace insert_epi32
-__m128i sse4_1_insert_epi32(__m128i a, int32_t i, const int8_t imm8) { return insert_epi32::map.at(imm8 & 0x3)(a, i); }
+__m128i sse4_1_insert_epi32(__m128i a, int32_t i, const int32_t imm8) { return insert_epi32::map.at(imm8 & 0x3)(a, i); }
 namespace insert_epi64 {
 	const unordered_map<int8_t, function<__m128i(__m128i, int64_t)>> map{
 		{0, [](__m128i a, int64_t i) { return _mm_insert_epi64(a, i, 0); }},
 		{1, [](__m128i a, int64_t i) { return _mm_insert_epi64(a, i, 1); }},
 	};
 } // namespace insert_epi64
-__m128i sse4_1_insert_epi64(__m128i a, int64_t i, const int8_t imm8) { return insert_epi64::map.at(imm8 & 0x1)(a, i); }
+__m128i sse4_1_insert_epi64(__m128i a, int64_t i, const int32_t imm8) { return insert_epi64::map.at(imm8 & 0x1)(a, i); }
 namespace insert_epi8 {
 	const unordered_map<int8_t, function<__m128i(__m128i, int8_t)>> map{
 		{ 0, [](__m128i a, int8_t i) { return _mm_insert_epi8(a, i,  0); }},
@@ -921,7 +921,7 @@ namespace insert_epi8 {
 		{15, [](__m128i a, int8_t i) { return _mm_insert_epi8(a, i, 15); }},
 	};
 } // namespace insert_epi8
-__m128i sse4_1_insert_epi8(__m128i a, int8_t i, const int8_t imm8) { return insert_epi8::map.at(imm8 & 0xF)(a, i); }
+__m128i sse4_1_insert_epi8(__m128i a, int8_t i, const int32_t imm8) { return insert_epi8::map.at(imm8 & 0xF)(a, i); }
 namespace insert_ps {
 	const unordered_map<int8_t, function<__m128(__m128, __m128)>> map{
 		{0x00, [](__m128 a, __m128 b) { return _mm_insert_ps(a, b, 0x00); }},
@@ -1182,7 +1182,7 @@ namespace insert_ps {
 		{0xFF, [](__m128 a, __m128 b) { return _mm_insert_ps(a, b, 0xFF); }},
 	};
 } // namespace insert_ps
-__m128 sse4_1_insert_ps(__m128 a, __m128 b, const int8_t imm8) { return insert_ps::map.at(imm8)(a, b); }
+__m128 sse4_1_insert_ps(__m128 a, __m128 b, const int32_t imm8) { return insert_ps::map.at(imm8)(a, b); }
 __m128i sse4_1_max_epi32(__m128i a, __m128i b) { return _mm_max_epi32(a, b); }
 __m128i sse4_1_max_epi8(__m128i a, __m128i b) { return _mm_max_epi8(a, b); }
 __m128i sse4_1_max_epu16(__m128i a, __m128i b) { return _mm_max_epu16(a, b); }
@@ -1204,7 +1204,7 @@ namespace mpsadbw_epu8 {
 		{7, [](__m128i a, __m128i b) { return _mm_mpsadbw_epu8(a, b, 7); }},
 	};
 } // namespace mpsadbw_epu8
-__m128i sse4_1_mpsadbw_epu8(__m128i a, __m128i b, const int8_t imm8) { return mpsadbw_epu8::map.at(imm8 & 0x7)(a, b); }
+__m128i sse4_1_mpsadbw_epu8(__m128i a, __m128i b, const int32_t imm8) { return mpsadbw_epu8::map.at(imm8 & 0x7)(a, b); }
 __m128i sse4_1_mul_epi32(__m128i a, __m128i b) { return _mm_mul_epi32(a, b); }
 __m128i sse4_1_mullo_epi32(__m128i a, __m128i b) { return _mm_mullo_epi32(a, b); }
 __m128i sse4_1_packus_epi32(__m128i a, __m128i b) { return _mm_packus_epi32(a, b); }

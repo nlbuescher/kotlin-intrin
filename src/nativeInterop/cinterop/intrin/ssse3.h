@@ -25,7 +25,7 @@ extern "C" {
 __m128i ssse3_abs_epi16(__m128i a);
 __m128i ssse3_abs_epi32(__m128i a);
 __m128i ssse3_abs_epi8(__m128i a);
-__m128i ssse3_alignr_epi8(__m128i a, __m128i b, int8_t imm8);
+__m128i ssse3_alignr_epi8(__m128i a, __m128i b, int32_t imm8);
 __m128i ssse3_hadd_epi16(__m128i a, __m128i b);
 __m128i ssse3_hadd_epi32(__m128i a, __m128i b);
 __m128i ssse3_hadds_epi16(__m128i a, __m128i b);

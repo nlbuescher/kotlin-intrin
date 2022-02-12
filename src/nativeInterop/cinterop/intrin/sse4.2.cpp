@@ -142,7 +142,7 @@ namespace cmpestra {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestra
-bool sse4_2_cmpestra(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestra::map.at(imm8 & 0x7F)(a, la, b, lb); }
+bool sse4_2_cmpestra(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestra::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestrc {
 	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x00); }},
@@ -275,7 +275,7 @@ namespace cmpestrc {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestrc
-bool sse4_2_cmpestrc(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrc::map.at(imm8 & 0x7F)(a, la, b, lb); }
+bool sse4_2_cmpestrc(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestrc::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestri {
 	const unordered_map<int8_t, function<int32_t(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x00); }},
@@ -408,7 +408,7 @@ namespace cmpestri {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestri
-int32_t sse4_2_cmpestri(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestri::map.at(imm8 & 0x7F)(a, la, b, lb); }
+int32_t sse4_2_cmpestri(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestri::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestrm {
 	const unordered_map<int8_t, function<__m128i(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x00); }},
@@ -541,7 +541,7 @@ namespace cmpestrm {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestrm
-__m128i sse4_2_cmpestrm(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrm::map.at(imm8 & 0x7F)(a, la, b, lb); }
+__m128i sse4_2_cmpestrm(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestrm::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestro {
 	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x00); }},
@@ -674,7 +674,7 @@ namespace cmpestro {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestro
-bool sse4_2_cmpestro(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestro::map.at(imm8 & 0x7F)(a, la, b, lb); }
+bool sse4_2_cmpestro(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestro::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestrs {
 	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x00); }},
@@ -807,7 +807,7 @@ namespace cmpestrs {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestrs
-bool sse4_2_cmpestrs(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrs::map.at(imm8 & 0x7F)(a, la, b, lb); }
+bool sse4_2_cmpestrs(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestrs::map.at(imm8 & 0x7F)(a, la, b, lb); }
 namespace cmpestrz {
 	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
 		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x00); }},
@@ -940,7 +940,7 @@ namespace cmpestrz {
 		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7F); }},
 	};
 } // namespace cmpestrz
-bool sse4_2_cmpestrz(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrz::map.at(imm8 & 0x7F)(a, la, b, lb); }
+bool sse4_2_cmpestrz(__m128i a, int32_t la, __m128i b, int32_t lb, int32_t imm8) { return cmpestrz::map.at(imm8 & 0x7F)(a, la, b, lb); }
 __m128i sse4_2_cmpgt_epi64(__m128i a, __m128i b) { return _mm_cmpgt_epi64(a, b); }
 namespace cmpistra {
 	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
@@ -1074,7 +1074,7 @@ namespace cmpistra {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7F); }},
 	};
 } // namespace cmpistra
-bool sse4_2_cmpistra(__m128i a, __m128i b, int8_t imm8) { return cmpistra::map.at(imm8 & 0x7F)(a, b); }
+bool sse4_2_cmpistra(__m128i a, __m128i b, int32_t imm8) { return cmpistra::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistrc {
 	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x00); }},
@@ -1207,7 +1207,7 @@ namespace cmpistrc {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7F); }},
 	};
 } // namespace cmpistrc
-bool sse4_2_cmpistrc(__m128i a, __m128i b, int8_t imm8) { return cmpistrc::map.at(imm8 & 0x7F)(a, b); }
+bool sse4_2_cmpistrc(__m128i a, __m128i b, int32_t imm8) { return cmpistrc::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistri {
 	const unordered_map<int8_t, function<int32_t(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x00); }},
@@ -1340,7 +1340,7 @@ namespace cmpistri {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7F); }},
 	};
 } // namespace cmpistri
-int32_t sse4_2_cmpistri(__m128i a, __m128i b, int8_t imm8) { return cmpistri::map.at(imm8 & 0x7F)(a, b); }
+int32_t sse4_2_cmpistri(__m128i a, __m128i b, int32_t imm8) { return cmpistri::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistrm {
 	const unordered_map<int8_t, function<__m128i(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x00); }},
@@ -1473,7 +1473,7 @@ namespace cmpistrm {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7F); }},
 	};
 } // namespace cmpistrm
-__m128i sse4_2_cmpistrm(__m128i a, __m128i b, int8_t imm8) { return cmpistrm::map.at(imm8 & 0x7F)(a, b); }
+__m128i sse4_2_cmpistrm(__m128i a, __m128i b, int32_t imm8) { return cmpistrm::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistro {
 	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x00); }},
@@ -1606,7 +1606,7 @@ namespace cmpistro {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7F); }},
 	};
 } // namespace cmpistro
-bool sse4_2_cmpistro(__m128i a, __m128i b, int8_t imm8) { return cmpistro::map.at(imm8 & 0x7F)(a, b); }
+bool sse4_2_cmpistro(__m128i a, __m128i b, int32_t imm8) { return cmpistro::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistrs {
 	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x00); }},
@@ -1739,7 +1739,7 @@ namespace cmpistrs {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7F); }},
 	};
 } // namespace cmpistrs
-bool sse4_2_cmpistrs(__m128i a, __m128i b, int8_t imm8) { return cmpistrs::map.at(imm8 & 0x7F)(a, b); }
+bool sse4_2_cmpistrs(__m128i a, __m128i b, int32_t imm8) { return cmpistrs::map.at(imm8 & 0x7F)(a, b); }
 namespace cmpistrz {
 	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
 		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x00); }},
@@ -1872,7 +1872,7 @@ namespace cmpistrz {
 		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7F); }},
 	};
 } // namespace cmpistrz
-bool sse4_2_cmpistrz(__m128i a, __m128i b, int8_t imm8) { return cmpistrz::map.at(imm8 & 0x7F)(a, b); }
+bool sse4_2_cmpistrz(__m128i a, __m128i b, int32_t imm8) { return cmpistrz::map.at(imm8 & 0x7F)(a, b); }
 uint32_t sse4_2_crc32_u16(uint32_t crc, uint16_t v) { return _mm_crc32_u16(crc, v); }
 uint32_t sse4_2_crc32_u32(uint32_t crc, uint32_t v) { return _mm_crc32_u32(crc, v); }
 uint64_t sse4_2_crc32_u64(uint64_t crc, uint64_t v) { return _mm_crc32_u64(crc, v); }
