@@ -1,1875 +1,1881 @@
-#include <immintrin.h>
+#include <nmmintrin.h>
+
+#include <functional>
+#include <unordered_map>
 
 #include "sse4.2.h"
 
-int sse4_2_cmpestra(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestra(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestra(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestra(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestra(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestra(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestra(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestra(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestra(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestra(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestra(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestra(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestra(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestra(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestra(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestra(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestra(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestra(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestra(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestra(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestra(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestra(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestra(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestra(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestra(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestra(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestra(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestra(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestra(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestra(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestra(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestra(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestra(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestra(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestra(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestra(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestra(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestra(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestra(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestra(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestra(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestra(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestra(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestra(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestra(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestra(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestra(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestra(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestra(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestra(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestra(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestra(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestra(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestra(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestra(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestra(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestra(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestra(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestra(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestra(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestra(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestra(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestra(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestra(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestra(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestra(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestra(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestra(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestra(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestra(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestra(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestra(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestra(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestra(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestra(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestra(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestra(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestra(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestra(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestra(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestra(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestra(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestra(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestra(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestra(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestra(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestra(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestra(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestra(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestra(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestra(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestra(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestra(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestra(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestra(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestra(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestra(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestra(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestra(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestra(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestra(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestra(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestra(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestra(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestra(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestra(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestra(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestra(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestra(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestra(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestra(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestra(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestra(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestra(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestra(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestra(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestra(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestra(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestra(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestra(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestra(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestra(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestra(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestra(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestra(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestra(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestra(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestra(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestra(a, la, b, lb, 0x7F);
-	}
-}
+using namespace std;
 
-int sse4_2_cmpestrc(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestrc(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestrc(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestrc(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestrc(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestrc(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestrc(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestrc(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestrc(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestrc(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestrc(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestrc(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestrc(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestrc(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestrc(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestrc(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestrc(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestrc(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestrc(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestrc(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestrc(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestrc(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestrc(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestrc(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestrc(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestrc(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestrc(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestrc(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestrc(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestrc(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestrc(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestrc(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestrc(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestrc(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestrc(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestrc(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestrc(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestrc(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestrc(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestrc(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestrc(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestrc(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestrc(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestrc(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestrc(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestrc(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestrc(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestrc(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestrc(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestrc(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestrc(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestrc(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestrc(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestrc(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestrc(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestrc(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestrc(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestrc(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestrc(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestrc(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestrc(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestrc(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestrc(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestrc(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestrc(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestrc(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestrc(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestrc(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestrc(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestrc(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestrc(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestrc(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestrc(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestrc(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestrc(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestrc(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestrc(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestrc(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestrc(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestrc(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestrc(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestrc(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestrc(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestrc(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestrc(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestrc(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestrc(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestrc(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestrc(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestrc(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestrc(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestrc(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestrc(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestrc(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestrc(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestrc(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestrc(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestrc(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestrc(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestrc(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestrc(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestrc(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestrc(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestrc(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestrc(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestrc(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestrc(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestrc(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestrc(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestrc(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestrc(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestrc(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestrc(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestrc(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestrc(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestrc(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestrc(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestrc(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestrc(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestrc(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestrc(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestrc(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestrc(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestrc(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestrc(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestrc(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestrc(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestrc(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestrc(a, la, b, lb, 0x7F);
-	}
-}
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-attributes"
 
-int sse4_2_cmpestri(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestri(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestri(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestri(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestri(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestri(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestri(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestri(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestri(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestri(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestri(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestri(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestri(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestri(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestri(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestri(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestri(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestri(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestri(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestri(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestri(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestri(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestri(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestri(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestri(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestri(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestri(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestri(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestri(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestri(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestri(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestri(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestri(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestri(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestri(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestri(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestri(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestri(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestri(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestri(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestri(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestri(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestri(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestri(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestri(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestri(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestri(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestri(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestri(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestri(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestri(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestri(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestri(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestri(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestri(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestri(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestri(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestri(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestri(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestri(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestri(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestri(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestri(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestri(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestri(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestri(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestri(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestri(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestri(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestri(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestri(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestri(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestri(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestri(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestri(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestri(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestri(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestri(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestri(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestri(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestri(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestri(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestri(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestri(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestri(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestri(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestri(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestri(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestri(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestri(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestri(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestri(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestri(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestri(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestri(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestri(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestri(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestri(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestri(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestri(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestri(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestri(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestri(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestri(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestri(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestri(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestri(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestri(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestri(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestri(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestri(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestri(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestri(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestri(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestri(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestri(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestri(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestri(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestri(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestri(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestri(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestri(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestri(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestri(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestri(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestri(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestri(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestri(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestri(a, la, b, lb, 0x7F);
-	}
-}
-
-__m128i sse4_2_cmpestrm(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestrm(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestrm(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestrm(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestrm(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestrm(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestrm(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestrm(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestrm(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestrm(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestrm(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestrm(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestrm(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestrm(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestrm(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestrm(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestrm(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestrm(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestrm(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestrm(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestrm(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestrm(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestrm(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestrm(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestrm(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestrm(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestrm(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestrm(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestrm(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestrm(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestrm(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestrm(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestrm(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestrm(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestrm(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestrm(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestrm(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestrm(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestrm(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestrm(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestrm(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestrm(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestrm(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestrm(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestrm(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestrm(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestrm(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestrm(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestrm(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestrm(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestrm(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestrm(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestrm(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestrm(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestrm(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestrm(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestrm(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestrm(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestrm(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestrm(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestrm(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestrm(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestrm(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestrm(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestrm(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestrm(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestrm(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestrm(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestrm(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestrm(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestrm(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestrm(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestrm(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestrm(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestrm(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestrm(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestrm(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestrm(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestrm(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestrm(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestrm(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestrm(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestrm(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestrm(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestrm(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestrm(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestrm(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestrm(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestrm(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestrm(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestrm(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestrm(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestrm(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestrm(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestrm(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestrm(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestrm(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestrm(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestrm(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestrm(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestrm(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestrm(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestrm(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestrm(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestrm(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestrm(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestrm(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestrm(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestrm(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestrm(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestrm(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestrm(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestrm(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestrm(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestrm(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestrm(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestrm(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestrm(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestrm(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestrm(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestrm(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestrm(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestrm(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestrm(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestrm(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestrm(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestrm(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestrm(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestrm(a, la, b, lb, 0x7F);
-	}
-}
-
-int sse4_2_cmpestro(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestro(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestro(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestro(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestro(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestro(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestro(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestro(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestro(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestro(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestro(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestro(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestro(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestro(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestro(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestro(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestro(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestro(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestro(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestro(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestro(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestro(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestro(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestro(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestro(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestro(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestro(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestro(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestro(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestro(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestro(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestro(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestro(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestro(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestro(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestro(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestro(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestro(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestro(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestro(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestro(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestro(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestro(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestro(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestro(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestro(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestro(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestro(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestro(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestro(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestro(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestro(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestro(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestro(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestro(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestro(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestro(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestro(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestro(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestro(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestro(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestro(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestro(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestro(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestro(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestro(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestro(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestro(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestro(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestro(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestro(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestro(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestro(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestro(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestro(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestro(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestro(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestro(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestro(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestro(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestro(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestro(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestro(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestro(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestro(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestro(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestro(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestro(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestro(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestro(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestro(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestro(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestro(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestro(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestro(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestro(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestro(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestro(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestro(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestro(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestro(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestro(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestro(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestro(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestro(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestro(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestro(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestro(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestro(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestro(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestro(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestro(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestro(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestro(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestro(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestro(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestro(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestro(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestro(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestro(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestro(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestro(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestro(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestro(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestro(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestro(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestro(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestro(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestro(a, la, b, lb, 0x7F);
-	}
-}
-
-int sse4_2_cmpestrs(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestrs(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestrs(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestrs(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestrs(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestrs(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestrs(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestrs(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestrs(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestrs(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestrs(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestrs(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestrs(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestrs(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestrs(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestrs(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestrs(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestrs(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestrs(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestrs(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestrs(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestrs(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestrs(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestrs(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestrs(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestrs(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestrs(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestrs(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestrs(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestrs(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestrs(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestrs(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestrs(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestrs(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestrs(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestrs(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestrs(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestrs(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestrs(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestrs(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestrs(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestrs(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestrs(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestrs(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestrs(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestrs(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestrs(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestrs(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestrs(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestrs(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestrs(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestrs(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestrs(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestrs(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestrs(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestrs(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestrs(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestrs(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestrs(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestrs(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestrs(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestrs(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestrs(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestrs(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestrs(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestrs(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestrs(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestrs(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestrs(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestrs(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestrs(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestrs(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestrs(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestrs(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestrs(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestrs(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestrs(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestrs(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestrs(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestrs(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestrs(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestrs(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestrs(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestrs(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestrs(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestrs(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestrs(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestrs(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestrs(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestrs(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestrs(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestrs(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestrs(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestrs(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestrs(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestrs(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestrs(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestrs(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestrs(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestrs(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestrs(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestrs(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestrs(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestrs(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestrs(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestrs(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestrs(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestrs(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestrs(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestrs(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestrs(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestrs(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestrs(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestrs(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestrs(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestrs(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestrs(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestrs(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestrs(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestrs(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestrs(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestrs(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestrs(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestrs(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestrs(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestrs(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestrs(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestrs(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestrs(a, la, b, lb, 0x7F);
-	}
-}
-
-int sse4_2_cmpestrz(__m128i a, int la, __m128i b, int lb, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpestrz(a, la, b, lb, 0x00);
-		case 0x01: return _mm_cmpestrz(a, la, b, lb, 0x01);
-		case 0x02: return _mm_cmpestrz(a, la, b, lb, 0x02);
-		case 0x03: return _mm_cmpestrz(a, la, b, lb, 0x03);
-		case 0x04: return _mm_cmpestrz(a, la, b, lb, 0x04);
-		case 0x05: return _mm_cmpestrz(a, la, b, lb, 0x05);
-		case 0x06: return _mm_cmpestrz(a, la, b, lb, 0x06);
-		case 0x07: return _mm_cmpestrz(a, la, b, lb, 0x07);
-		case 0x08: return _mm_cmpestrz(a, la, b, lb, 0x08);
-		case 0x09: return _mm_cmpestrz(a, la, b, lb, 0x09);
-		case 0x0A: return _mm_cmpestrz(a, la, b, lb, 0x0A);
-		case 0x0B: return _mm_cmpestrz(a, la, b, lb, 0x0B);
-		case 0x0C: return _mm_cmpestrz(a, la, b, lb, 0x0C);
-		case 0x0D: return _mm_cmpestrz(a, la, b, lb, 0x0D);
-		case 0x0E: return _mm_cmpestrz(a, la, b, lb, 0x0E);
-		case 0x0F: return _mm_cmpestrz(a, la, b, lb, 0x0F);
-		case 0x10: return _mm_cmpestrz(a, la, b, lb, 0x10);
-		case 0x11: return _mm_cmpestrz(a, la, b, lb, 0x11);
-		case 0x12: return _mm_cmpestrz(a, la, b, lb, 0x12);
-		case 0x13: return _mm_cmpestrz(a, la, b, lb, 0x13);
-		case 0x14: return _mm_cmpestrz(a, la, b, lb, 0x14);
-		case 0x15: return _mm_cmpestrz(a, la, b, lb, 0x15);
-		case 0x16: return _mm_cmpestrz(a, la, b, lb, 0x16);
-		case 0x17: return _mm_cmpestrz(a, la, b, lb, 0x17);
-		case 0x18: return _mm_cmpestrz(a, la, b, lb, 0x18);
-		case 0x19: return _mm_cmpestrz(a, la, b, lb, 0x19);
-		case 0x1A: return _mm_cmpestrz(a, la, b, lb, 0x1A);
-		case 0x1B: return _mm_cmpestrz(a, la, b, lb, 0x1B);
-		case 0x1C: return _mm_cmpestrz(a, la, b, lb, 0x1C);
-		case 0x1D: return _mm_cmpestrz(a, la, b, lb, 0x1D);
-		case 0x1E: return _mm_cmpestrz(a, la, b, lb, 0x1E);
-		case 0x1F: return _mm_cmpestrz(a, la, b, lb, 0x1F);
-		case 0x20: return _mm_cmpestrz(a, la, b, lb, 0x20);
-		case 0x21: return _mm_cmpestrz(a, la, b, lb, 0x21);
-		case 0x22: return _mm_cmpestrz(a, la, b, lb, 0x22);
-		case 0x23: return _mm_cmpestrz(a, la, b, lb, 0x23);
-		case 0x24: return _mm_cmpestrz(a, la, b, lb, 0x24);
-		case 0x25: return _mm_cmpestrz(a, la, b, lb, 0x25);
-		case 0x26: return _mm_cmpestrz(a, la, b, lb, 0x26);
-		case 0x27: return _mm_cmpestrz(a, la, b, lb, 0x27);
-		case 0x28: return _mm_cmpestrz(a, la, b, lb, 0x28);
-		case 0x29: return _mm_cmpestrz(a, la, b, lb, 0x29);
-		case 0x2A: return _mm_cmpestrz(a, la, b, lb, 0x2A);
-		case 0x2B: return _mm_cmpestrz(a, la, b, lb, 0x2B);
-		case 0x2C: return _mm_cmpestrz(a, la, b, lb, 0x2C);
-		case 0x2D: return _mm_cmpestrz(a, la, b, lb, 0x2D);
-		case 0x2E: return _mm_cmpestrz(a, la, b, lb, 0x2E);
-		case 0x2F: return _mm_cmpestrz(a, la, b, lb, 0x2F);
-		case 0x30: return _mm_cmpestrz(a, la, b, lb, 0x30);
-		case 0x31: return _mm_cmpestrz(a, la, b, lb, 0x31);
-		case 0x32: return _mm_cmpestrz(a, la, b, lb, 0x32);
-		case 0x33: return _mm_cmpestrz(a, la, b, lb, 0x33);
-		case 0x34: return _mm_cmpestrz(a, la, b, lb, 0x34);
-		case 0x35: return _mm_cmpestrz(a, la, b, lb, 0x35);
-		case 0x36: return _mm_cmpestrz(a, la, b, lb, 0x36);
-		case 0x37: return _mm_cmpestrz(a, la, b, lb, 0x37);
-		case 0x38: return _mm_cmpestrz(a, la, b, lb, 0x38);
-		case 0x39: return _mm_cmpestrz(a, la, b, lb, 0x39);
-		case 0x3A: return _mm_cmpestrz(a, la, b, lb, 0x3A);
-		case 0x3B: return _mm_cmpestrz(a, la, b, lb, 0x3B);
-		case 0x3C: return _mm_cmpestrz(a, la, b, lb, 0x3C);
-		case 0x3D: return _mm_cmpestrz(a, la, b, lb, 0x3D);
-		case 0x3E: return _mm_cmpestrz(a, la, b, lb, 0x3E);
-		case 0x3F: return _mm_cmpestrz(a, la, b, lb, 0x3F);
-		case 0x40: return _mm_cmpestrz(a, la, b, lb, 0x40);
-		case 0x41: return _mm_cmpestrz(a, la, b, lb, 0x41);
-		case 0x42: return _mm_cmpestrz(a, la, b, lb, 0x42);
-		case 0x43: return _mm_cmpestrz(a, la, b, lb, 0x43);
-		case 0x44: return _mm_cmpestrz(a, la, b, lb, 0x44);
-		case 0x45: return _mm_cmpestrz(a, la, b, lb, 0x45);
-		case 0x46: return _mm_cmpestrz(a, la, b, lb, 0x46);
-		case 0x47: return _mm_cmpestrz(a, la, b, lb, 0x47);
-		case 0x48: return _mm_cmpestrz(a, la, b, lb, 0x48);
-		case 0x49: return _mm_cmpestrz(a, la, b, lb, 0x49);
-		case 0x4A: return _mm_cmpestrz(a, la, b, lb, 0x4A);
-		case 0x4B: return _mm_cmpestrz(a, la, b, lb, 0x4B);
-		case 0x4C: return _mm_cmpestrz(a, la, b, lb, 0x4C);
-		case 0x4D: return _mm_cmpestrz(a, la, b, lb, 0x4D);
-		case 0x4E: return _mm_cmpestrz(a, la, b, lb, 0x4E);
-		case 0x4F: return _mm_cmpestrz(a, la, b, lb, 0x4F);
-		case 0x50: return _mm_cmpestrz(a, la, b, lb, 0x50);
-		case 0x51: return _mm_cmpestrz(a, la, b, lb, 0x51);
-		case 0x52: return _mm_cmpestrz(a, la, b, lb, 0x52);
-		case 0x53: return _mm_cmpestrz(a, la, b, lb, 0x53);
-		case 0x54: return _mm_cmpestrz(a, la, b, lb, 0x54);
-		case 0x55: return _mm_cmpestrz(a, la, b, lb, 0x55);
-		case 0x56: return _mm_cmpestrz(a, la, b, lb, 0x56);
-		case 0x57: return _mm_cmpestrz(a, la, b, lb, 0x57);
-		case 0x58: return _mm_cmpestrz(a, la, b, lb, 0x58);
-		case 0x59: return _mm_cmpestrz(a, la, b, lb, 0x59);
-		case 0x5A: return _mm_cmpestrz(a, la, b, lb, 0x5A);
-		case 0x5B: return _mm_cmpestrz(a, la, b, lb, 0x5B);
-		case 0x5C: return _mm_cmpestrz(a, la, b, lb, 0x5C);
-		case 0x5D: return _mm_cmpestrz(a, la, b, lb, 0x5D);
-		case 0x5E: return _mm_cmpestrz(a, la, b, lb, 0x5E);
-		case 0x5F: return _mm_cmpestrz(a, la, b, lb, 0x5F);
-		case 0x60: return _mm_cmpestrz(a, la, b, lb, 0x60);
-		case 0x61: return _mm_cmpestrz(a, la, b, lb, 0x61);
-		case 0x62: return _mm_cmpestrz(a, la, b, lb, 0x62);
-		case 0x63: return _mm_cmpestrz(a, la, b, lb, 0x63);
-		case 0x64: return _mm_cmpestrz(a, la, b, lb, 0x64);
-		case 0x65: return _mm_cmpestrz(a, la, b, lb, 0x65);
-		case 0x66: return _mm_cmpestrz(a, la, b, lb, 0x66);
-		case 0x67: return _mm_cmpestrz(a, la, b, lb, 0x67);
-		case 0x68: return _mm_cmpestrz(a, la, b, lb, 0x68);
-		case 0x69: return _mm_cmpestrz(a, la, b, lb, 0x69);
-		case 0x6A: return _mm_cmpestrz(a, la, b, lb, 0x6A);
-		case 0x6B: return _mm_cmpestrz(a, la, b, lb, 0x6B);
-		case 0x6C: return _mm_cmpestrz(a, la, b, lb, 0x6C);
-		case 0x6D: return _mm_cmpestrz(a, la, b, lb, 0x6D);
-		case 0x6E: return _mm_cmpestrz(a, la, b, lb, 0x6E);
-		case 0x6F: return _mm_cmpestrz(a, la, b, lb, 0x6F);
-		case 0x70: return _mm_cmpestrz(a, la, b, lb, 0x70);
-		case 0x71: return _mm_cmpestrz(a, la, b, lb, 0x71);
-		case 0x72: return _mm_cmpestrz(a, la, b, lb, 0x72);
-		case 0x73: return _mm_cmpestrz(a, la, b, lb, 0x73);
-		case 0x74: return _mm_cmpestrz(a, la, b, lb, 0x74);
-		case 0x75: return _mm_cmpestrz(a, la, b, lb, 0x75);
-		case 0x76: return _mm_cmpestrz(a, la, b, lb, 0x76);
-		case 0x77: return _mm_cmpestrz(a, la, b, lb, 0x77);
-		case 0x78: return _mm_cmpestrz(a, la, b, lb, 0x78);
-		case 0x79: return _mm_cmpestrz(a, la, b, lb, 0x79);
-		case 0x7A: return _mm_cmpestrz(a, la, b, lb, 0x7A);
-		case 0x7B: return _mm_cmpestrz(a, la, b, lb, 0x7B);
-		case 0x7C: return _mm_cmpestrz(a, la, b, lb, 0x7C);
-		case 0x7D: return _mm_cmpestrz(a, la, b, lb, 0x7D);
-		case 0x7E: return _mm_cmpestrz(a, la, b, lb, 0x7E);
-		default:   return _mm_cmpestrz(a, la, b, lb, 0x7F);
-	}
-}
-
+namespace cmpestra {
+	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestra(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestra
+bool sse4_2_cmpestra(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestra::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestrc {
+	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrc(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestrc
+bool sse4_2_cmpestrc(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrc::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestri {
+	const unordered_map<int8_t, function<int32_t(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestri
+int32_t sse4_2_cmpestri(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestri::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestrm {
+	const unordered_map<int8_t, function<__m128i(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestrm
+__m128i sse4_2_cmpestrm(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrm::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestro {
+	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestro(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestro
+bool sse4_2_cmpestro(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestro::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestrs {
+	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrs(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestrs
+bool sse4_2_cmpestrs(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrs::map.at(imm8 & 0x7F)(a, la, b, lb); }
+namespace cmpestrz {
+	const unordered_map<int8_t, function<bool(__m128i, int32_t, __m128i, int32_t)>> map{
+		{0x00, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x00); }},
+		{0x01, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x01); }},
+		{0x02, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x02); }},
+		{0x03, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x03); }},
+		{0x04, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x04); }},
+		{0x05, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x05); }},
+		{0x06, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x06); }},
+		{0x07, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x07); }},
+		{0x08, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x08); }},
+		{0x09, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x09); }},
+		{0x0A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0A); }},
+		{0x0B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0B); }},
+		{0x0C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0C); }},
+		{0x0D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0D); }},
+		{0x0E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0E); }},
+		{0x0F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x0F); }},
+		{0x10, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x10); }},
+		{0x11, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x11); }},
+		{0x12, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x12); }},
+		{0x13, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x13); }},
+		{0x14, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x14); }},
+		{0x15, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x15); }},
+		{0x16, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x16); }},
+		{0x17, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x17); }},
+		{0x18, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x18); }},
+		{0x19, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x19); }},
+		{0x1A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1A); }},
+		{0x1B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1B); }},
+		{0x1C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1C); }},
+		{0x1D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1D); }},
+		{0x1E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1E); }},
+		{0x1F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x1F); }},
+		{0x20, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x20); }},
+		{0x21, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x21); }},
+		{0x22, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x22); }},
+		{0x23, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x23); }},
+		{0x24, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x24); }},
+		{0x25, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x25); }},
+		{0x26, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x26); }},
+		{0x27, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x27); }},
+		{0x28, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x28); }},
+		{0x29, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x29); }},
+		{0x2A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2A); }},
+		{0x2B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2B); }},
+		{0x2C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2C); }},
+		{0x2D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2D); }},
+		{0x2E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2E); }},
+		{0x2F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x2F); }},
+		{0x30, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x30); }},
+		{0x31, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x31); }},
+		{0x32, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x32); }},
+		{0x33, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x33); }},
+		{0x34, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x34); }},
+		{0x35, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x35); }},
+		{0x36, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x36); }},
+		{0x37, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x37); }},
+		{0x38, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x38); }},
+		{0x39, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x39); }},
+		{0x3A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3A); }},
+		{0x3B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3B); }},
+		{0x3C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3C); }},
+		{0x3D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3D); }},
+		{0x3E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3E); }},
+		{0x3F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x3F); }},
+		{0x40, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x40); }},
+		{0x41, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x41); }},
+		{0x42, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x42); }},
+		{0x43, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x43); }},
+		{0x44, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x44); }},
+		{0x45, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x45); }},
+		{0x46, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x46); }},
+		{0x47, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x47); }},
+		{0x48, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x48); }},
+		{0x49, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x49); }},
+		{0x4A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4A); }},
+		{0x4B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4B); }},
+		{0x4C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4C); }},
+		{0x4D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4D); }},
+		{0x4E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4E); }},
+		{0x4F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x4F); }},
+		{0x50, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x50); }},
+		{0x51, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x51); }},
+		{0x52, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x52); }},
+		{0x53, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x53); }},
+		{0x54, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x54); }},
+		{0x55, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x55); }},
+		{0x56, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x56); }},
+		{0x57, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x57); }},
+		{0x58, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x58); }},
+		{0x59, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x59); }},
+		{0x5A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5A); }},
+		{0x5B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5B); }},
+		{0x5C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5C); }},
+		{0x5D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5D); }},
+		{0x5E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5E); }},
+		{0x5F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x5F); }},
+		{0x60, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x60); }},
+		{0x61, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x61); }},
+		{0x62, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x62); }},
+		{0x63, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x63); }},
+		{0x64, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x64); }},
+		{0x65, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x65); }},
+		{0x66, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x66); }},
+		{0x67, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x67); }},
+		{0x68, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x68); }},
+		{0x69, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x69); }},
+		{0x6A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6A); }},
+		{0x6B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6B); }},
+		{0x6C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6C); }},
+		{0x6D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6D); }},
+		{0x6E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6E); }},
+		{0x6F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x6F); }},
+		{0x70, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x70); }},
+		{0x71, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x71); }},
+		{0x72, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x72); }},
+		{0x73, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x73); }},
+		{0x74, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x74); }},
+		{0x75, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x75); }},
+		{0x76, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x76); }},
+		{0x77, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x77); }},
+		{0x78, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x78); }},
+		{0x79, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x79); }},
+		{0x7A, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7A); }},
+		{0x7B, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7B); }},
+		{0x7C, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7C); }},
+		{0x7D, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7D); }},
+		{0x7E, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7E); }},
+		{0x7F, [](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrz(a, la, b, lb, 0x7F); }},
+	};
+} // namespace cmpestrz
+bool sse4_2_cmpestrz(__m128i a, int32_t la, __m128i b, int32_t lb, int8_t imm8) { return cmpestrz::map.at(imm8 & 0x7F)(a, la, b, lb); }
 __m128i sse4_2_cmpgt_epi64(__m128i a, __m128i b) { return _mm_cmpgt_epi64(a, b); }
+namespace cmpistra {
+	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistra(a, b, 0x7F); }},
+	};
+} // namespace cmpistra
+bool sse4_2_cmpistra(__m128i a, __m128i b, int8_t imm8) { return cmpistra::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistrc {
+	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrc(a, b, 0x7F); }},
+	};
+} // namespace cmpistrc
+bool sse4_2_cmpistrc(__m128i a, __m128i b, int8_t imm8) { return cmpistrc::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistri {
+	const unordered_map<int8_t, function<int32_t(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x7F); }},
+	};
+} // namespace cmpistri
+int32_t sse4_2_cmpistri(__m128i a, __m128i b, int8_t imm8) { return cmpistri::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistrm {
+	const unordered_map<int8_t, function<__m128i(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x7F); }},
+	};
+} // namespace cmpistrm
+__m128i sse4_2_cmpistrm(__m128i a, __m128i b, int8_t imm8) { return cmpistrm::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistro {
+	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistro(a, b, 0x7F); }},
+	};
+} // namespace cmpistro
+bool sse4_2_cmpistro(__m128i a, __m128i b, int8_t imm8) { return cmpistro::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistrs {
+	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrs(a, b, 0x7F); }},
+	};
+} // namespace cmpistrs
+bool sse4_2_cmpistrs(__m128i a, __m128i b, int8_t imm8) { return cmpistrs::map.at(imm8 & 0x7F)(a, b); }
+namespace cmpistrz {
+	const unordered_map<int8_t, function<bool(__m128i, __m128i)>> map{
+		{0x00, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x00); }},
+		{0x01, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x01); }},
+		{0x02, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x02); }},
+		{0x03, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x03); }},
+		{0x04, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x04); }},
+		{0x05, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x05); }},
+		{0x06, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x06); }},
+		{0x07, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x07); }},
+		{0x08, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x08); }},
+		{0x09, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x09); }},
+		{0x0A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0A); }},
+		{0x0B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0B); }},
+		{0x0C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0C); }},
+		{0x0D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0D); }},
+		{0x0E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0E); }},
+		{0x0F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x0F); }},
+		{0x10, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x10); }},
+		{0x11, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x11); }},
+		{0x12, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x12); }},
+		{0x13, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x13); }},
+		{0x14, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x14); }},
+		{0x15, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x15); }},
+		{0x16, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x16); }},
+		{0x17, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x17); }},
+		{0x18, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x18); }},
+		{0x19, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x19); }},
+		{0x1A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1A); }},
+		{0x1B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1B); }},
+		{0x1C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1C); }},
+		{0x1D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1D); }},
+		{0x1E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1E); }},
+		{0x1F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x1F); }},
+		{0x20, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x20); }},
+		{0x21, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x21); }},
+		{0x22, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x22); }},
+		{0x23, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x23); }},
+		{0x24, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x24); }},
+		{0x25, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x25); }},
+		{0x26, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x26); }},
+		{0x27, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x27); }},
+		{0x28, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x28); }},
+		{0x29, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x29); }},
+		{0x2A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2A); }},
+		{0x2B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2B); }},
+		{0x2C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2C); }},
+		{0x2D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2D); }},
+		{0x2E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2E); }},
+		{0x2F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x2F); }},
+		{0x30, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x30); }},
+		{0x31, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x31); }},
+		{0x32, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x32); }},
+		{0x33, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x33); }},
+		{0x34, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x34); }},
+		{0x35, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x35); }},
+		{0x36, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x36); }},
+		{0x37, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x37); }},
+		{0x38, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x38); }},
+		{0x39, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x39); }},
+		{0x3A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3A); }},
+		{0x3B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3B); }},
+		{0x3C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3C); }},
+		{0x3D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3D); }},
+		{0x3E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3E); }},
+		{0x3F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x3F); }},
+		{0x40, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x40); }},
+		{0x41, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x41); }},
+		{0x42, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x42); }},
+		{0x43, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x43); }},
+		{0x44, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x44); }},
+		{0x45, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x45); }},
+		{0x46, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x46); }},
+		{0x47, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x47); }},
+		{0x48, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x48); }},
+		{0x49, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x49); }},
+		{0x4A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4A); }},
+		{0x4B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4B); }},
+		{0x4C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4C); }},
+		{0x4D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4D); }},
+		{0x4E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4E); }},
+		{0x4F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x4F); }},
+		{0x50, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x50); }},
+		{0x51, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x51); }},
+		{0x52, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x52); }},
+		{0x53, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x53); }},
+		{0x54, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x54); }},
+		{0x55, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x55); }},
+		{0x56, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x56); }},
+		{0x57, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x57); }},
+		{0x58, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x58); }},
+		{0x59, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x59); }},
+		{0x5A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5A); }},
+		{0x5B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5B); }},
+		{0x5C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5C); }},
+		{0x5D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5D); }},
+		{0x5E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5E); }},
+		{0x5F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x5F); }},
+		{0x60, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x60); }},
+		{0x61, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x61); }},
+		{0x62, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x62); }},
+		{0x63, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x63); }},
+		{0x64, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x64); }},
+		{0x65, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x65); }},
+		{0x66, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x66); }},
+		{0x67, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x67); }},
+		{0x68, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x68); }},
+		{0x69, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x69); }},
+		{0x6A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6A); }},
+		{0x6B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6B); }},
+		{0x6C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6C); }},
+		{0x6D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6D); }},
+		{0x6E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6E); }},
+		{0x6F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x6F); }},
+		{0x70, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x70); }},
+		{0x71, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x71); }},
+		{0x72, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x72); }},
+		{0x73, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x73); }},
+		{0x74, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x74); }},
+		{0x75, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x75); }},
+		{0x76, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x76); }},
+		{0x77, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x77); }},
+		{0x78, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x78); }},
+		{0x79, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x79); }},
+		{0x7A, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7A); }},
+		{0x7B, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7B); }},
+		{0x7C, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7C); }},
+		{0x7D, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7D); }},
+		{0x7E, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7E); }},
+		{0x7F, [](__m128i a, __m128i b) { return _mm_cmpistrz(a, b, 0x7F); }},
+	};
+} // namespace cmpistrz
+bool sse4_2_cmpistrz(__m128i a, __m128i b, int8_t imm8) { return cmpistrz::map.at(imm8 & 0x7F)(a, b); }
+uint32_t sse4_2_crc32_u16(uint32_t crc, uint16_t v) { return _mm_crc32_u16(crc, v); }
+uint32_t sse4_2_crc32_u32(uint32_t crc, uint32_t v) { return _mm_crc32_u32(crc, v); }
+uint64_t sse4_2_crc32_u64(uint64_t crc, uint64_t v) { return _mm_crc32_u64(crc, v); }
+uint32_t sse4_2_crc32_u8(uint32_t crc, uint8_t v) { return _mm_crc32_u8(crc, v); }
 
-int sse4_2_cmpistra(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistra(a, b, 0x00);
-		case 0x01: return _mm_cmpistra(a, b, 0x01);
-		case 0x02: return _mm_cmpistra(a, b, 0x02);
-		case 0x03: return _mm_cmpistra(a, b, 0x03);
-		case 0x04: return _mm_cmpistra(a, b, 0x04);
-		case 0x05: return _mm_cmpistra(a, b, 0x05);
-		case 0x06: return _mm_cmpistra(a, b, 0x06);
-		case 0x07: return _mm_cmpistra(a, b, 0x07);
-		case 0x08: return _mm_cmpistra(a, b, 0x08);
-		case 0x09: return _mm_cmpistra(a, b, 0x09);
-		case 0x0A: return _mm_cmpistra(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistra(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistra(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistra(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistra(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistra(a, b, 0x0F);
-		case 0x10: return _mm_cmpistra(a, b, 0x10);
-		case 0x11: return _mm_cmpistra(a, b, 0x11);
-		case 0x12: return _mm_cmpistra(a, b, 0x12);
-		case 0x13: return _mm_cmpistra(a, b, 0x13);
-		case 0x14: return _mm_cmpistra(a, b, 0x14);
-		case 0x15: return _mm_cmpistra(a, b, 0x15);
-		case 0x16: return _mm_cmpistra(a, b, 0x16);
-		case 0x17: return _mm_cmpistra(a, b, 0x17);
-		case 0x18: return _mm_cmpistra(a, b, 0x18);
-		case 0x19: return _mm_cmpistra(a, b, 0x19);
-		case 0x1A: return _mm_cmpistra(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistra(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistra(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistra(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistra(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistra(a, b, 0x1F);
-		case 0x20: return _mm_cmpistra(a, b, 0x20);
-		case 0x21: return _mm_cmpistra(a, b, 0x21);
-		case 0x22: return _mm_cmpistra(a, b, 0x22);
-		case 0x23: return _mm_cmpistra(a, b, 0x23);
-		case 0x24: return _mm_cmpistra(a, b, 0x24);
-		case 0x25: return _mm_cmpistra(a, b, 0x25);
-		case 0x26: return _mm_cmpistra(a, b, 0x26);
-		case 0x27: return _mm_cmpistra(a, b, 0x27);
-		case 0x28: return _mm_cmpistra(a, b, 0x28);
-		case 0x29: return _mm_cmpistra(a, b, 0x29);
-		case 0x2A: return _mm_cmpistra(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistra(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistra(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistra(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistra(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistra(a, b, 0x2F);
-		case 0x30: return _mm_cmpistra(a, b, 0x30);
-		case 0x31: return _mm_cmpistra(a, b, 0x31);
-		case 0x32: return _mm_cmpistra(a, b, 0x32);
-		case 0x33: return _mm_cmpistra(a, b, 0x33);
-		case 0x34: return _mm_cmpistra(a, b, 0x34);
-		case 0x35: return _mm_cmpistra(a, b, 0x35);
-		case 0x36: return _mm_cmpistra(a, b, 0x36);
-		case 0x37: return _mm_cmpistra(a, b, 0x37);
-		case 0x38: return _mm_cmpistra(a, b, 0x38);
-		case 0x39: return _mm_cmpistra(a, b, 0x39);
-		case 0x3A: return _mm_cmpistra(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistra(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistra(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistra(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistra(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistra(a, b, 0x3F);
-		case 0x40: return _mm_cmpistra(a, b, 0x40);
-		case 0x41: return _mm_cmpistra(a, b, 0x41);
-		case 0x42: return _mm_cmpistra(a, b, 0x42);
-		case 0x43: return _mm_cmpistra(a, b, 0x43);
-		case 0x44: return _mm_cmpistra(a, b, 0x44);
-		case 0x45: return _mm_cmpistra(a, b, 0x45);
-		case 0x46: return _mm_cmpistra(a, b, 0x46);
-		case 0x47: return _mm_cmpistra(a, b, 0x47);
-		case 0x48: return _mm_cmpistra(a, b, 0x48);
-		case 0x49: return _mm_cmpistra(a, b, 0x49);
-		case 0x4A: return _mm_cmpistra(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistra(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistra(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistra(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistra(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistra(a, b, 0x4F);
-		case 0x50: return _mm_cmpistra(a, b, 0x50);
-		case 0x51: return _mm_cmpistra(a, b, 0x51);
-		case 0x52: return _mm_cmpistra(a, b, 0x52);
-		case 0x53: return _mm_cmpistra(a, b, 0x53);
-		case 0x54: return _mm_cmpistra(a, b, 0x54);
-		case 0x55: return _mm_cmpistra(a, b, 0x55);
-		case 0x56: return _mm_cmpistra(a, b, 0x56);
-		case 0x57: return _mm_cmpistra(a, b, 0x57);
-		case 0x58: return _mm_cmpistra(a, b, 0x58);
-		case 0x59: return _mm_cmpistra(a, b, 0x59);
-		case 0x5A: return _mm_cmpistra(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistra(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistra(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistra(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistra(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistra(a, b, 0x5F);
-		case 0x60: return _mm_cmpistra(a, b, 0x60);
-		case 0x61: return _mm_cmpistra(a, b, 0x61);
-		case 0x62: return _mm_cmpistra(a, b, 0x62);
-		case 0x63: return _mm_cmpistra(a, b, 0x63);
-		case 0x64: return _mm_cmpistra(a, b, 0x64);
-		case 0x65: return _mm_cmpistra(a, b, 0x65);
-		case 0x66: return _mm_cmpistra(a, b, 0x66);
-		case 0x67: return _mm_cmpistra(a, b, 0x67);
-		case 0x68: return _mm_cmpistra(a, b, 0x68);
-		case 0x69: return _mm_cmpistra(a, b, 0x69);
-		case 0x6A: return _mm_cmpistra(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistra(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistra(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistra(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistra(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistra(a, b, 0x6F);
-		case 0x70: return _mm_cmpistra(a, b, 0x70);
-		case 0x71: return _mm_cmpistra(a, b, 0x71);
-		case 0x72: return _mm_cmpistra(a, b, 0x72);
-		case 0x73: return _mm_cmpistra(a, b, 0x73);
-		case 0x74: return _mm_cmpistra(a, b, 0x74);
-		case 0x75: return _mm_cmpistra(a, b, 0x75);
-		case 0x76: return _mm_cmpistra(a, b, 0x76);
-		case 0x77: return _mm_cmpistra(a, b, 0x77);
-		case 0x78: return _mm_cmpistra(a, b, 0x78);
-		case 0x79: return _mm_cmpistra(a, b, 0x79);
-		case 0x7A: return _mm_cmpistra(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistra(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistra(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistra(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistra(a, b, 0x7E);
-		default:   return _mm_cmpistra(a, b, 0x7F);
-	}
-}
-
-int sse4_2_cmpistrc(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistrc(a, b, 0x00);
-		case 0x01: return _mm_cmpistrc(a, b, 0x01);
-		case 0x02: return _mm_cmpistrc(a, b, 0x02);
-		case 0x03: return _mm_cmpistrc(a, b, 0x03);
-		case 0x04: return _mm_cmpistrc(a, b, 0x04);
-		case 0x05: return _mm_cmpistrc(a, b, 0x05);
-		case 0x06: return _mm_cmpistrc(a, b, 0x06);
-		case 0x07: return _mm_cmpistrc(a, b, 0x07);
-		case 0x08: return _mm_cmpistrc(a, b, 0x08);
-		case 0x09: return _mm_cmpistrc(a, b, 0x09);
-		case 0x0A: return _mm_cmpistrc(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistrc(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistrc(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistrc(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistrc(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistrc(a, b, 0x0F);
-		case 0x10: return _mm_cmpistrc(a, b, 0x10);
-		case 0x11: return _mm_cmpistrc(a, b, 0x11);
-		case 0x12: return _mm_cmpistrc(a, b, 0x12);
-		case 0x13: return _mm_cmpistrc(a, b, 0x13);
-		case 0x14: return _mm_cmpistrc(a, b, 0x14);
-		case 0x15: return _mm_cmpistrc(a, b, 0x15);
-		case 0x16: return _mm_cmpistrc(a, b, 0x16);
-		case 0x17: return _mm_cmpistrc(a, b, 0x17);
-		case 0x18: return _mm_cmpistrc(a, b, 0x18);
-		case 0x19: return _mm_cmpistrc(a, b, 0x19);
-		case 0x1A: return _mm_cmpistrc(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistrc(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistrc(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistrc(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistrc(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistrc(a, b, 0x1F);
-		case 0x20: return _mm_cmpistrc(a, b, 0x20);
-		case 0x21: return _mm_cmpistrc(a, b, 0x21);
-		case 0x22: return _mm_cmpistrc(a, b, 0x22);
-		case 0x23: return _mm_cmpistrc(a, b, 0x23);
-		case 0x24: return _mm_cmpistrc(a, b, 0x24);
-		case 0x25: return _mm_cmpistrc(a, b, 0x25);
-		case 0x26: return _mm_cmpistrc(a, b, 0x26);
-		case 0x27: return _mm_cmpistrc(a, b, 0x27);
-		case 0x28: return _mm_cmpistrc(a, b, 0x28);
-		case 0x29: return _mm_cmpistrc(a, b, 0x29);
-		case 0x2A: return _mm_cmpistrc(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistrc(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistrc(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistrc(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistrc(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistrc(a, b, 0x2F);
-		case 0x30: return _mm_cmpistrc(a, b, 0x30);
-		case 0x31: return _mm_cmpistrc(a, b, 0x31);
-		case 0x32: return _mm_cmpistrc(a, b, 0x32);
-		case 0x33: return _mm_cmpistrc(a, b, 0x33);
-		case 0x34: return _mm_cmpistrc(a, b, 0x34);
-		case 0x35: return _mm_cmpistrc(a, b, 0x35);
-		case 0x36: return _mm_cmpistrc(a, b, 0x36);
-		case 0x37: return _mm_cmpistrc(a, b, 0x37);
-		case 0x38: return _mm_cmpistrc(a, b, 0x38);
-		case 0x39: return _mm_cmpistrc(a, b, 0x39);
-		case 0x3A: return _mm_cmpistrc(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistrc(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistrc(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistrc(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistrc(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistrc(a, b, 0x3F);
-		case 0x40: return _mm_cmpistrc(a, b, 0x40);
-		case 0x41: return _mm_cmpistrc(a, b, 0x41);
-		case 0x42: return _mm_cmpistrc(a, b, 0x42);
-		case 0x43: return _mm_cmpistrc(a, b, 0x43);
-		case 0x44: return _mm_cmpistrc(a, b, 0x44);
-		case 0x45: return _mm_cmpistrc(a, b, 0x45);
-		case 0x46: return _mm_cmpistrc(a, b, 0x46);
-		case 0x47: return _mm_cmpistrc(a, b, 0x47);
-		case 0x48: return _mm_cmpistrc(a, b, 0x48);
-		case 0x49: return _mm_cmpistrc(a, b, 0x49);
-		case 0x4A: return _mm_cmpistrc(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistrc(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistrc(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistrc(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistrc(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistrc(a, b, 0x4F);
-		case 0x50: return _mm_cmpistrc(a, b, 0x50);
-		case 0x51: return _mm_cmpistrc(a, b, 0x51);
-		case 0x52: return _mm_cmpistrc(a, b, 0x52);
-		case 0x53: return _mm_cmpistrc(a, b, 0x53);
-		case 0x54: return _mm_cmpistrc(a, b, 0x54);
-		case 0x55: return _mm_cmpistrc(a, b, 0x55);
-		case 0x56: return _mm_cmpistrc(a, b, 0x56);
-		case 0x57: return _mm_cmpistrc(a, b, 0x57);
-		case 0x58: return _mm_cmpistrc(a, b, 0x58);
-		case 0x59: return _mm_cmpistrc(a, b, 0x59);
-		case 0x5A: return _mm_cmpistrc(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistrc(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistrc(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistrc(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistrc(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistrc(a, b, 0x5F);
-		case 0x60: return _mm_cmpistrc(a, b, 0x60);
-		case 0x61: return _mm_cmpistrc(a, b, 0x61);
-		case 0x62: return _mm_cmpistrc(a, b, 0x62);
-		case 0x63: return _mm_cmpistrc(a, b, 0x63);
-		case 0x64: return _mm_cmpistrc(a, b, 0x64);
-		case 0x65: return _mm_cmpistrc(a, b, 0x65);
-		case 0x66: return _mm_cmpistrc(a, b, 0x66);
-		case 0x67: return _mm_cmpistrc(a, b, 0x67);
-		case 0x68: return _mm_cmpistrc(a, b, 0x68);
-		case 0x69: return _mm_cmpistrc(a, b, 0x69);
-		case 0x6A: return _mm_cmpistrc(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistrc(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistrc(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistrc(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistrc(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistrc(a, b, 0x6F);
-		case 0x70: return _mm_cmpistrc(a, b, 0x70);
-		case 0x71: return _mm_cmpistrc(a, b, 0x71);
-		case 0x72: return _mm_cmpistrc(a, b, 0x72);
-		case 0x73: return _mm_cmpistrc(a, b, 0x73);
-		case 0x74: return _mm_cmpistrc(a, b, 0x74);
-		case 0x75: return _mm_cmpistrc(a, b, 0x75);
-		case 0x76: return _mm_cmpistrc(a, b, 0x76);
-		case 0x77: return _mm_cmpistrc(a, b, 0x77);
-		case 0x78: return _mm_cmpistrc(a, b, 0x78);
-		case 0x79: return _mm_cmpistrc(a, b, 0x79);
-		case 0x7A: return _mm_cmpistrc(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistrc(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistrc(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistrc(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistrc(a, b, 0x7E);
-		default:   return _mm_cmpistrc(a, b, 0x7F);
-	}
-}
-
-int sse4_2_cmpistri(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistri(a, b, 0x00);
-		case 0x01: return _mm_cmpistri(a, b, 0x01);
-		case 0x02: return _mm_cmpistri(a, b, 0x02);
-		case 0x03: return _mm_cmpistri(a, b, 0x03);
-		case 0x04: return _mm_cmpistri(a, b, 0x04);
-		case 0x05: return _mm_cmpistri(a, b, 0x05);
-		case 0x06: return _mm_cmpistri(a, b, 0x06);
-		case 0x07: return _mm_cmpistri(a, b, 0x07);
-		case 0x08: return _mm_cmpistri(a, b, 0x08);
-		case 0x09: return _mm_cmpistri(a, b, 0x09);
-		case 0x0A: return _mm_cmpistri(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistri(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistri(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistri(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistri(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistri(a, b, 0x0F);
-		case 0x10: return _mm_cmpistri(a, b, 0x10);
-		case 0x11: return _mm_cmpistri(a, b, 0x11);
-		case 0x12: return _mm_cmpistri(a, b, 0x12);
-		case 0x13: return _mm_cmpistri(a, b, 0x13);
-		case 0x14: return _mm_cmpistri(a, b, 0x14);
-		case 0x15: return _mm_cmpistri(a, b, 0x15);
-		case 0x16: return _mm_cmpistri(a, b, 0x16);
-		case 0x17: return _mm_cmpistri(a, b, 0x17);
-		case 0x18: return _mm_cmpistri(a, b, 0x18);
-		case 0x19: return _mm_cmpistri(a, b, 0x19);
-		case 0x1A: return _mm_cmpistri(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistri(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistri(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistri(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistri(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistri(a, b, 0x1F);
-		case 0x20: return _mm_cmpistri(a, b, 0x20);
-		case 0x21: return _mm_cmpistri(a, b, 0x21);
-		case 0x22: return _mm_cmpistri(a, b, 0x22);
-		case 0x23: return _mm_cmpistri(a, b, 0x23);
-		case 0x24: return _mm_cmpistri(a, b, 0x24);
-		case 0x25: return _mm_cmpistri(a, b, 0x25);
-		case 0x26: return _mm_cmpistri(a, b, 0x26);
-		case 0x27: return _mm_cmpistri(a, b, 0x27);
-		case 0x28: return _mm_cmpistri(a, b, 0x28);
-		case 0x29: return _mm_cmpistri(a, b, 0x29);
-		case 0x2A: return _mm_cmpistri(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistri(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistri(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistri(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistri(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistri(a, b, 0x2F);
-		case 0x30: return _mm_cmpistri(a, b, 0x30);
-		case 0x31: return _mm_cmpistri(a, b, 0x31);
-		case 0x32: return _mm_cmpistri(a, b, 0x32);
-		case 0x33: return _mm_cmpistri(a, b, 0x33);
-		case 0x34: return _mm_cmpistri(a, b, 0x34);
-		case 0x35: return _mm_cmpistri(a, b, 0x35);
-		case 0x36: return _mm_cmpistri(a, b, 0x36);
-		case 0x37: return _mm_cmpistri(a, b, 0x37);
-		case 0x38: return _mm_cmpistri(a, b, 0x38);
-		case 0x39: return _mm_cmpistri(a, b, 0x39);
-		case 0x3A: return _mm_cmpistri(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistri(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistri(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistri(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistri(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistri(a, b, 0x3F);
-		case 0x40: return _mm_cmpistri(a, b, 0x40);
-		case 0x41: return _mm_cmpistri(a, b, 0x41);
-		case 0x42: return _mm_cmpistri(a, b, 0x42);
-		case 0x43: return _mm_cmpistri(a, b, 0x43);
-		case 0x44: return _mm_cmpistri(a, b, 0x44);
-		case 0x45: return _mm_cmpistri(a, b, 0x45);
-		case 0x46: return _mm_cmpistri(a, b, 0x46);
-		case 0x47: return _mm_cmpistri(a, b, 0x47);
-		case 0x48: return _mm_cmpistri(a, b, 0x48);
-		case 0x49: return _mm_cmpistri(a, b, 0x49);
-		case 0x4A: return _mm_cmpistri(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistri(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistri(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistri(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistri(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistri(a, b, 0x4F);
-		case 0x50: return _mm_cmpistri(a, b, 0x50);
-		case 0x51: return _mm_cmpistri(a, b, 0x51);
-		case 0x52: return _mm_cmpistri(a, b, 0x52);
-		case 0x53: return _mm_cmpistri(a, b, 0x53);
-		case 0x54: return _mm_cmpistri(a, b, 0x54);
-		case 0x55: return _mm_cmpistri(a, b, 0x55);
-		case 0x56: return _mm_cmpistri(a, b, 0x56);
-		case 0x57: return _mm_cmpistri(a, b, 0x57);
-		case 0x58: return _mm_cmpistri(a, b, 0x58);
-		case 0x59: return _mm_cmpistri(a, b, 0x59);
-		case 0x5A: return _mm_cmpistri(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistri(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistri(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistri(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistri(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistri(a, b, 0x5F);
-		case 0x60: return _mm_cmpistri(a, b, 0x60);
-		case 0x61: return _mm_cmpistri(a, b, 0x61);
-		case 0x62: return _mm_cmpistri(a, b, 0x62);
-		case 0x63: return _mm_cmpistri(a, b, 0x63);
-		case 0x64: return _mm_cmpistri(a, b, 0x64);
-		case 0x65: return _mm_cmpistri(a, b, 0x65);
-		case 0x66: return _mm_cmpistri(a, b, 0x66);
-		case 0x67: return _mm_cmpistri(a, b, 0x67);
-		case 0x68: return _mm_cmpistri(a, b, 0x68);
-		case 0x69: return _mm_cmpistri(a, b, 0x69);
-		case 0x6A: return _mm_cmpistri(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistri(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistri(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistri(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistri(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistri(a, b, 0x6F);
-		case 0x70: return _mm_cmpistri(a, b, 0x70);
-		case 0x71: return _mm_cmpistri(a, b, 0x71);
-		case 0x72: return _mm_cmpistri(a, b, 0x72);
-		case 0x73: return _mm_cmpistri(a, b, 0x73);
-		case 0x74: return _mm_cmpistri(a, b, 0x74);
-		case 0x75: return _mm_cmpistri(a, b, 0x75);
-		case 0x76: return _mm_cmpistri(a, b, 0x76);
-		case 0x77: return _mm_cmpistri(a, b, 0x77);
-		case 0x78: return _mm_cmpistri(a, b, 0x78);
-		case 0x79: return _mm_cmpistri(a, b, 0x79);
-		case 0x7A: return _mm_cmpistri(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistri(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistri(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistri(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistri(a, b, 0x7E);
-		default:   return _mm_cmpistri(a, b, 0x7F);
-	}
-}
-
-__m128i sse4_2_cmpistrm(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistrm(a, b, 0x00);
-		case 0x01: return _mm_cmpistrm(a, b, 0x01);
-		case 0x02: return _mm_cmpistrm(a, b, 0x02);
-		case 0x03: return _mm_cmpistrm(a, b, 0x03);
-		case 0x04: return _mm_cmpistrm(a, b, 0x04);
-		case 0x05: return _mm_cmpistrm(a, b, 0x05);
-		case 0x06: return _mm_cmpistrm(a, b, 0x06);
-		case 0x07: return _mm_cmpistrm(a, b, 0x07);
-		case 0x08: return _mm_cmpistrm(a, b, 0x08);
-		case 0x09: return _mm_cmpistrm(a, b, 0x09);
-		case 0x0A: return _mm_cmpistrm(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistrm(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistrm(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistrm(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistrm(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistrm(a, b, 0x0F);
-		case 0x10: return _mm_cmpistrm(a, b, 0x10);
-		case 0x11: return _mm_cmpistrm(a, b, 0x11);
-		case 0x12: return _mm_cmpistrm(a, b, 0x12);
-		case 0x13: return _mm_cmpistrm(a, b, 0x13);
-		case 0x14: return _mm_cmpistrm(a, b, 0x14);
-		case 0x15: return _mm_cmpistrm(a, b, 0x15);
-		case 0x16: return _mm_cmpistrm(a, b, 0x16);
-		case 0x17: return _mm_cmpistrm(a, b, 0x17);
-		case 0x18: return _mm_cmpistrm(a, b, 0x18);
-		case 0x19: return _mm_cmpistrm(a, b, 0x19);
-		case 0x1A: return _mm_cmpistrm(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistrm(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistrm(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistrm(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistrm(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistrm(a, b, 0x1F);
-		case 0x20: return _mm_cmpistrm(a, b, 0x20);
-		case 0x21: return _mm_cmpistrm(a, b, 0x21);
-		case 0x22: return _mm_cmpistrm(a, b, 0x22);
-		case 0x23: return _mm_cmpistrm(a, b, 0x23);
-		case 0x24: return _mm_cmpistrm(a, b, 0x24);
-		case 0x25: return _mm_cmpistrm(a, b, 0x25);
-		case 0x26: return _mm_cmpistrm(a, b, 0x26);
-		case 0x27: return _mm_cmpistrm(a, b, 0x27);
-		case 0x28: return _mm_cmpistrm(a, b, 0x28);
-		case 0x29: return _mm_cmpistrm(a, b, 0x29);
-		case 0x2A: return _mm_cmpistrm(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistrm(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistrm(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistrm(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistrm(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistrm(a, b, 0x2F);
-		case 0x30: return _mm_cmpistrm(a, b, 0x30);
-		case 0x31: return _mm_cmpistrm(a, b, 0x31);
-		case 0x32: return _mm_cmpistrm(a, b, 0x32);
-		case 0x33: return _mm_cmpistrm(a, b, 0x33);
-		case 0x34: return _mm_cmpistrm(a, b, 0x34);
-		case 0x35: return _mm_cmpistrm(a, b, 0x35);
-		case 0x36: return _mm_cmpistrm(a, b, 0x36);
-		case 0x37: return _mm_cmpistrm(a, b, 0x37);
-		case 0x38: return _mm_cmpistrm(a, b, 0x38);
-		case 0x39: return _mm_cmpistrm(a, b, 0x39);
-		case 0x3A: return _mm_cmpistrm(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistrm(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistrm(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistrm(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistrm(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistrm(a, b, 0x3F);
-		case 0x40: return _mm_cmpistrm(a, b, 0x40);
-		case 0x41: return _mm_cmpistrm(a, b, 0x41);
-		case 0x42: return _mm_cmpistrm(a, b, 0x42);
-		case 0x43: return _mm_cmpistrm(a, b, 0x43);
-		case 0x44: return _mm_cmpistrm(a, b, 0x44);
-		case 0x45: return _mm_cmpistrm(a, b, 0x45);
-		case 0x46: return _mm_cmpistrm(a, b, 0x46);
-		case 0x47: return _mm_cmpistrm(a, b, 0x47);
-		case 0x48: return _mm_cmpistrm(a, b, 0x48);
-		case 0x49: return _mm_cmpistrm(a, b, 0x49);
-		case 0x4A: return _mm_cmpistrm(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistrm(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistrm(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistrm(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistrm(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistrm(a, b, 0x4F);
-		case 0x50: return _mm_cmpistrm(a, b, 0x50);
-		case 0x51: return _mm_cmpistrm(a, b, 0x51);
-		case 0x52: return _mm_cmpistrm(a, b, 0x52);
-		case 0x53: return _mm_cmpistrm(a, b, 0x53);
-		case 0x54: return _mm_cmpistrm(a, b, 0x54);
-		case 0x55: return _mm_cmpistrm(a, b, 0x55);
-		case 0x56: return _mm_cmpistrm(a, b, 0x56);
-		case 0x57: return _mm_cmpistrm(a, b, 0x57);
-		case 0x58: return _mm_cmpistrm(a, b, 0x58);
-		case 0x59: return _mm_cmpistrm(a, b, 0x59);
-		case 0x5A: return _mm_cmpistrm(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistrm(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistrm(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistrm(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistrm(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistrm(a, b, 0x5F);
-		case 0x60: return _mm_cmpistrm(a, b, 0x60);
-		case 0x61: return _mm_cmpistrm(a, b, 0x61);
-		case 0x62: return _mm_cmpistrm(a, b, 0x62);
-		case 0x63: return _mm_cmpistrm(a, b, 0x63);
-		case 0x64: return _mm_cmpistrm(a, b, 0x64);
-		case 0x65: return _mm_cmpistrm(a, b, 0x65);
-		case 0x66: return _mm_cmpistrm(a, b, 0x66);
-		case 0x67: return _mm_cmpistrm(a, b, 0x67);
-		case 0x68: return _mm_cmpistrm(a, b, 0x68);
-		case 0x69: return _mm_cmpistrm(a, b, 0x69);
-		case 0x6A: return _mm_cmpistrm(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistrm(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistrm(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistrm(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistrm(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistrm(a, b, 0x6F);
-		case 0x70: return _mm_cmpistrm(a, b, 0x70);
-		case 0x71: return _mm_cmpistrm(a, b, 0x71);
-		case 0x72: return _mm_cmpistrm(a, b, 0x72);
-		case 0x73: return _mm_cmpistrm(a, b, 0x73);
-		case 0x74: return _mm_cmpistrm(a, b, 0x74);
-		case 0x75: return _mm_cmpistrm(a, b, 0x75);
-		case 0x76: return _mm_cmpistrm(a, b, 0x76);
-		case 0x77: return _mm_cmpistrm(a, b, 0x77);
-		case 0x78: return _mm_cmpistrm(a, b, 0x78);
-		case 0x79: return _mm_cmpistrm(a, b, 0x79);
-		case 0x7A: return _mm_cmpistrm(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistrm(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistrm(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistrm(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistrm(a, b, 0x7E);
-		default:   return _mm_cmpistrm(a, b, 0x7F);
-	}
-}
-
-int sse4_2_cmpistro(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistro(a, b, 0x00);
-		case 0x01: return _mm_cmpistro(a, b, 0x01);
-		case 0x02: return _mm_cmpistro(a, b, 0x02);
-		case 0x03: return _mm_cmpistro(a, b, 0x03);
-		case 0x04: return _mm_cmpistro(a, b, 0x04);
-		case 0x05: return _mm_cmpistro(a, b, 0x05);
-		case 0x06: return _mm_cmpistro(a, b, 0x06);
-		case 0x07: return _mm_cmpistro(a, b, 0x07);
-		case 0x08: return _mm_cmpistro(a, b, 0x08);
-		case 0x09: return _mm_cmpistro(a, b, 0x09);
-		case 0x0A: return _mm_cmpistro(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistro(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistro(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistro(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistro(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistro(a, b, 0x0F);
-		case 0x10: return _mm_cmpistro(a, b, 0x10);
-		case 0x11: return _mm_cmpistro(a, b, 0x11);
-		case 0x12: return _mm_cmpistro(a, b, 0x12);
-		case 0x13: return _mm_cmpistro(a, b, 0x13);
-		case 0x14: return _mm_cmpistro(a, b, 0x14);
-		case 0x15: return _mm_cmpistro(a, b, 0x15);
-		case 0x16: return _mm_cmpistro(a, b, 0x16);
-		case 0x17: return _mm_cmpistro(a, b, 0x17);
-		case 0x18: return _mm_cmpistro(a, b, 0x18);
-		case 0x19: return _mm_cmpistro(a, b, 0x19);
-		case 0x1A: return _mm_cmpistro(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistro(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistro(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistro(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistro(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistro(a, b, 0x1F);
-		case 0x20: return _mm_cmpistro(a, b, 0x20);
-		case 0x21: return _mm_cmpistro(a, b, 0x21);
-		case 0x22: return _mm_cmpistro(a, b, 0x22);
-		case 0x23: return _mm_cmpistro(a, b, 0x23);
-		case 0x24: return _mm_cmpistro(a, b, 0x24);
-		case 0x25: return _mm_cmpistro(a, b, 0x25);
-		case 0x26: return _mm_cmpistro(a, b, 0x26);
-		case 0x27: return _mm_cmpistro(a, b, 0x27);
-		case 0x28: return _mm_cmpistro(a, b, 0x28);
-		case 0x29: return _mm_cmpistro(a, b, 0x29);
-		case 0x2A: return _mm_cmpistro(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistro(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistro(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistro(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistro(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistro(a, b, 0x2F);
-		case 0x30: return _mm_cmpistro(a, b, 0x30);
-		case 0x31: return _mm_cmpistro(a, b, 0x31);
-		case 0x32: return _mm_cmpistro(a, b, 0x32);
-		case 0x33: return _mm_cmpistro(a, b, 0x33);
-		case 0x34: return _mm_cmpistro(a, b, 0x34);
-		case 0x35: return _mm_cmpistro(a, b, 0x35);
-		case 0x36: return _mm_cmpistro(a, b, 0x36);
-		case 0x37: return _mm_cmpistro(a, b, 0x37);
-		case 0x38: return _mm_cmpistro(a, b, 0x38);
-		case 0x39: return _mm_cmpistro(a, b, 0x39);
-		case 0x3A: return _mm_cmpistro(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistro(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistro(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistro(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistro(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistro(a, b, 0x3F);
-		case 0x40: return _mm_cmpistro(a, b, 0x40);
-		case 0x41: return _mm_cmpistro(a, b, 0x41);
-		case 0x42: return _mm_cmpistro(a, b, 0x42);
-		case 0x43: return _mm_cmpistro(a, b, 0x43);
-		case 0x44: return _mm_cmpistro(a, b, 0x44);
-		case 0x45: return _mm_cmpistro(a, b, 0x45);
-		case 0x46: return _mm_cmpistro(a, b, 0x46);
-		case 0x47: return _mm_cmpistro(a, b, 0x47);
-		case 0x48: return _mm_cmpistro(a, b, 0x48);
-		case 0x49: return _mm_cmpistro(a, b, 0x49);
-		case 0x4A: return _mm_cmpistro(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistro(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistro(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistro(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistro(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistro(a, b, 0x4F);
-		case 0x50: return _mm_cmpistro(a, b, 0x50);
-		case 0x51: return _mm_cmpistro(a, b, 0x51);
-		case 0x52: return _mm_cmpistro(a, b, 0x52);
-		case 0x53: return _mm_cmpistro(a, b, 0x53);
-		case 0x54: return _mm_cmpistro(a, b, 0x54);
-		case 0x55: return _mm_cmpistro(a, b, 0x55);
-		case 0x56: return _mm_cmpistro(a, b, 0x56);
-		case 0x57: return _mm_cmpistro(a, b, 0x57);
-		case 0x58: return _mm_cmpistro(a, b, 0x58);
-		case 0x59: return _mm_cmpistro(a, b, 0x59);
-		case 0x5A: return _mm_cmpistro(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistro(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistro(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistro(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistro(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistro(a, b, 0x5F);
-		case 0x60: return _mm_cmpistro(a, b, 0x60);
-		case 0x61: return _mm_cmpistro(a, b, 0x61);
-		case 0x62: return _mm_cmpistro(a, b, 0x62);
-		case 0x63: return _mm_cmpistro(a, b, 0x63);
-		case 0x64: return _mm_cmpistro(a, b, 0x64);
-		case 0x65: return _mm_cmpistro(a, b, 0x65);
-		case 0x66: return _mm_cmpistro(a, b, 0x66);
-		case 0x67: return _mm_cmpistro(a, b, 0x67);
-		case 0x68: return _mm_cmpistro(a, b, 0x68);
-		case 0x69: return _mm_cmpistro(a, b, 0x69);
-		case 0x6A: return _mm_cmpistro(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistro(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistro(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistro(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistro(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistro(a, b, 0x6F);
-		case 0x70: return _mm_cmpistro(a, b, 0x70);
-		case 0x71: return _mm_cmpistro(a, b, 0x71);
-		case 0x72: return _mm_cmpistro(a, b, 0x72);
-		case 0x73: return _mm_cmpistro(a, b, 0x73);
-		case 0x74: return _mm_cmpistro(a, b, 0x74);
-		case 0x75: return _mm_cmpistro(a, b, 0x75);
-		case 0x76: return _mm_cmpistro(a, b, 0x76);
-		case 0x77: return _mm_cmpistro(a, b, 0x77);
-		case 0x78: return _mm_cmpistro(a, b, 0x78);
-		case 0x79: return _mm_cmpistro(a, b, 0x79);
-		case 0x7A: return _mm_cmpistro(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistro(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistro(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistro(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistro(a, b, 0x7E);
-		default:   return _mm_cmpistro(a, b, 0x7F);
-	}
-}
-
-int sse4_2_cmpistrs(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistrs(a, b, 0x00);
-		case 0x01: return _mm_cmpistrs(a, b, 0x01);
-		case 0x02: return _mm_cmpistrs(a, b, 0x02);
-		case 0x03: return _mm_cmpistrs(a, b, 0x03);
-		case 0x04: return _mm_cmpistrs(a, b, 0x04);
-		case 0x05: return _mm_cmpistrs(a, b, 0x05);
-		case 0x06: return _mm_cmpistrs(a, b, 0x06);
-		case 0x07: return _mm_cmpistrs(a, b, 0x07);
-		case 0x08: return _mm_cmpistrs(a, b, 0x08);
-		case 0x09: return _mm_cmpistrs(a, b, 0x09);
-		case 0x0A: return _mm_cmpistrs(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistrs(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistrs(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistrs(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistrs(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistrs(a, b, 0x0F);
-		case 0x10: return _mm_cmpistrs(a, b, 0x10);
-		case 0x11: return _mm_cmpistrs(a, b, 0x11);
-		case 0x12: return _mm_cmpistrs(a, b, 0x12);
-		case 0x13: return _mm_cmpistrs(a, b, 0x13);
-		case 0x14: return _mm_cmpistrs(a, b, 0x14);
-		case 0x15: return _mm_cmpistrs(a, b, 0x15);
-		case 0x16: return _mm_cmpistrs(a, b, 0x16);
-		case 0x17: return _mm_cmpistrs(a, b, 0x17);
-		case 0x18: return _mm_cmpistrs(a, b, 0x18);
-		case 0x19: return _mm_cmpistrs(a, b, 0x19);
-		case 0x1A: return _mm_cmpistrs(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistrs(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistrs(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistrs(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistrs(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistrs(a, b, 0x1F);
-		case 0x20: return _mm_cmpistrs(a, b, 0x20);
-		case 0x21: return _mm_cmpistrs(a, b, 0x21);
-		case 0x22: return _mm_cmpistrs(a, b, 0x22);
-		case 0x23: return _mm_cmpistrs(a, b, 0x23);
-		case 0x24: return _mm_cmpistrs(a, b, 0x24);
-		case 0x25: return _mm_cmpistrs(a, b, 0x25);
-		case 0x26: return _mm_cmpistrs(a, b, 0x26);
-		case 0x27: return _mm_cmpistrs(a, b, 0x27);
-		case 0x28: return _mm_cmpistrs(a, b, 0x28);
-		case 0x29: return _mm_cmpistrs(a, b, 0x29);
-		case 0x2A: return _mm_cmpistrs(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistrs(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistrs(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistrs(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistrs(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistrs(a, b, 0x2F);
-		case 0x30: return _mm_cmpistrs(a, b, 0x30);
-		case 0x31: return _mm_cmpistrs(a, b, 0x31);
-		case 0x32: return _mm_cmpistrs(a, b, 0x32);
-		case 0x33: return _mm_cmpistrs(a, b, 0x33);
-		case 0x34: return _mm_cmpistrs(a, b, 0x34);
-		case 0x35: return _mm_cmpistrs(a, b, 0x35);
-		case 0x36: return _mm_cmpistrs(a, b, 0x36);
-		case 0x37: return _mm_cmpistrs(a, b, 0x37);
-		case 0x38: return _mm_cmpistrs(a, b, 0x38);
-		case 0x39: return _mm_cmpistrs(a, b, 0x39);
-		case 0x3A: return _mm_cmpistrs(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistrs(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistrs(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistrs(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistrs(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistrs(a, b, 0x3F);
-		case 0x40: return _mm_cmpistrs(a, b, 0x40);
-		case 0x41: return _mm_cmpistrs(a, b, 0x41);
-		case 0x42: return _mm_cmpistrs(a, b, 0x42);
-		case 0x43: return _mm_cmpistrs(a, b, 0x43);
-		case 0x44: return _mm_cmpistrs(a, b, 0x44);
-		case 0x45: return _mm_cmpistrs(a, b, 0x45);
-		case 0x46: return _mm_cmpistrs(a, b, 0x46);
-		case 0x47: return _mm_cmpistrs(a, b, 0x47);
-		case 0x48: return _mm_cmpistrs(a, b, 0x48);
-		case 0x49: return _mm_cmpistrs(a, b, 0x49);
-		case 0x4A: return _mm_cmpistrs(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistrs(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistrs(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistrs(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistrs(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistrs(a, b, 0x4F);
-		case 0x50: return _mm_cmpistrs(a, b, 0x50);
-		case 0x51: return _mm_cmpistrs(a, b, 0x51);
-		case 0x52: return _mm_cmpistrs(a, b, 0x52);
-		case 0x53: return _mm_cmpistrs(a, b, 0x53);
-		case 0x54: return _mm_cmpistrs(a, b, 0x54);
-		case 0x55: return _mm_cmpistrs(a, b, 0x55);
-		case 0x56: return _mm_cmpistrs(a, b, 0x56);
-		case 0x57: return _mm_cmpistrs(a, b, 0x57);
-		case 0x58: return _mm_cmpistrs(a, b, 0x58);
-		case 0x59: return _mm_cmpistrs(a, b, 0x59);
-		case 0x5A: return _mm_cmpistrs(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistrs(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistrs(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistrs(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistrs(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistrs(a, b, 0x5F);
-		case 0x60: return _mm_cmpistrs(a, b, 0x60);
-		case 0x61: return _mm_cmpistrs(a, b, 0x61);
-		case 0x62: return _mm_cmpistrs(a, b, 0x62);
-		case 0x63: return _mm_cmpistrs(a, b, 0x63);
-		case 0x64: return _mm_cmpistrs(a, b, 0x64);
-		case 0x65: return _mm_cmpistrs(a, b, 0x65);
-		case 0x66: return _mm_cmpistrs(a, b, 0x66);
-		case 0x67: return _mm_cmpistrs(a, b, 0x67);
-		case 0x68: return _mm_cmpistrs(a, b, 0x68);
-		case 0x69: return _mm_cmpistrs(a, b, 0x69);
-		case 0x6A: return _mm_cmpistrs(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistrs(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistrs(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistrs(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistrs(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistrs(a, b, 0x6F);
-		case 0x70: return _mm_cmpistrs(a, b, 0x70);
-		case 0x71: return _mm_cmpistrs(a, b, 0x71);
-		case 0x72: return _mm_cmpistrs(a, b, 0x72);
-		case 0x73: return _mm_cmpistrs(a, b, 0x73);
-		case 0x74: return _mm_cmpistrs(a, b, 0x74);
-		case 0x75: return _mm_cmpistrs(a, b, 0x75);
-		case 0x76: return _mm_cmpistrs(a, b, 0x76);
-		case 0x77: return _mm_cmpistrs(a, b, 0x77);
-		case 0x78: return _mm_cmpistrs(a, b, 0x78);
-		case 0x79: return _mm_cmpistrs(a, b, 0x79);
-		case 0x7A: return _mm_cmpistrs(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistrs(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistrs(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistrs(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistrs(a, b, 0x7E);
-		default:   return _mm_cmpistrs(a, b, 0x7F);
-	}
-}
-
-int sse4_2_cmpistrz(__m128i a, __m128i b, const int imm8) {
-	switch (imm8 & 0x7F) {
-		case 0x00: return _mm_cmpistrz(a, b, 0x00);
-		case 0x01: return _mm_cmpistrz(a, b, 0x01);
-		case 0x02: return _mm_cmpistrz(a, b, 0x02);
-		case 0x03: return _mm_cmpistrz(a, b, 0x03);
-		case 0x04: return _mm_cmpistrz(a, b, 0x04);
-		case 0x05: return _mm_cmpistrz(a, b, 0x05);
-		case 0x06: return _mm_cmpistrz(a, b, 0x06);
-		case 0x07: return _mm_cmpistrz(a, b, 0x07);
-		case 0x08: return _mm_cmpistrz(a, b, 0x08);
-		case 0x09: return _mm_cmpistrz(a, b, 0x09);
-		case 0x0A: return _mm_cmpistrz(a, b, 0x0A);
-		case 0x0B: return _mm_cmpistrz(a, b, 0x0B);
-		case 0x0C: return _mm_cmpistrz(a, b, 0x0C);
-		case 0x0D: return _mm_cmpistrz(a, b, 0x0D);
-		case 0x0E: return _mm_cmpistrz(a, b, 0x0E);
-		case 0x0F: return _mm_cmpistrz(a, b, 0x0F);
-		case 0x10: return _mm_cmpistrz(a, b, 0x10);
-		case 0x11: return _mm_cmpistrz(a, b, 0x11);
-		case 0x12: return _mm_cmpistrz(a, b, 0x12);
-		case 0x13: return _mm_cmpistrz(a, b, 0x13);
-		case 0x14: return _mm_cmpistrz(a, b, 0x14);
-		case 0x15: return _mm_cmpistrz(a, b, 0x15);
-		case 0x16: return _mm_cmpistrz(a, b, 0x16);
-		case 0x17: return _mm_cmpistrz(a, b, 0x17);
-		case 0x18: return _mm_cmpistrz(a, b, 0x18);
-		case 0x19: return _mm_cmpistrz(a, b, 0x19);
-		case 0x1A: return _mm_cmpistrz(a, b, 0x1A);
-		case 0x1B: return _mm_cmpistrz(a, b, 0x1B);
-		case 0x1C: return _mm_cmpistrz(a, b, 0x1C);
-		case 0x1D: return _mm_cmpistrz(a, b, 0x1D);
-		case 0x1E: return _mm_cmpistrz(a, b, 0x1E);
-		case 0x1F: return _mm_cmpistrz(a, b, 0x1F);
-		case 0x20: return _mm_cmpistrz(a, b, 0x20);
-		case 0x21: return _mm_cmpistrz(a, b, 0x21);
-		case 0x22: return _mm_cmpistrz(a, b, 0x22);
-		case 0x23: return _mm_cmpistrz(a, b, 0x23);
-		case 0x24: return _mm_cmpistrz(a, b, 0x24);
-		case 0x25: return _mm_cmpistrz(a, b, 0x25);
-		case 0x26: return _mm_cmpistrz(a, b, 0x26);
-		case 0x27: return _mm_cmpistrz(a, b, 0x27);
-		case 0x28: return _mm_cmpistrz(a, b, 0x28);
-		case 0x29: return _mm_cmpistrz(a, b, 0x29);
-		case 0x2A: return _mm_cmpistrz(a, b, 0x2A);
-		case 0x2B: return _mm_cmpistrz(a, b, 0x2B);
-		case 0x2C: return _mm_cmpistrz(a, b, 0x2C);
-		case 0x2D: return _mm_cmpistrz(a, b, 0x2D);
-		case 0x2E: return _mm_cmpistrz(a, b, 0x2E);
-		case 0x2F: return _mm_cmpistrz(a, b, 0x2F);
-		case 0x30: return _mm_cmpistrz(a, b, 0x30);
-		case 0x31: return _mm_cmpistrz(a, b, 0x31);
-		case 0x32: return _mm_cmpistrz(a, b, 0x32);
-		case 0x33: return _mm_cmpistrz(a, b, 0x33);
-		case 0x34: return _mm_cmpistrz(a, b, 0x34);
-		case 0x35: return _mm_cmpistrz(a, b, 0x35);
-		case 0x36: return _mm_cmpistrz(a, b, 0x36);
-		case 0x37: return _mm_cmpistrz(a, b, 0x37);
-		case 0x38: return _mm_cmpistrz(a, b, 0x38);
-		case 0x39: return _mm_cmpistrz(a, b, 0x39);
-		case 0x3A: return _mm_cmpistrz(a, b, 0x3A);
-		case 0x3B: return _mm_cmpistrz(a, b, 0x3B);
-		case 0x3C: return _mm_cmpistrz(a, b, 0x3C);
-		case 0x3D: return _mm_cmpistrz(a, b, 0x3D);
-		case 0x3E: return _mm_cmpistrz(a, b, 0x3E);
-		case 0x3F: return _mm_cmpistrz(a, b, 0x3F);
-		case 0x40: return _mm_cmpistrz(a, b, 0x40);
-		case 0x41: return _mm_cmpistrz(a, b, 0x41);
-		case 0x42: return _mm_cmpistrz(a, b, 0x42);
-		case 0x43: return _mm_cmpistrz(a, b, 0x43);
-		case 0x44: return _mm_cmpistrz(a, b, 0x44);
-		case 0x45: return _mm_cmpistrz(a, b, 0x45);
-		case 0x46: return _mm_cmpistrz(a, b, 0x46);
-		case 0x47: return _mm_cmpistrz(a, b, 0x47);
-		case 0x48: return _mm_cmpistrz(a, b, 0x48);
-		case 0x49: return _mm_cmpistrz(a, b, 0x49);
-		case 0x4A: return _mm_cmpistrz(a, b, 0x4A);
-		case 0x4B: return _mm_cmpistrz(a, b, 0x4B);
-		case 0x4C: return _mm_cmpistrz(a, b, 0x4C);
-		case 0x4D: return _mm_cmpistrz(a, b, 0x4D);
-		case 0x4E: return _mm_cmpistrz(a, b, 0x4E);
-		case 0x4F: return _mm_cmpistrz(a, b, 0x4F);
-		case 0x50: return _mm_cmpistrz(a, b, 0x50);
-		case 0x51: return _mm_cmpistrz(a, b, 0x51);
-		case 0x52: return _mm_cmpistrz(a, b, 0x52);
-		case 0x53: return _mm_cmpistrz(a, b, 0x53);
-		case 0x54: return _mm_cmpistrz(a, b, 0x54);
-		case 0x55: return _mm_cmpistrz(a, b, 0x55);
-		case 0x56: return _mm_cmpistrz(a, b, 0x56);
-		case 0x57: return _mm_cmpistrz(a, b, 0x57);
-		case 0x58: return _mm_cmpistrz(a, b, 0x58);
-		case 0x59: return _mm_cmpistrz(a, b, 0x59);
-		case 0x5A: return _mm_cmpistrz(a, b, 0x5A);
-		case 0x5B: return _mm_cmpistrz(a, b, 0x5B);
-		case 0x5C: return _mm_cmpistrz(a, b, 0x5C);
-		case 0x5D: return _mm_cmpistrz(a, b, 0x5D);
-		case 0x5E: return _mm_cmpistrz(a, b, 0x5E);
-		case 0x5F: return _mm_cmpistrz(a, b, 0x5F);
-		case 0x60: return _mm_cmpistrz(a, b, 0x60);
-		case 0x61: return _mm_cmpistrz(a, b, 0x61);
-		case 0x62: return _mm_cmpistrz(a, b, 0x62);
-		case 0x63: return _mm_cmpistrz(a, b, 0x63);
-		case 0x64: return _mm_cmpistrz(a, b, 0x64);
-		case 0x65: return _mm_cmpistrz(a, b, 0x65);
-		case 0x66: return _mm_cmpistrz(a, b, 0x66);
-		case 0x67: return _mm_cmpistrz(a, b, 0x67);
-		case 0x68: return _mm_cmpistrz(a, b, 0x68);
-		case 0x69: return _mm_cmpistrz(a, b, 0x69);
-		case 0x6A: return _mm_cmpistrz(a, b, 0x6A);
-		case 0x6B: return _mm_cmpistrz(a, b, 0x6B);
-		case 0x6C: return _mm_cmpistrz(a, b, 0x6C);
-		case 0x6D: return _mm_cmpistrz(a, b, 0x6D);
-		case 0x6E: return _mm_cmpistrz(a, b, 0x6E);
-		case 0x6F: return _mm_cmpistrz(a, b, 0x6F);
-		case 0x70: return _mm_cmpistrz(a, b, 0x70);
-		case 0x71: return _mm_cmpistrz(a, b, 0x71);
-		case 0x72: return _mm_cmpistrz(a, b, 0x72);
-		case 0x73: return _mm_cmpistrz(a, b, 0x73);
-		case 0x74: return _mm_cmpistrz(a, b, 0x74);
-		case 0x75: return _mm_cmpistrz(a, b, 0x75);
-		case 0x76: return _mm_cmpistrz(a, b, 0x76);
-		case 0x77: return _mm_cmpistrz(a, b, 0x77);
-		case 0x78: return _mm_cmpistrz(a, b, 0x78);
-		case 0x79: return _mm_cmpistrz(a, b, 0x79);
-		case 0x7A: return _mm_cmpistrz(a, b, 0x7A);
-		case 0x7B: return _mm_cmpistrz(a, b, 0x7B);
-		case 0x7C: return _mm_cmpistrz(a, b, 0x7C);
-		case 0x7D: return _mm_cmpistrz(a, b, 0x7D);
-		case 0x7E: return _mm_cmpistrz(a, b, 0x7E);
-		default:   return _mm_cmpistrz(a, b, 0x7F);
-	}
-}
-
-unsigned int sse4_2_crc32_u16(unsigned int crc, unsigned short v) { return _mm_crc32_u16(crc, v); }
-
-unsigned int sse4_2_crc32_u32(unsigned int crc, unsigned int v) { return _mm_crc32_u32(crc, v); }
-
-unsigned long long sse4_2_crc32_u64(unsigned long long crc, unsigned long long v) { return _mm_crc32_u64(crc, v); }
-
-unsigned int sse4_2_crc32_u8(unsigned int crc, unsigned char v) { return _mm_crc32_u8(crc, v); }
+#pragma GCC diagnostic pop
