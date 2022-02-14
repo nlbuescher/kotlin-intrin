@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         config:
-          - { os: ubuntu-latest, shell: bash }
+       #   - { os: ubuntu-latest, shell: bash }
           - { os: windows-latest, shell: 'msys2 {0}' }
     defaults:
       run:
@@ -33,7 +33,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: 'Build kotlin-intrin'
-        run: ./gradlew build --stacktrace
+        run: ./gradlew check --stacktrace
 
       - name: 'Publish kotlin-intrin'
         run: ./gradlew publish --stacktrace
