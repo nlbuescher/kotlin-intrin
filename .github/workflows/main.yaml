@@ -9,15 +9,13 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        config:
-       #   - { os: ubuntu-latest, shell: bash }
-          - { os: windows-latest, shell: 'msys2 {0}' }
+        os: [ windows-latest ]
     defaults:
       run:
-        shell: ${{ matrix.config.os }}
+        shell: msys2 {0}
     steps:
       - name: 'Setup Clang MinGW'
         if: runner.os == 'Windows'
