@@ -13,21 +13,26 @@ jobs:
     strategy:
       matrix:
         os: [ ubunutu-latest, windows-latest ]
+        shell: [ bash, 'msys2 {0}' ]
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
     steps:
-      - name: 'Install Clang'
-        run: choco install llvm
-        if: matrix.os == 'windows-latest'
+      - name: 'Setup Clang MinGW'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          install: mingw-w64-x86_64-clang
 
       - name: 'Clone Repo'
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+
+      - name: 'Setup Gradle'
+        uses: gradle/gradle-build-action@v2
 
       - name: 'Build kotlin-intrin'
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: 'build --stacktrace'
+        run: ./gradlew build --stacktrace
 
       - name: 'Publish kotlin-intrin'
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: 'publish --stacktrace'
+        run: ./gradlew publish --stacktrace
         if: startsWith(github.ref, 'refs/tags/')
