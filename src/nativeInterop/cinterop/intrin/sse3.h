@@ -7,15 +7,15 @@
 extern const bool SSE3;
 
 #ifndef __m128
-typedef float __m128 __attribute__((__vector_size__(16), __may_alias__));
+typedef float __m128 __attribute__((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128d
-typedef double __m128d __attribute((__vector_size__(16), __may_alias__));
+typedef double __m128d __attribute((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128i
-typedef long long __m128i __attribute((__vector_size__(16), __may_alias__));
+typedef long long __m128i __attribute((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifdef __cplusplus

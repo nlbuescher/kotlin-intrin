@@ -12,8 +12,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubunutu-latest, macos-latest, windows-latest ]
+        os: [ ubunutu-latest, windows-latest ]
     steps:
+      - name: 'Install Clang'
+        run: choco install llvm
+        if: matrix.os == 'windows-latest'
+
       - name: 'Clone Repo'
         uses: actions/checkout@v1
 

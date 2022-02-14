@@ -23,23 +23,6 @@ val intrinNames = listOf("sse", "sse2", "sse3", "ssse3", "sse4.1", "sse4.2")
 
 //region: C++
 
-val konanDeps = file(System.getProperty("user.home")).resolve(".konan/dependencies")
-
-val binDir = when {
-	host.isLinux -> konanDeps.resolve("x86_64-unknown-linux-gnu-gcc-8.3.0-glibc-2.19-kernel-4.9-2/bin")
-	else -> error("unknown host '${host.name}'")
-}
-
-val gpp = when {
-	host.isLinux -> binDir.resolve("x86_64-unknown-linux-gnu-g++")
-	else -> error("unknown host '${host.name}'")
-}
-
-val ar = when {
-	host.isLinux -> binDir.resolve("x86_64-unknown-linux-gnu-ar")
-	else -> error("unknown host '${host.name}'")
-}
-
 val srcDir = projectDir.resolve("src/nativeInterop/cinterop/intrin")
 val outDir = buildDir.resolve("intrin")
 
@@ -50,8 +33,8 @@ val compileTasks = intrinNames.map { name ->
 		inputs.files(srcDir.listFiles { _, filename -> filename.startsWith(name) })
 		outputs.file(outDir.resolve("$name.o"))
 
-		executable(gpp)
-		args("-std=c++17", "-O3", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
+		executable("clang++")
+		args("-std=c++20", "-O3", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
 	}
 }
 
@@ -65,8 +48,8 @@ val compileIntrin by tasks.registering(Exec::class) {
 	inputs.file(srcDir.resolve("intrin.cpp"))
 	outputs.file(outDir.resolve("intrin.o"))
 
-	executable(gpp)
-	args("-std=c++17", "-O3", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
+	executable("clang++")
+	args("-std=c++20", "-O3", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
 }
 
 val assembleIntrin by tasks.registering(Exec::class) {
@@ -80,7 +63,7 @@ val assembleIntrin by tasks.registering(Exec::class) {
 	inputs.files(compileIntrin.get().outputs.files)
 	outputs.file(outDir.resolve("libintrin.a"))
 
-	executable(ar)
+	executable("llvm-ar")
 	args("-rcs", outDir.resolve("libintrin.a"), outDir.resolve("intrin.o"))
 	args(intrinNames.map { outDir.resolve("$it.o") })
 }
@@ -211,3 +194,5 @@ publishing {
 }
 
 //endregion: PUBLISHING
+
+// TODO disable compile tasks for other platforms

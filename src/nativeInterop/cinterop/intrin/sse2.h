@@ -7,15 +7,15 @@
 extern const bool SSE2;
 
 #ifndef __m128
-typedef float __m128 __attribute__((__vector_size__(16), __may_alias__));
+typedef float __m128 __attribute__((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128d
-typedef double __m128d __attribute__((__vector_size__(16), __may_alias__));
+typedef double __m128d __attribute__((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128i
-typedef long long __m128i __attribute__((__vector_size__(16), __may_alias__));
+typedef long long __m128i __attribute__((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifdef __cplusplus
@@ -38,8 +38,8 @@ __m128d sse2_andnot_pd(__m128d a, __m128d b);
 __m128i sse2_andnot_si128(__m128i a, __m128i b);
 __m128i sse2_avg_epu16(__m128i a, __m128i b);
 __m128i sse2_avg_epu8(__m128i a, __m128i b);
-__m128i sse2_bslli_si128(__m128i a, int32_t imm8);
-__m128i sse2_bsrli_si128(__m128i a, int32_t imm8);
+__m128i sse2_bslli_si128(__m128i a, uint8_t imm8);
+__m128i sse2_bsrli_si128(__m128i a, uint8_t imm8);
 __m128 sse2_castpd_ps(__m128d a);
 __m128i sse2_castpd_si128(__m128d a);
 __m128d sse2_castps_pd(__m128 a);
@@ -95,27 +95,22 @@ __m128d sse2_cvtps_pd(__m128 a);
 double sse2_cvtsd_f64(__m128d a);
 int32_t sse2_cvtsd_si32(__m128d a);
 int64_t sse2_cvtsd_si64(__m128d a);
-int64_t sse2_cvtsd_si64x(__m128d a);
 __m128 sse2_cvtsd_ss(__m128 a, __m128d b);
 int32_t sse2_cvtsi128_si32(__m128i a);
 int64_t sse2_cvtsi128_si64(__m128i a);
-int64_t sse2_cvtsi128_si64x(__m128i a);
 __m128d sse2_cvtsi32_sd(__m128d a, int32_t b);
 __m128i sse2_cvtsi32_si128(int32_t a);
 __m128d sse2_cvtsi64_sd(__m128d a, int64_t b);
 __m128i sse2_cvtsi64_si128(int64_t a);
-__m128d sse2_cvtsi64x_sd(__m128d a, int64_t b);
-__m128i sse2_cvtsi64x_si128(int64_t a);
 __m128d sse2_cvtss_sd(__m128d a, __m128 b);
 __m128i sse2_cvttpd_epi32(__m128d a);
 __m128i sse2_cvttps_epi32(__m128 a);
 int32_t sse2_cvttsd_si32(__m128d a);
 int64_t sse2_cvttsd_si64(__m128d a);
-int64_t sse2_cvttsd_si64x(__m128d a);
 __m128d sse2_div_pd(__m128d a, __m128d b);
 __m128d sse2_div_sd(__m128d a, __m128d b);
-int16_t sse2_extract_epi16(__m128i a, int32_t imm8);
-__m128i sse2_insert_epi16(__m128i a, int16_t i, int32_t imm8);
+int16_t sse2_extract_epi16(__m128i a, uint8_t imm8);
+__m128i sse2_insert_epi16(__m128i a, int16_t i, uint8_t imm8);
 void sse2_lfence(void);
 __m128d sse2_load_pd(const double* mem_addr);
 __m128d sse2_load_pd1(const double* mem_addr);
@@ -174,30 +169,30 @@ __m128i sse2_setr_epi8(int8_t e15, int8_t e14, int8_t e13, int8_t e12, int8_t e1
 __m128d sse2_setr_pd(double e1, double e0);
 __m128d sse2_setzero_pd(void);
 __m128i sse2_setzero_si128();
-__m128i sse2_shuffle_epi32(__m128i a, int32_t imm8);
-__m128d sse2_shuffle_pd(__m128d a, __m128d b, int32_t imm8);
-__m128i sse2_shufflehi_epi16(__m128i a, int32_t imm8);
-__m128i sse2_shufflelo_epi16(__m128i a, int32_t imm8);
+__m128i sse2_shuffle_epi32(__m128i a, uint8_t imm8);
+__m128d sse2_shuffle_pd(__m128d a, __m128d b, uint8_t imm8);
+__m128i sse2_shufflehi_epi16(__m128i a, uint8_t imm8);
+__m128i sse2_shufflelo_epi16(__m128i a, uint8_t imm8);
 __m128i sse2_sll_epi16(__m128i a, __m128i count);
 __m128i sse2_sll_epi32(__m128i a, __m128i count);
 __m128i sse2_sll_epi64(__m128i a, __m128i count);
-__m128i sse2_slli_epi16(__m128i a, int32_t imm8);
-__m128i sse2_slli_epi32(__m128i a, int32_t imm8);
-__m128i sse2_slli_epi64(__m128i a, int32_t imm8);
-__m128i sse2_slli_si128(__m128i a, int32_t imm8);
+__m128i sse2_slli_epi16(__m128i a, uint8_t imm8);
+__m128i sse2_slli_epi32(__m128i a, uint8_t imm8);
+__m128i sse2_slli_epi64(__m128i a, uint8_t imm8);
+__m128i sse2_slli_si128(__m128i a, uint8_t imm8);
 __m128d sse2_sqrt_pd(__m128d a);
 __m128d sse2_sqrt_sd(__m128d a, __m128d b);
 __m128i sse2_sra_epi16(__m128i a, __m128i count);
 __m128i sse2_sra_epi32(__m128i a, __m128i count);
-__m128i sse2_srai_epi16(__m128i a, int32_t imm8);
-__m128i sse2_srai_epi32(__m128i a, int32_t imm8);
+__m128i sse2_srai_epi16(__m128i a, uint8_t imm8);
+__m128i sse2_srai_epi32(__m128i a, uint8_t imm8);
 __m128i sse2_srl_epi16(__m128i a, __m128i count);
 __m128i sse2_srl_epi32(__m128i a, __m128i count);
 __m128i sse2_srl_epi64(__m128i a, __m128i count);
-__m128i sse2_srli_epi16(__m128i a, int32_t imm8);
-__m128i sse2_srli_epi32(__m128i a, int32_t imm8);
-__m128i sse2_srli_epi64(__m128i a, int32_t imm8);
-__m128i sse2_srli_si128(__m128i a, int32_t imm8);
+__m128i sse2_srli_epi16(__m128i a, uint8_t imm8);
+__m128i sse2_srli_epi32(__m128i a, uint8_t imm8);
+__m128i sse2_srli_epi64(__m128i a, uint8_t imm8);
+__m128i sse2_srli_si128(__m128i a, uint8_t imm8);
 void sse2_store_pd(double* mem_addr, __m128d a);
 void sse2_store_pd1(double* mem_addr, __m128d a);
 void sse2_store_sd(double* mem_addr, __m128d a);

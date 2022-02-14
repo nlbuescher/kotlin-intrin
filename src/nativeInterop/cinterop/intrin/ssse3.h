@@ -7,15 +7,15 @@
 extern const bool SSSE3;
 
 #ifndef __m128
-typedef float __m128 __attribute__((__vector_size__(16), __may_alias__));
+typedef float __m128 __attribute__((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128d
-typedef double __m128d __attribute((__vector_size__(16), __may_alias__));
+typedef double __m128d __attribute((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifndef __m128i
-typedef long long __m128i __attribute((__vector_size__(16), __may_alias__));
+typedef long long __m128i __attribute((__vector_size__(16), __aligned__(16)));
 #endif
 
 #ifdef __cplusplus
@@ -25,7 +25,7 @@ extern "C" {
 __m128i ssse3_abs_epi16(__m128i a);
 __m128i ssse3_abs_epi32(__m128i a);
 __m128i ssse3_abs_epi8(__m128i a);
-__m128i ssse3_alignr_epi8(__m128i a, __m128i b, int32_t imm8);
+__m128i ssse3_alignr_epi8(__m128i a, __m128i b, uint8_t imm8);
 __m128i ssse3_hadd_epi16(__m128i a, __m128i b);
 __m128i ssse3_hadd_epi32(__m128i a, __m128i b);
 __m128i ssse3_hadds_epi16(__m128i a, __m128i b);
