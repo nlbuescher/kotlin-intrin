@@ -35,6 +35,7 @@ val compileTasks = intrinNames.map { name ->
 		outputs.file(outDir.resolve("$name.o"))
 
 		executable("clang++")
+		args("-v")
 		args("-std=c++20", "-O3", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
 	}
 }
@@ -50,6 +51,7 @@ val compileIntrin by tasks.registering(Exec::class) {
 	outputs.file(outDir.resolve("intrin.o"))
 
 	executable("clang++")
+	args("-v")
 	args("-std=c++20", "-O3", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
 }
 
