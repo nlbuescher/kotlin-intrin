@@ -845,8 +845,8 @@ int32_t sse4_1_extract_epi32(__m128i a, uint8_t imm8) { return extract_epi32::ma
 namespace extract_epi64 {
 	typedef int64_t(*function)(__m128i);
 	const function map[2] {
-		[](__m128i a) { return _mm_extract_epi64(a, 0); },
-		[](__m128i a) { return _mm_extract_epi64(a, 1); },
+		[](__m128i a) { return (int64_t)_mm_extract_epi64(a, 0); },
+		[](__m128i a) { return (int64_t)_mm_extract_epi64(a, 1); },
 	};
 } // namespace extract_epi64
 int64_t sse4_1_extract_epi64(__m128i a, uint8_t imm8) { return extract_epi64::map[imm8 & 0x1](a); }

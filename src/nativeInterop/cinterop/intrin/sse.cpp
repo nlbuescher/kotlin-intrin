@@ -75,10 +75,10 @@ __m128 sse_or_ps(__m128 a, __m128 b) { return _mm_or_ps(a, b); }
 namespace prefetch {
 	typedef void(*function)(const int8_t*);
 	const function map[4] {
-		[](const int8_t* p) { return _mm_prefetch(p, 0); },
-		[](const int8_t* p) { return _mm_prefetch(p, 1); },
-		[](const int8_t* p) { return _mm_prefetch(p, 2); },
-		[](const int8_t* p) { return _mm_prefetch(p, 3); },
+		[](const int8_t* p) { return _mm_prefetch((const char *)p, 0); },
+		[](const int8_t* p) { return _mm_prefetch((const char *)p, 1); },
+		[](const int8_t* p) { return _mm_prefetch((const char *)p, 2); },
+		[](const int8_t* p) { return _mm_prefetch((const char *)p, 3); },
 	};
 } // namespace prefetch
 void sse_prefetch(const int8_t* p, int32_t i) { prefetch::map[i & 0x3](p); }
