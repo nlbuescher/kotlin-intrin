@@ -9,14 +9,15 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
-        os: [ ubunutu-latest, windows-latest ]
-        shell: [ bash, 'msys2 {0}' ]
+        config:
+          - { os: ubuntu-latest, shell: bash }
+          - { os: windows-latest, shell: 'msys2 {0}' }
     defaults:
       run:
-        shell: ${{ matrix.shell }}
+        shell: ${{ matrix.config.os }}
     steps:
       - name: 'Setup Clang MinGW'
         uses: msys2/setup-msys2@v2
