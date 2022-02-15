@@ -1,6 +1,7 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
 import java.util.*
+import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
 	kotlin("multiplatform") version "1.6.10"
@@ -78,6 +79,15 @@ kotlin {
 	if (!useSingleTarget || host.isWindows) mingwX64()
 
 	targets.withType<KotlinNativeTarget> {
+		// Disable targets that do not match current host
+		if (konanTarget != HostManager.host) {
+			compilations.all {
+				cinterops.all { tasks[interopProcessingTaskName].enabled = false }
+				compileKotlinTask.enabled = false
+			}
+			binaries.all { linkTask.enabled = false }
+		}
+
 		compilations.named("main") {
 			cinterops.create("intrin") {
 				tasks[interopProcessingTaskName].run {
@@ -194,5 +204,3 @@ publishing {
 }
 
 //endregion: PUBLISHING
-
-// TODO disable compile tasks for other platforms
