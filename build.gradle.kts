@@ -1,6 +1,5 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
-import java.util.*
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -11,7 +10,7 @@ plugins {
 }
 
 group = "io.github.nlbuescher"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
 	mavenCentral()
@@ -123,28 +122,13 @@ kotlin {
 
 //region: PUBLISHING
 
-val properties = Properties().apply {
-	val file = projectDir.resolve("local.properties")
-	if (file.exists()) {
-		load(file.inputStream())
-	}
-}
+val signingKey = properties["signing.key"] as String? ?: System.getenv("SIGNING_KEY") ?: ""
+val signingPassword = properties["signing.password"] as String? ?: System.getenv("SIGNING_PASSWORD") ?: ""
+val ossrhUsername = properties["ossrh.username"] as String? ?: System.getenv("OSSRH_USERNAME") ?: ""
+val ossrhPassword = properties["ossrh.password"] as String? ?: System.getenv("OSSRH_PASSWORD") ?: ""
 
-val signingKey: String? =
-	properties.getProperty("signing.key")
-		?: System.getenv("SIGNING_KEY")
-
-val signingPassword: String? =
-	properties.getProperty("signing.password")
-		?: System.getenv("SIGNING_PASSWORD")
-
-val ossrhUsername: String? =
-	properties.getProperty("ossrhUsername")
-		?: System.getenv("OSS_USERNAME")
-
-val ossrhPassword: String? =
-	properties.getProperty("ossrhPassword")
-		?: System.getenv("OSSRH_PASSWORD")
+if (signingKey.isEmpty())
+	println("SIGNING KEY IS EMPTY")
 
 val dokkaJar by tasks.registering(Jar::class) {
 	dependsOn(tasks.dokkaHtml)
@@ -201,6 +185,29 @@ publishing {
 			}
 		}
 	}
+}
+
+val taskPrefixes = when {
+	host.isLinux -> listOf(
+		"publishLinux",
+		"publishKotlinMultiplatform",
+	)
+	host.isMacOsX -> listOf(
+		"publishMacos",
+	)
+	host.isWindows -> listOf(
+		"publishMingw",
+	)
+	else -> error("unknown host '${host.name}'!")
+}
+
+val publishTasks = tasks.withType<PublishToMavenRepository>().filter { task ->
+	taskPrefixes.any { task.name.startsWith(it) }
+}
+
+tasks.register("smartPublish") {
+	group = "publishing"
+	dependsOn(publishTasks)
 }
 
 //endregion: PUBLISHING
