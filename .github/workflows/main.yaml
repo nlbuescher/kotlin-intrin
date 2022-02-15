@@ -7,12 +7,32 @@ env:
   SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
 
 jobs:
-  build:
+  build-unix:
     name: Build
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build kotlin-intrin
+        run: ./gradlew check --stacktrace
+
+      - name: Publish kotlin-intrin
+        run: ./gradlew publish --stacktrace
+        if: startsWith(github.ref, 'refs/tags/')
+
+  build-windows:
+    name: Build
+    strategy:
+      matrix:
+        os: [ windows-latest ]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: msys2 {0}
