@@ -66,7 +66,7 @@ val assembleIntrin by tasks.registering(Exec::class) {
 	inputs.files(compileIntrin.get().outputs.files)
 	outputs.file(outDir.resolve("libintrin.a"))
 
-	executable("llvm-ar")
+	executable("ar")
 	args("-rcs", outDir.resolve("libintrin.a"), outDir.resolve("intrin.o"))
 	args(intrinNames.map { outDir.resolve("$it.o") })
 }
