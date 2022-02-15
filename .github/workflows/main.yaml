@@ -14,19 +14,6 @@ jobs:
         os: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install Dependencies
-        run: |
-          case $RUNNER_OS in
-            "Linux") 
-              sudo apt update
-              sudo apt install llvm
-            ;;
-            "macOS")
-              brew install llvm 
-            ;;
-            *) echo "Unknown OS '$RUNNER_OS'" ;;
-          esac
-
       - name: Clone Repo
         uses: actions/checkout@v2
 
