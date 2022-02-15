@@ -21,7 +21,9 @@ jobs:
               sudo apt update
               sudo apt install llvm
             ;;
-            "macOS") ;;
+            "macOS")
+              brew install llvm 
+            ;;
             *) echo "Unknown OS '$RUNNER_OS'" ;;
           esac
 
