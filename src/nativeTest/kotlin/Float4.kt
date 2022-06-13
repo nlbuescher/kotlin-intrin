@@ -1,135 +1,131 @@
 import kotlin.intrin.*
 import kotlin.math.*
 
-data class Float4(
-	var x: Float,
-	var y: Float,
-	var z: Float,
-	var w: Float
+actual data class Float4 actual constructor(
+	actual var x: Float,
+	actual var y: Float,
+	actual var z: Float,
+	actual var w: Float
 ) {
 	constructor(v: Vector128) : this(v.getFloatAt(0), v.getFloatAt(1), v.getFloatAt(2), v.getFloatAt(3))
-	constructor(scalar: Float = 0f) : this(scalar, scalar, scalar, scalar)
+	actual constructor(scalar: Float) : this(scalar, scalar, scalar, scalar)
 
-	operator fun get(index: Int): Float = when (index) {
+	actual operator fun get(index: Int): Float = when (index) {
 		0 -> x; 1 -> y; 2 -> z; 3 -> w
 		else -> throw IndexOutOfBoundsException()
 	}
 
-	operator fun set(index: Int, value: Float) = when (index) {
+	actual operator fun set(index: Int, value: Float) = when (index) {
 		0 -> x = value; 1 -> y = value; 2 -> z = value; 3 -> w = value
 		else -> throw IndexOutOfBoundsException()
 	}
 
-	operator fun unaryPlus(): Float4 = copy()
-	operator fun unaryMinus(): Float4 = Float4(-x, -y, -z, -w)
+	actual operator fun unaryPlus(): Float4 = copy()
+	actual operator fun unaryMinus(): Float4 = Float4(-x, -y, -z, -w)
 
-	operator fun plus(scalar: Float): Float4 = Float4(
+	actual operator fun plus(scalar: Float): Float4 = Float4(
 		vectorOf(x, y, z, w) + vectorOf(scalar, scalar, scalar, scalar)
 	)
 
-	operator fun minus(scalar: Float): Float4 = Float4(
+	actual operator fun minus(scalar: Float): Float4 = Float4(
 		vectorOf(x, y, z, w) - vectorOf(scalar, scalar, scalar, scalar)
 	)
 
-	operator fun times(scalar: Float): Float4 = Float4(
+	actual operator fun times(scalar: Float): Float4 = Float4(
 		vectorOf(x, y, z, w) * vectorOf(scalar, scalar, scalar, scalar)
 	)
 
-	operator fun div(scalar: Float): Float4 = Float4(
+	actual operator fun div(scalar: Float): Float4 = Float4(
 		vectorOf(x, y, z, w) / vectorOf(scalar, scalar, scalar, scalar)
 	)
 
-	operator fun rem(scalar: Float): Float4 = Float4(
+	actual operator fun rem(scalar: Float): Float4 = Float4(
 		vectorOf(x, y, z, w) % vectorOf(scalar, scalar, scalar, scalar)
 	)
 
-	operator fun plus(other: Float4): Float4 = Float4(
+	actual operator fun plus(other: Float4): Float4 = Float4(
 		vectorOf(x, y, z, w) + vectorOf(other.x, other.y, other.z, other.w)
 	)
 
-	operator fun minus(other: Float4): Float4 = Float4(
+	actual operator fun minus(other: Float4): Float4 = Float4(
 		vectorOf(x, y, z, w) - vectorOf(other.x, other.y, other.z, other.w)
 	)
 
-	operator fun times(other: Float4): Float4 = Float4(
+	actual operator fun times(other: Float4): Float4 = Float4(
 		vectorOf(x, y, z, w) * vectorOf(other.x, other.y, other.z, other.w)
 	)
 
-	operator fun div(other: Float4): Float4 = Float4(
+	actual operator fun div(other: Float4): Float4 = Float4(
 		vectorOf(x, y, z, w) / vectorOf(other.x, other.y, other.z, other.w)
 	)
 
-	operator fun rem(other: Float4): Float4 = Float4(
+	actual operator fun rem(other: Float4): Float4 = Float4(
 		vectorOf(x, y, z, w) % vectorOf(other.x, other.y, other.z, other.w)
 	)
 
-	operator fun plusAssign(scalar: Float) {
+	actual operator fun plusAssign(scalar: Float) {
 		val v = vectorOf(x, y, z, w) + vectorOf(scalar, scalar, scalar, scalar)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun minusAssign(scalar: Float) {
+	actual operator fun minusAssign(scalar: Float) {
 		val v = vectorOf(x, y, z, w) - vectorOf(scalar, scalar, scalar, scalar)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun timesAssign(scalar: Float) {
+	actual operator fun timesAssign(scalar: Float) {
 		val v = vectorOf(x, y, z, w) * vectorOf(scalar, scalar, scalar, scalar)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun divAssign(scalar: Float) {
+	actual operator fun divAssign(scalar: Float) {
 		val v = vectorOf(x, y, z, w) / vectorOf(scalar, scalar, scalar, scalar)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun remAssign(scalar: Float) {
+	actual operator fun remAssign(scalar: Float) {
 		val v = vectorOf(x, y, z, w) % vectorOf(scalar, scalar, scalar, scalar)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
 
-	operator fun plusAssign(other: Float4) {
+	actual operator fun plusAssign(other: Float4) {
 		val v = vectorOf(x, y, z, w) + vectorOf(other.x, other.y, other.z, other.w)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun minusAssign(other: Float4) {
+	actual operator fun minusAssign(other: Float4) {
 		val v = vectorOf(x, y, z, w) - vectorOf(other.x, other.y, other.z, other.w)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun timesAssign(other: Float4) {
+	actual operator fun timesAssign(other: Float4) {
 		val v = vectorOf(x, y, z, w) * vectorOf(other.x, other.y, other.z, other.w)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun divAssign(other: Float4) {
+	actual operator fun divAssign(other: Float4) {
 		val v = vectorOf(x, y, z, w) / vectorOf(other.x, other.y, other.z, other.w)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	operator fun remAssign(other: Float4) {
+	actual operator fun remAssign(other: Float4) {
 		val v = vectorOf(x, y, z, w) % vectorOf(other.x, other.y, other.z, other.w)
 		x = v.getFloatAt(0); y = v.getFloatAt(1); z = v.getFloatAt(2); w = v.getFloatAt(3)
 	}
 
-	val squareMagnitude: Float get() = this dot this
-	val magnitude: Float get() = sqrt(this dot this)
+	actual val squareMagnitude: Float get() = this dot this
+	actual val magnitude: Float get() = sqrt(this dot this)
 
 	/** Returns the dot product of this vector and [other]. */
-	infix fun dot(other: Float4): Float = x * other.x + y * other.y + z * other.z + w * other.w
+	actual infix fun dot(other: Float4): Float = x * other.x + y * other.y + z * other.z + w * other.w
 
-	fun normalize(): Float4 = this / magnitude
+	actual fun normalize(): Float4 = this / magnitude
 
-	override fun toString(): String = "($x, $y, $z, $w)"
+	actual override fun toString(): String = "($x, $y, $z, $w)"
 }
 
-fun Float4.toFloatArray(): FloatArray = floatArrayOf(x, y, z, w)
-
-fun Float4.toFloat4(): Float4 = copy()
-
-fun round(x: Float4): Float4 = Float4(round(vectorOf(x.x, x.y, x.z, x.w)))
+actual fun round(x: Float4): Float4 = Float4(round(vectorOf(x.x, x.y, x.z, x.w)))
 
 fun floor(x: Float4): Float4 = Float4(floor(vectorOf(x.x, x.y, x.z, x.w)))
 
