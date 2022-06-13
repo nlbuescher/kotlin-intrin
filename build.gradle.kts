@@ -34,7 +34,7 @@ val compileTasks = intrinNames.map { name ->
 		outputs.file(outDir.resolve("$name.o"))
 
 		executable("clang++")
-		args("-std=c++20", "-O3", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
+		args("-std=c++20", "-O3", "-fPIC", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
 	}
 }
 
@@ -49,7 +49,7 @@ val compileIntrin by tasks.registering(Exec::class) {
 	outputs.file(outDir.resolve("intrin.o"))
 
 	executable("clang++")
-	args("-std=c++20", "-O3", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
+	args("-std=c++20", "-O3", "-fPIC", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
 }
 
 val assembleIntrin by tasks.registering(Exec::class) {
@@ -66,6 +66,30 @@ val assembleIntrin by tasks.registering(Exec::class) {
 	executable("ar")
 	args("-rcs", outDir.resolve("libintrin.a"), outDir.resolve("intrin.o"))
 	args(intrinNames.map { outDir.resolve("$it.o") })
+}
+
+val jniSrcDir = projectDir.resolve("src/nativeInterop/jni")
+
+val assembleJniIntrin by tasks.registering(Exec::class) {
+	group = "build"
+
+	dependsOn(assembleIntrin)
+
+	compileTasks.forEach {
+		inputs.files(it.get().outputs.files)
+	}
+	inputs.files(compileIntrin.get().outputs.files)
+	inputs.files(assembleIntrin.get().outputs.files)
+	inputs.files(jniSrcDir.resolve("intrin_jni.cpp"))
+	outputs.file(outDir.resolve("libintrin_jni.so"))
+
+	executable("clang++")
+	args(
+		"--std=c++20", "--shared", "-O3", "-fPIC",
+		"-I$srcDir", "-I/usr/lib/jvm/default/include", "-I/usr/lib/jvm/default/include/linux",
+		"-Wl,--whole-archive", "-L$outDir", "-lintrin", "-Wl,--no-whole-archive",
+		"-o", outDir.resolve("libintrin_jni.so"), jniSrcDir.resolve("intrin_jni.cpp")
+	)
 }
 
 //endregion: C++
@@ -103,12 +127,29 @@ kotlin {
 		}
 	}
 
+	jvm {
+		tasks {
+			named("jvmMainClasses") {
+				dependsOn(assembleJniIntrin)
+			}
+			named<Jar>("jvmJar") {
+				from(outDir.resolve("libintrin.so"))
+				from(configurations["jvmRuntimeClasspath"].map { if (it.isDirectory) it else zipTree(it) })
+			}
+		}
+	}
+
 	sourceSets {
+		named("jvmTest") {
+			dependencies {
+				implementation(kotlin("test"))
+			}
+		}
 		targets.withType<KotlinNativeTarget> {
-			get("${name}Main").apply {
+			named("${name}Main") {
 				kotlin.srcDir("src/nativeMain/kotlin")
 			}
-			get("${name}Test").apply {
+			named("${name}Test") {
 				kotlin.srcDir("src/nativeTest/kotlin")
 				dependencies {
 					implementation(kotlin("test"))
