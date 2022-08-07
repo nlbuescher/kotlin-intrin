@@ -1,16 +1,17 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
-import org.jetbrains.kotlin.konan.target.HostManager
+import org.jetbrains.kotlin.konan.target.*
+import java.util.*
 
 plugins {
-	kotlin("multiplatform") version "1.6.10"
-	id("org.jetbrains.dokka") version "1.6.10"
+	kotlin("multiplatform") version "1.7.10"
+	id("org.jetbrains.dokka") version "1.7.10"
 	id("maven-publish")
 	id("signing")
 }
 
 group = "io.github.nlbuescher"
-version = "1.0.0"
+version = "1.1.0"
 
 repositories {
 	mavenCentral()
@@ -34,7 +35,7 @@ val compileTasks = intrinNames.map { name ->
 		outputs.file(outDir.resolve("$name.o"))
 
 		executable("clang++")
-		args("-std=c++20", "-O3", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
+		args("-std=c++20", "-O3", "-fPIC", "-m$name", "-c", "-o", outDir.resolve("$name.o"), srcDir.resolve("$name.cpp"))
 	}
 }
 
@@ -49,7 +50,7 @@ val compileIntrin by tasks.registering(Exec::class) {
 	outputs.file(outDir.resolve("intrin.o"))
 
 	executable("clang++")
-	args("-std=c++20", "-O3", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
+	args("-std=c++20", "-O3", "-fPIC", "-c", "-o", outDir.resolve("intrin.o"), srcDir.resolve("intrin.cpp"))
 }
 
 val assembleIntrin by tasks.registering(Exec::class) {
@@ -105,10 +106,10 @@ kotlin {
 
 	sourceSets {
 		targets.withType<KotlinNativeTarget> {
-			get("${name}Main").apply {
+			named("${name}Main") {
 				kotlin.srcDir("src/nativeMain/kotlin")
 			}
-			get("${name}Test").apply {
+			named("${name}Test") {
 				kotlin.srcDir("src/nativeTest/kotlin")
 				dependencies {
 					implementation(kotlin("test"))
@@ -122,13 +123,19 @@ kotlin {
 
 //region: PUBLISHING
 
-val signingKey = properties["signing.key"] as String? ?: System.getenv("SIGNING_KEY") ?: ""
-val signingPassword = properties["signing.password"] as String? ?: System.getenv("SIGNING_PASSWORD") ?: ""
-val ossrhUsername = properties["ossrh.username"] as String? ?: System.getenv("OSSRH_USERNAME") ?: ""
-val ossrhPassword = properties["ossrh.password"] as String? ?: System.getenv("OSSRH_PASSWORD") ?: ""
+val localProperties = Properties().apply {
+	val file = rootProject.projectDir.resolve("local.properties")
+	if (file.exists()) load(file.inputStream())
+}
 
-if (signingKey.isEmpty())
+val signingKey = localProperties.getProperty("signing.key") ?: System.getenv("SIGNING_KEY") ?: ""
+val signingPassword = localProperties.getProperty("signing.password") ?: System.getenv("SIGNING_PASSWORD") ?: ""
+val ossrhUsername = localProperties.getProperty("ossrh.username") ?: System.getenv("OSSRH_USERNAME") ?: ""
+val ossrhPassword = localProperties.getProperty("ossrh.password") ?: System.getenv("OSSRH_PASSWORD") ?: ""
+
+if (signingKey.isEmpty()) {
 	println("SIGNING KEY IS EMPTY")
+}
 
 val dokkaJar by tasks.registering(Jar::class) {
 	dependsOn(tasks.dokkaHtml)
@@ -188,16 +195,9 @@ publishing {
 }
 
 val taskPrefixes = when {
-	host.isLinux -> listOf(
-		"publishLinux",
-		"publishKotlinMultiplatform",
-	)
-	host.isMacOsX -> listOf(
-		"publishMacos",
-	)
-	host.isWindows -> listOf(
-		"publishMingw",
-	)
+	host.isLinux -> listOf("publishLinux", "publishKotlinMultiplatform")
+	host.isMacOsX -> listOf("publishMacos")
+	host.isWindows -> listOf("publishMingw")
 	else -> error("unknown host '${host.name}'!")
 }
 

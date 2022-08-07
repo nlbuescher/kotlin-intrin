@@ -6,7 +6,6 @@ import kotlin.math.*
 operator fun Vector128.plus(other: Vector128): Vector128 = when {
 	SSE -> sse_add_ps(this, other)
 	else -> {
-		println("add fallback")
 		vectorOf(
 			getFloatAt(0) + other.getFloatAt(0),
 			getFloatAt(1) + other.getFloatAt(1),
@@ -19,7 +18,6 @@ operator fun Vector128.plus(other: Vector128): Vector128 = when {
 operator fun Vector128.minus(other: Vector128): Vector128 = when {
 	SSE -> sse_sub_ps(this, other)
 	else -> {
-		println("sub fallback")
 		vectorOf(
 			getFloatAt(0) - other.getFloatAt(0),
 			getFloatAt(1) - other.getFloatAt(1),
@@ -32,7 +30,6 @@ operator fun Vector128.minus(other: Vector128): Vector128 = when {
 operator fun Vector128.times(other: Vector128): Vector128 = when {
 	SSE -> sse_mul_ps(this, other)
 	else -> {
-		println("mul fallback")
 		vectorOf(
 			getFloatAt(0) * other.getFloatAt(0),
 			getFloatAt(1) * other.getFloatAt(1),
@@ -45,7 +42,6 @@ operator fun Vector128.times(other: Vector128): Vector128 = when {
 operator fun Vector128.div(other: Vector128): Vector128 = when {
 	SSE -> sse_div_ps(this, other)
 	else -> {
-		println("div fallback")
 		vectorOf(
 			getFloatAt(0) / other.getFloatAt(0),
 			getFloatAt(1) / other.getFloatAt(1),
@@ -63,7 +59,6 @@ operator fun Vector128.rem(other: Vector128): Vector128 = when {
 		sse_sub_ps(this, mul0)
 	}
 	else -> {
-		println("rem fallback")
 		vectorOf(
 			getFloatAt(0) % other.getFloatAt(0),
 			getFloatAt(1) % other.getFloatAt(1),
@@ -76,7 +71,6 @@ operator fun Vector128.rem(other: Vector128): Vector128 = when {
 fun round(x: Vector128): Vector128 = when {
 	SSE4_1 -> sse4_1_round_ps(x, SSE4_1_FROUND_NEARBYINT)
 	else -> {
-		println("round fallback")
 		vectorOf(
 			round(x.getFloatAt(0)),
 			round(x.getFloatAt(1)),
@@ -89,7 +83,6 @@ fun round(x: Vector128): Vector128 = when {
 fun floor(x: Vector128): Vector128 = when {
 	SSE4_1 -> sse4_1_floor_ps(x)
 	else -> {
-		println("floor fallback")
 		vectorOf(
 			floor(x.getFloatAt(0)),
 			floor(x.getFloatAt(1)),
