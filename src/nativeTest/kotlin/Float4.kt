@@ -127,7 +127,7 @@ actual data class Float4 actual constructor(
 
 actual fun round(x: Float4): Float4 = Float4(round(vectorOf(x.x, x.y, x.z, x.w)))
 
-fun floor(x: Float4): Float4 = Float4(floor(vectorOf(x.x, x.y, x.z, x.w)))
+actual fun floor(x: Float4): Float4 = Float4(floor(vectorOf(x.x, x.y, x.z, x.w)))
 
 /** Returns the distance between [from] and [to]. */
 fun distance(from: Float4, to: Float4): Float {

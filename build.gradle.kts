@@ -1,6 +1,6 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
-import org.jetbrains.kotlin.konan.target.HostManager
+import org.jetbrains.kotlin.konan.target.*
 
 plugins {
 	kotlin("multiplatform") version "1.6.10"
@@ -83,11 +83,23 @@ val assembleJniIntrin by tasks.registering(Exec::class) {
 	inputs.files(jniSrcDir.resolve("intrin_jni.cpp"))
 	outputs.file(outDir.resolve("libintrin_jni.so"))
 
+	val javaHomeDir = file(System.getenv("JAVA_HOME"))
+	val jniIncludeDir = javaHomeDir.resolve("include")
+	val nativeJniIncludeDir = when {
+		host.isLinux -> jniIncludeDir.resolve("linux")
+		host.isMacOsX -> jniIncludeDir.resolve("darwin")
+		host.isWindows -> jniIncludeDir.resolve("win32")
+		else -> error("unsupported host")
+	}
+	println(System.getenv("JAVA_HOME"))
+
 	executable("clang++")
 	args(
 		"--std=c++20", "--shared", "-O3", "-fPIC",
-		"-I$srcDir", "-I/usr/lib/jvm/default/include", "-I/usr/lib/jvm/default/include/linux",
-		"-Wl,--whole-archive", "-L$outDir", "-lintrin", "-Wl,--no-whole-archive",
+		"-I$srcDir", "-I$jniIncludeDir", "-I$nativeJniIncludeDir",
+		if (host.isMacOsX) "-all_load" else "-Wl,--whole-archive",
+		"-L$outDir", "-lintrin",
+		if (!host.isMacOsX) "-Wl,--no-whole-archive" else "",
 		"-o", outDir.resolve("libintrin_jni.so"), jniSrcDir.resolve("intrin_jni.cpp")
 	)
 }
@@ -133,6 +145,7 @@ kotlin {
 				dependsOn(assembleJniIntrin)
 			}
 			named<Jar>("jvmJar") {
+				duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 				from(outDir.resolve("libintrin.so"))
 				from(configurations["jvmRuntimeClasspath"].map { if (it.isDirectory) it else zipTree(it) })
 			}
@@ -233,12 +246,15 @@ val taskPrefixes = when {
 		"publishLinux",
 		"publishKotlinMultiplatform",
 	)
+
 	host.isMacOsX -> listOf(
 		"publishMacos",
 	)
+
 	host.isWindows -> listOf(
 		"publishMingw",
 	)
+
 	else -> error("unknown host '${host.name}'!")
 }
 
