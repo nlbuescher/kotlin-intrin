@@ -1,5 +1,6 @@
 @file:JvmName("Float4Jvm")
 
+import kotlinx.intrin.*
 import platform.intrin.*
 import kotlin.math.*
 
@@ -135,3 +136,142 @@ actual class Float4(internal var storage: FloatArray) {
 
 actual fun round(x: Float4): Float4 = Float4(vround(x.storage))
 actual fun floor(x: Float4): Float4 = Float4(vfloor(x.storage))
+
+class NaiveFloat4(@PublishedApi internal var storage: FloatArray) {
+	constructor(scalar: Float) : this(floatArrayOf(scalar, scalar, scalar, scalar))
+	constructor(x: Float, y: Float, z: Float, w: Float) : this(floatArrayOf(x, y, z, w))
+
+	inline var x: Float
+		get() = storage[0]
+		set(value) { storage[0] = value }
+
+	inline var y: Float
+		get() = storage[1]
+		set(value) { storage[1] = value }
+
+	inline var z: Float
+		get() = storage[2]
+		set(value) { storage[2] = value }
+
+	inline var w: Float
+		get() = storage[3]
+		set(value) { storage[3] = value }
+
+	fun copy(x: Float, y: Float, z: Float, w: Float) = NaiveFloat4(x, y, z, w)
+
+	operator fun get(index: Int) = storage[index]
+	operator fun set(index: Int, value: Float) { storage[index] = value }
+
+	operator fun unaryPlus(): NaiveFloat4 = NaiveFloat4(storage.copyOf())
+	operator fun unaryMinus(): NaiveFloat4 = NaiveFloat4(FloatArray(storage.size) { -storage[it] })
+
+	operator fun plus(scalar: Float): NaiveFloat4 = NaiveFloat4(
+		storage vPlus floatArrayOf(scalar, scalar, scalar, scalar)
+	)
+
+	operator fun minus(scalar: Float): NaiveFloat4 = NaiveFloat4(
+		storage vMinus floatArrayOf(scalar, scalar, scalar, scalar)
+	)
+
+	operator fun times(scalar: Float): NaiveFloat4 = NaiveFloat4(
+		storage vTimes floatArrayOf(scalar, scalar, scalar, scalar)
+	)
+
+	operator fun div(scalar: Float): NaiveFloat4 = NaiveFloat4(
+		storage vDiv floatArrayOf(scalar, scalar, scalar, scalar)
+	)
+
+	operator fun rem(scalar: Float): NaiveFloat4 = NaiveFloat4(
+		storage vRem floatArrayOf(scalar, scalar, scalar, scalar)
+	)
+
+	operator fun plus(other: NaiveFloat4): NaiveFloat4 = NaiveFloat4(
+		x + other.x,
+		y + other.y,
+		z + other.z,
+		w + other.w,
+	)
+
+	operator fun minus(other: NaiveFloat4): NaiveFloat4 = NaiveFloat4(
+		storage vMinus other.storage
+	)
+
+	operator fun times(other: NaiveFloat4): NaiveFloat4 = NaiveFloat4(
+		x * other.x,
+		y * other.y,
+		z * other.z,
+		w * other.w,
+	)
+
+	operator fun div(other: NaiveFloat4): NaiveFloat4 = NaiveFloat4(
+		storage vDiv other.storage
+	)
+
+	operator fun rem(other: NaiveFloat4): NaiveFloat4 = NaiveFloat4(
+		storage vRem other.storage
+	)
+
+	operator fun plusAssign(scalar: Float) {
+		storage = storage vPlus floatArrayOf(scalar, scalar, scalar, scalar)
+	}
+
+	operator fun minusAssign(scalar: Float) {
+		storage = storage vMinus floatArrayOf(scalar, scalar, scalar, scalar)
+	}
+
+	operator fun timesAssign(scalar: Float) {
+		storage = storage vTimes floatArrayOf(scalar, scalar, scalar, scalar)
+	}
+
+	operator fun divAssign(scalar: Float) {
+		storage = storage vDiv floatArrayOf(scalar, scalar, scalar, scalar)
+	}
+
+	operator fun remAssign(scalar: Float) {
+		storage = storage vRem floatArrayOf(scalar, scalar, scalar, scalar)
+	}
+
+
+	operator fun plusAssign(other: NaiveFloat4) {
+		storage = storage vPlus other.storage
+	}
+
+	operator fun minusAssign(other: NaiveFloat4) {
+		storage = storage vMinus other.storage
+	}
+
+	operator fun timesAssign(other: NaiveFloat4) {
+		storage = storage vTimes other.storage
+	}
+
+	operator fun divAssign(other: NaiveFloat4) {
+		storage = storage vDiv other.storage
+	}
+
+	operator fun remAssign(other: NaiveFloat4) {
+		storage = storage vRem other.storage
+	}
+
+	val squareMagnitude: Float get() = this dot this
+	val magnitude: Float get() = sqrt(this dot this)
+
+	/** Returns the dot product of this vector and [other]. */
+	infix fun dot(other: NaiveFloat4): Float = x * other.x + y * other.y + z * other.z + w * other.w
+
+	fun normalize(): NaiveFloat4 = this / magnitude
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (javaClass != other?.javaClass) return false
+
+		other as NaiveFloat4
+
+		return storage.contentEquals(other.storage)
+	}
+
+	override fun hashCode(): Int = storage.contentHashCode()
+	override fun toString(): String = "($x, $y, $z, $w)"
+}
+
+fun round(x: NaiveFloat4): NaiveFloat4 = NaiveFloat4(vround(x.storage))
+fun floor(x: NaiveFloat4): NaiveFloat4 = NaiveFloat4(vfloor(x.storage))

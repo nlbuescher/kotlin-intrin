@@ -6,7 +6,7 @@ __m128i ssse3_abs_epi16(__m128i a) { return _mm_abs_epi16(a); }
 __m128i ssse3_abs_epi32(__m128i a) { return _mm_abs_epi32(a); }
 __m128i ssse3_abs_epi8(__m128i a) { return _mm_abs_epi8(a); }
 namespace alignr_epi8 {
-	typedef __m128i(*function)(__m128i, __m128i);
+	using function = __m128i(*)(__m128i, __m128i);
 	const function map[33] {
 		[](__m128i a, __m128i b) { return _mm_alignr_epi8(a, b,  0); },
 		[](__m128i a, __m128i b) { return _mm_alignr_epi8(a, b,  1); },

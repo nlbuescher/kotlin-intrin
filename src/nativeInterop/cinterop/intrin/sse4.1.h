@@ -22,22 +22,6 @@ typedef long long __m128i __attribute((__vector_size__(16), __aligned__(16)));
 extern "C" {
 #endif
 
-const int32_t SSE4_1_FROUND_TO_NEAREST_INT = 0x00;
-const int32_t SSE4_1_FROUND_TO_NEG_INF     = 0x01;
-const int32_t SSE4_1_FROUND_TO_POS_INF     = 0x02;
-const int32_t SSE4_1_FROUND_TO_ZERO        = 0x03;
-const int32_t SSE4_1_FROUND_CUR_DIRECTION  = 0x04;
-
-const int32_t SSE4_1_FROUND_RAISE_EXC      = 0x00;
-const int32_t SSE4_1_FROUND_NO_EXC         = 0x08;
-
-const int32_t SSE4_1_FROUND_NINT           = (SSE4_1_FROUND_TO_NEAREST_INT | SSE4_1_FROUND_RAISE_EXC);
-const int32_t SSE4_1_FROUND_FLOOR          = (SSE4_1_FROUND_TO_NEG_INF     | SSE4_1_FROUND_RAISE_EXC);
-const int32_t SSE4_1_FROUND_CEIL           = (SSE4_1_FROUND_TO_POS_INF     | SSE4_1_FROUND_RAISE_EXC);
-const int32_t SSE4_1_FROUND_TRUNC          = (SSE4_1_FROUND_TO_ZERO        | SSE4_1_FROUND_RAISE_EXC);
-const int32_t SSE4_1_FROUND_RINT           = (SSE4_1_FROUND_CUR_DIRECTION  | SSE4_1_FROUND_RAISE_EXC);
-const int32_t SSE4_1_FROUND_NEARBYINT      = (SSE4_1_FROUND_CUR_DIRECTION  | SSE4_1_FROUND_NO_EXC);
-
 __m128i sse4_1_blend_epi16(__m128i a, __m128i b, uint8_t imm8);
 __m128d sse4_1_blend_pd(__m128d a, __m128d b, uint8_t imm8);
 __m128 sse4_1_blend_ps(__m128 a, __m128 b, uint8_t imm8);

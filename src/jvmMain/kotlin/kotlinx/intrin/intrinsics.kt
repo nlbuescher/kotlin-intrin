@@ -1,4 +1,7 @@
-package platform.intrin
+package kotlinx.intrin
+
+import platform.intrin.*
+import kotlin.math.*
 
 infix fun FloatArray.vPlus(other: FloatArray): FloatArray = when {
 	SSE -> sse_add_ps(this, other)
@@ -75,10 +78,10 @@ fun vround(x: FloatArray): FloatArray = when {
 	else -> {
 		println("round fallback")
 		floatArrayOf(
-			kotlin.math.round(x[0]),
-			kotlin.math.round(x[1]),
-			kotlin.math.round(x[2]),
-			kotlin.math.round(x[3]),
+			round(x[0]),
+			round(x[1]),
+			round(x[2]),
+			round(x[3]),
 		)
 	}
 }
@@ -88,10 +91,10 @@ fun vfloor(x: FloatArray): FloatArray = when {
 	else -> {
 		println("floor fallback")
 		floatArrayOf(
-			kotlin.math.floor(x[0]),
-			kotlin.math.floor(x[1]),
-			kotlin.math.floor(x[2]),
-			kotlin.math.floor(x[3]),
+			floor(x[0]),
+			floor(x[1]),
+			floor(x[2]),
+			floor(x[3]),
 		)
 	}
 }

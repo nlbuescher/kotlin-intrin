@@ -1,4 +1,4 @@
-package kotlin.intrin
+package kotlinx.intrin
 
 import platform.intrin.*
 import kotlin.math.*

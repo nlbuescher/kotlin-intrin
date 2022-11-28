@@ -1,10 +1,11 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.plugin.mpp.*
+import org.jetbrains.kotlin.gradle.targets.jvm.tasks.*
 import org.jetbrains.kotlin.konan.target.*
 
 plugins {
-	kotlin("multiplatform") version "1.6.10"
-	id("org.jetbrains.dokka") version "1.6.10"
+	kotlin("multiplatform") version "1.7.20"
+	id("org.jetbrains.dokka") version "1.7.20"
 	id("maven-publish")
 	id("signing")
 }
@@ -30,7 +31,7 @@ val compileTasks = intrinNames.map { name ->
 	tasks.register<Exec>("compile${name.capitalize()}") {
 		group = "build"
 
-		inputs.files(srcDir.listFiles { _, filename -> filename.startsWith(name) })
+		inputs.files(srcDir.resolve("$name.h"), srcDir.resolve("$name.cpp"))
 		outputs.file(outDir.resolve("$name.o"))
 
 		executable("clang++")
@@ -41,11 +42,7 @@ val compileTasks = intrinNames.map { name ->
 val compileIntrin by tasks.registering(Exec::class) {
 	group = "build"
 
-	compileTasks.forEach {
-		dependsOn(it)
-	}
-	inputs.files(srcDir.listFiles { _, name -> name.endsWith(".h") })
-	inputs.file(srcDir.resolve("intrin.cpp"))
+	inputs.files(srcDir.resolve("intrin.h"), srcDir.resolve("intrin.cpp"))
 	outputs.file(outDir.resolve("intrin.o"))
 
 	executable("clang++")
@@ -55,12 +52,12 @@ val compileIntrin by tasks.registering(Exec::class) {
 val assembleIntrin by tasks.registering(Exec::class) {
 	group = "build"
 
-	dependsOn(compileIntrin)
+	dependsOn(compileTasks, compileIntrin)
 
-	compileTasks.forEach {
-		inputs.files(it.get().outputs.files)
-	}
-	inputs.files(compileIntrin.get().outputs.files)
+	inputs.files(
+		compileTasks.flatMap { it.get().inputs.files },
+		compileIntrin.get().inputs.files,
+	)
 	outputs.file(outDir.resolve("libintrin.a"))
 
 	executable("ar")
@@ -69,39 +66,52 @@ val assembleIntrin by tasks.registering(Exec::class) {
 }
 
 val jniSrcDir = projectDir.resolve("src/nativeInterop/jni")
+val javaHomeDir = file(System.getenv("JAVA_HOME"))
+val jniIncludeDir = javaHomeDir.resolve("include")
+val nativeJniIncludeDir = when {
+	host.isLinux -> jniIncludeDir.resolve("linux")
+	host.isMacOsX -> jniIncludeDir.resolve("darwin")
+	host.isWindows -> jniIncludeDir.resolve("win32")
+	else -> error("unsupported host")
+}
+
+val compileJniTasks = intrinNames.map { name ->
+	tasks.register<Exec>("compileJni${name.capitalize()}") {
+		group = "build"
+
+		inputs.files(jniSrcDir.resolve("${name}_jni.h"), jniSrcDir.resolve("${name}_jni.cpp"))
+		outputs.file(outDir.resolve("${name}_jni.o"))
+
+		executable("clang++")
+		args(
+			"-std=c++20", "-O3", "-fPIC", "-m$name",
+			"-I$srcDir", "-I$jniIncludeDir", "-I$nativeJniIncludeDir",
+			"-c", "-o", outDir.resolve("${name}_jni.o"), jniSrcDir.resolve("${name}_jni.cpp")
+		)
+	}
+}
 
 val assembleJniIntrin by tasks.registering(Exec::class) {
 	group = "build"
 
-	dependsOn(assembleIntrin)
+	dependsOn(assembleIntrin, compileJniTasks)
 
-	compileTasks.forEach {
-		inputs.files(it.get().outputs.files)
-	}
-	inputs.files(compileIntrin.get().outputs.files)
-	inputs.files(assembleIntrin.get().outputs.files)
-	inputs.files(jniSrcDir.resolve("intrin_jni.cpp"))
+	inputs.files(
+		compileJniTasks.flatMap { it.get().inputs.files },
+		assembleIntrin.get().inputs.files,
+	)
 	outputs.file(outDir.resolve("libintrin_jni.so"))
-
-	val javaHomeDir = file(System.getenv("JAVA_HOME"))
-	val jniIncludeDir = javaHomeDir.resolve("include")
-	val nativeJniIncludeDir = when {
-		host.isLinux -> jniIncludeDir.resolve("linux")
-		host.isMacOsX -> jniIncludeDir.resolve("darwin")
-		host.isWindows -> jniIncludeDir.resolve("win32")
-		else -> error("unsupported host")
-	}
-	println(System.getenv("JAVA_HOME"))
 
 	executable("clang++")
 	args(
 		"--std=c++20", "--shared", "-O3", "-fPIC",
 		"-I$srcDir", "-I$jniIncludeDir", "-I$nativeJniIncludeDir",
-		if (host.isMacOsX) "-all_load" else "-Wl,--whole-archive",
+		if (!host.isMacOsX) "-Wl,--whole-archive" else "-all_load",
 		"-L$outDir", "-lintrin",
 		if (!host.isMacOsX) "-Wl,--no-whole-archive" else "",
-		"-o", outDir.resolve("libintrin_jni.so"), jniSrcDir.resolve("intrin_jni.cpp")
+		"-o", outDir.resolve("libintrin_jni.so"),
 	)
+	args(intrinNames.map { outDir.resolve("${it}_jni.o") })
 }
 
 //endregion: C++
@@ -149,6 +159,9 @@ kotlin {
 				from(outDir.resolve("libintrin.so"))
 				from(configurations["jvmRuntimeClasspath"].map { if (it.isDirectory) it else zipTree(it) })
 			}
+			named<KotlinJvmTest>("jvmTest") {
+				useJUnitPlatform()
+			}
 		}
 	}
 
@@ -181,8 +194,9 @@ val signingPassword = properties["signing.password"] as String? ?: System.getenv
 val ossrhUsername = properties["ossrh.username"] as String? ?: System.getenv("OSSRH_USERNAME") ?: ""
 val ossrhPassword = properties["ossrh.password"] as String? ?: System.getenv("OSSRH_PASSWORD") ?: ""
 
-if (signingKey.isEmpty())
+if (signingKey.isEmpty()) {
 	println("SIGNING KEY IS EMPTY")
+}
 
 val dokkaJar by tasks.registering(Jar::class) {
 	dependsOn(tasks.dokkaHtml)

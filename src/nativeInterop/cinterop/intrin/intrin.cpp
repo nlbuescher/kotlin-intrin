@@ -8,6 +8,10 @@ inline void cpuid(int info[4], int x) {
 
 // INTRINSICS
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 bool SSE, SSE2, SSE3, SSSE3, SSE4_1, SSE4_2;
 
 bool loadIntrinsics() {
@@ -25,3 +29,7 @@ bool loadIntrinsics() {
 }
 
 bool unused = loadIntrinsics();
+
+#ifdef __cplusplus
+}
+#endif

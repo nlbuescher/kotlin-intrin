@@ -2,6 +2,10 @@
 
 #include "sse.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 __m128 sse_add_ps(__m128 a, __m128 b) { return _mm_add_ps(a, b); }
 __m128 sse_add_ss(__m128 a, __m128 b) { return _mm_add_ss(a, b); }
 __m128 sse_and_ps(__m128 a, __m128 b) { return _mm_and_ps(a, b); }
@@ -73,12 +77,12 @@ __m128 sse_mul_ps(__m128 a, __m128 b) { return _mm_mul_ps(a, b); }
 __m128 sse_mul_ss(__m128 a, __m128 b) { return _mm_mul_ss(a, b); }
 __m128 sse_or_ps(__m128 a, __m128 b) { return _mm_or_ps(a, b); }
 namespace prefetch {
-	typedef void(*function)(const int8_t*);
-	const function map[4] {
-		[](const int8_t* p) { return _mm_prefetch((const char *)p, 0); },
-		[](const int8_t* p) { return _mm_prefetch((const char *)p, 1); },
-		[](const int8_t* p) { return _mm_prefetch((const char *)p, 2); },
-		[](const int8_t* p) { return _mm_prefetch((const char *)p, 3); },
+	using function = void(*)(const int8_t*);
+	static const function map[4] {
+		[](const int8_t* p) { return _mm_prefetch((const char*)p, 0); },
+		[](const int8_t* p) { return _mm_prefetch((const char*)p, 1); },
+		[](const int8_t* p) { return _mm_prefetch((const char*)p, 2); },
+		[](const int8_t* p) { return _mm_prefetch((const char*)p, 3); },
 	};
 } // namespace prefetch
 void sse_prefetch(const int8_t* p, int32_t i) { prefetch::map[i & 0x3](p); }
@@ -99,7 +103,7 @@ __m128 sse_setr_ps(float e3, float e2, float e1, float e0) { return _mm_setr_ps(
 __m128 sse_setzero_ps(void) { return _mm_setzero_ps(); }
 void sse_sfence(void) { _mm_sfence(); }
 namespace shuffle_ps {
-	typedef __m128(*function)(__m128, __m128);
+	using function = __m128(*)(__m128, __m128);
 	const function map[256] {
 		[](__m128 a, __m128 b) { return _mm_shuffle_ps(a, b, 0x00); },
 		[](__m128 a, __m128 b) { return _mm_shuffle_ps(a, b, 0x01); },
@@ -382,3 +386,7 @@ __m128 sse_undefined_ps(void) { return _mm_undefined_ps(); }
 __m128 sse_unpackhi_ps(__m128 a, __m128 b) { return _mm_unpackhi_ps(a, b); }
 __m128 sse_unpacklo_ps(__m128 a, __m128 b) { return _mm_unpacklo_ps(a, b); }
 __m128 sse_xor_ps(__m128 a, __m128 b) { return _mm_xor_ps(a, b); }
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

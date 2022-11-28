@@ -19,7 +19,7 @@ __m128i sse2_andnot_si128(__m128i a, __m128i b) { return _mm_andnot_si128(a, b);
 __m128i sse2_avg_epu16(__m128i a, __m128i b) { return _mm_avg_epu16(a, b); }
 __m128i sse2_avg_epu8(__m128i a, __m128i b) { return _mm_avg_epu8(a, b); }
 namespace bslli_si128 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[17] = {
 		[](__m128i a) { return _mm_bslli_si128(a,  0); },
 		[](__m128i a) { return _mm_bslli_si128(a,  1); },
@@ -42,7 +42,7 @@ namespace bslli_si128 {
 } // namespace bslli_si128
 __m128i sse2_bslli_si128(__m128i a, uint8_t imm8) { if (imm8 > 16) imm8 = 16; return bslli_si128::map[imm8](a); }
 namespace bsrli_si128 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[17] = {
 		[](__m128i a) { return _mm_bsrli_si128(a,  0); },
 		[](__m128i a) { return _mm_bsrli_si128(a,  1); },
@@ -134,7 +134,7 @@ int64_t sse2_cvttsd_si64(__m128d a) { return _mm_cvttsd_si64(a); }
 __m128d sse2_div_pd(__m128d a, __m128d b) { return _mm_div_pd(a, b); }
 __m128d sse2_div_sd(__m128d a, __m128d b) { return _mm_div_sd(a, b); }
 namespace extract_epi16 {
-	typedef int16_t(*function)(__m128i);
+	using function = int16_t(*)(__m128i);
 	const function map[8] {
 		[](__m128i a) { return (int16_t)_mm_extract_epi16(a, 0); },
 		[](__m128i a) { return (int16_t)_mm_extract_epi16(a, 1); },
@@ -148,7 +148,7 @@ namespace extract_epi16 {
 } // namespace extract_epi16
 int16_t sse2_extract_epi16(__m128i a, uint8_t imm8) { return extract_epi16::map[imm8 & 0x7](a); }
 namespace insert_epi16 {
-	typedef __m128i(*function)(__m128i, int16_t);
+	using function = __m128i(*)(__m128i, int16_t);
 	const function map[8] {
 		[](__m128i a, int16_t i) { return _mm_insert_epi16(a, i, 0); },
 		[](__m128i a, int16_t i) { return _mm_insert_epi16(a, i, 1); },
@@ -220,7 +220,7 @@ __m128d sse2_setr_pd(double e1, double e0) { return _mm_setr_pd(e1, e0); }
 __m128d sse2_setzero_pd(void) { return _mm_setzero_pd(); }
 __m128i sse2_setzero_si128() { return _mm_setzero_si128(); }
 namespace shuffle_epi32 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[4] {
 		[](__m128i a) { return _mm_shuffle_epi32(a, 0); },
 		[](__m128i a) { return _mm_shuffle_epi32(a, 1); },
@@ -230,7 +230,7 @@ namespace shuffle_epi32 {
 } // namespace shuffle_epi32
 __m128i sse2_shuffle_epi32(__m128i a, uint8_t imm8) { return shuffle_epi32::map[imm8 & 0x3](a); }
 namespace shuffle_pd {
-	typedef __m128d(*function)(__m128d, __m128d);
+	using function = __m128d(*)(__m128d, __m128d);
 	const function map[4] {
 		[](__m128d a, __m128d b) { return _mm_shuffle_pd(a, b, 0); },
 		[](__m128d a, __m128d b) { return _mm_shuffle_pd(a, b, 1); },
@@ -240,7 +240,7 @@ namespace shuffle_pd {
 } // namespace shuffle_pd
 __m128d sse2_shuffle_pd(__m128d a, __m128d b, uint8_t imm8) { return shuffle_pd::map[imm8 & 0x3](a, b); }
 namespace shufflehi_epi16 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[256] {
 		[](__m128i a) { return _mm_shufflehi_epi16(a, 0x00); },
 		[](__m128i a) { return _mm_shufflehi_epi16(a, 0x01); },
@@ -502,7 +502,7 @@ namespace shufflehi_epi16 {
 } // namespace shufflehi_epi16
 __m128i sse2_shufflehi_epi16(__m128i a, uint8_t imm8) { return shufflehi_epi16::map[imm8](a); }
 namespace shufflelo_epi16 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[256] {
 		[](__m128i a) { return _mm_shufflelo_epi16(a, 0x00); },
 		[](__m128i a) { return _mm_shufflelo_epi16(a, 0x01); },
@@ -770,7 +770,7 @@ __m128i sse2_slli_epi16(__m128i a, uint8_t imm8) { return _mm_slli_epi16(a, imm8
 __m128i sse2_slli_epi32(__m128i a, uint8_t imm8) { return _mm_slli_epi32(a, imm8); }
 __m128i sse2_slli_epi64(__m128i a, uint8_t imm8) { return _mm_slli_epi64(a, imm8); }
 namespace slli_si128 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[17] {
 		[](__m128i a) { return _mm_slli_si128(a,  0); },
 		[](__m128i a) { return _mm_slli_si128(a,  1); },
@@ -805,7 +805,7 @@ __m128i sse2_srli_epi16(__m128i a, uint8_t imm8) { return _mm_srli_epi16(a, imm8
 __m128i sse2_srli_epi32(__m128i a, uint8_t imm8) { return _mm_srli_epi32(a, imm8); }
 __m128i sse2_srli_epi64(__m128i a, uint8_t imm8) { return _mm_srli_epi64(a, imm8); }
 namespace srli_si128 {
-	typedef __m128i(*function)(__m128i);
+	using function = __m128i(*)(__m128i);
 	const function map[17] {
 		[](__m128i a) { return _mm_srli_si128(a,  0); },
 		[](__m128i a) { return _mm_srli_si128(a,  1); },

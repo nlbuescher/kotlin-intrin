@@ -1,5 +1,62 @@
 import platform.intrin.*
+
+import kotlin.math.*
+import kotlin.random.*
+import kotlin.system.*
 import kotlin.test.*
+
+class SimdTest {
+	lateinit var random: Random
+
+	@BeforeTest
+	fun setup() {
+		random = Random(420)
+	}
+
+	@Test
+	fun `simd +`() {
+		val vectors = (0 until 10_000_000).map { Float4(random.nextFloat()) to Float4(random.nextFloat()) }
+		val time = measureNanoTime {
+			vectors.forEach {
+				it.first + it.second
+			}
+		}
+		println("${round(time / 1000.0) / 1000} ms")
+	}
+
+	@Test
+	fun `naive +`() {
+		val vectors = (0 until 10_000_000).map { NaiveFloat4(random.nextFloat()) to NaiveFloat4(random.nextFloat()) }
+		val time = measureNanoTime {
+			vectors.forEach {
+				it.first + it.second
+			}
+		}
+		println("${round(time / 1000.0) / 1000} ms")
+	}
+
+	@Test
+	fun `simd *`() {
+		val vectors = (0 until 10_000_000).map { Float4(random.nextFloat()) to Float4(random.nextFloat()) }
+		val time = measureNanoTime {
+			vectors.forEach {
+				it.first * it.second
+			}
+		}
+		println("${round(time / 1000.0) / 1000} ms")
+	}
+
+	@Test
+	fun `naive *`() {
+		val vectors = (0 until 10_000_000).map { NaiveFloat4(random.nextFloat()) to NaiveFloat4(random.nextFloat()) }
+		val time = measureNanoTime {
+			vectors.forEach {
+				it.first * it.second
+			}
+		}
+		println("${round(time / 1000.0) / 1000} ms")
+	}
+}
 
 fun main() {
 	println(

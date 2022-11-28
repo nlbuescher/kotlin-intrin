@@ -137,7 +137,7 @@ namespace cmpestra {
 } // namespace cmpestra
 bool sse4_2_cmpestra(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestra::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestrc {
-	typedef bool(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = bool(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrc(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrc(a, la, b, lb, 0x01); },
@@ -271,7 +271,7 @@ namespace cmpestrc {
 } // namespace cmpestrc
 bool sse4_2_cmpestrc(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestrc::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestri {
-	typedef int32_t(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = int32_t(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestri(a, la, b, lb, 0x01); },
@@ -405,7 +405,7 @@ namespace cmpestri {
 } // namespace cmpestri
 int32_t sse4_2_cmpestri(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestri::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestrm {
-	typedef __m128i(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = __m128i(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return _mm_cmpestrm(a, la, b, lb, 0x01); },
@@ -539,7 +539,7 @@ namespace cmpestrm {
 } // namespace cmpestrm
 __m128i sse4_2_cmpestrm(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestrm::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestro {
-	typedef bool(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = bool(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestro(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestro(a, la, b, lb, 0x01); },
@@ -673,7 +673,7 @@ namespace cmpestro {
 } // namespace cmpestro
 bool sse4_2_cmpestro(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestro::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestrs {
-	typedef bool(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = bool(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrs(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrs(a, la, b, lb, 0x01); },
@@ -807,7 +807,7 @@ namespace cmpestrs {
 } // namespace cmpestrs
 bool sse4_2_cmpestrs(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestrs::map[imm8 & 0x7F](a, la, b, lb); }
 namespace cmpestrz {
-	typedef bool(*function)(__m128i, int32_t, __m128i, int32_t);
+	using function = bool(*)(__m128i, int32_t, __m128i, int32_t);
 	const function map[] {
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrz(a, la, b, lb, 0x00); },
 		[](__m128i a, int32_t la, __m128i b, int32_t lb) { return (bool)_mm_cmpestrz(a, la, b, lb, 0x01); },
@@ -942,7 +942,7 @@ namespace cmpestrz {
 bool sse4_2_cmpestrz(__m128i a, int32_t la, __m128i b, int32_t lb, uint8_t imm8) { return cmpestrz::map[imm8 & 0x7F](a, la, b, lb); }
 __m128i sse4_2_cmpgt_epi64(__m128i a, __m128i b) { return _mm_cmpgt_epi64(a, b); }
 namespace cmpistra {
-	typedef bool(*function)(__m128i, __m128i);
+	using function = bool(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistra(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistra(a, b, 0x01); },
@@ -1076,7 +1076,7 @@ namespace cmpistra {
 } // namespace cmpistra
 bool sse4_2_cmpistra(__m128i a, __m128i b, uint8_t imm8) { return cmpistra::map[imm8 & 0x7F](a, b); }
 namespace cmpistrc {
-	typedef bool(*function)(__m128i, __m128i);
+	using function = bool(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrc(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrc(a, b, 0x01); },
@@ -1210,7 +1210,7 @@ namespace cmpistrc {
 } // namespace cmpistrc
 bool sse4_2_cmpistrc(__m128i a, __m128i b, uint8_t imm8) { return cmpistrc::map[imm8 & 0x7F](a, b); }
 namespace cmpistri {
-	typedef int32_t(*function)(__m128i, __m128i);
+	using function = int32_t(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return _mm_cmpistri(a, b, 0x01); },
@@ -1344,7 +1344,7 @@ namespace cmpistri {
 } // namespace cmpistri
 int32_t sse4_2_cmpistri(__m128i a, __m128i b, uint8_t imm8) { return cmpistri::map[imm8 & 0x7F](a, b); }
 namespace cmpistrm {
-	typedef __m128i(*function)(__m128i, __m128i);
+	using function = __m128i(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return _mm_cmpistrm(a, b, 0x01); },
@@ -1478,7 +1478,7 @@ namespace cmpistrm {
 } // namespace cmpistrm
 __m128i sse4_2_cmpistrm(__m128i a, __m128i b, uint8_t imm8) { return cmpistrm::map[imm8 & 0x7F](a, b); }
 namespace cmpistro {
-	typedef bool(*function)(__m128i, __m128i);
+	using function = bool(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistro(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistro(a, b, 0x01); },
@@ -1612,7 +1612,7 @@ namespace cmpistro {
 } // namespace cmpistro
 bool sse4_2_cmpistro(__m128i a, __m128i b, uint8_t imm8) { return cmpistro::map[imm8 & 0x7F](a, b); }
 namespace cmpistrs {
-	typedef bool(*function)(__m128i, __m128i);
+	using function = bool(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrs(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrs(a, b, 0x01); },
@@ -1746,7 +1746,7 @@ namespace cmpistrs {
 } // namespace cmpistrs
 bool sse4_2_cmpistrs(__m128i a, __m128i b, uint8_t imm8) { return cmpistrs::map[imm8 & 0x7F](a, b); }
 namespace cmpistrz {
-	typedef bool(*function)(__m128i, __m128i);
+	using function = bool(*)(__m128i, __m128i);
 	const function map[] {
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrz(a, b, 0x00); },
 		[](__m128i a, __m128i b) { return (bool)_mm_cmpistrz(a, b, 0x01); },

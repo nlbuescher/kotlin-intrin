@@ -1,4 +1,4 @@
-import kotlin.intrin.*
+import kotlinx.intrin.*
 import kotlin.math.*
 
 actual data class Float4 actual constructor(
